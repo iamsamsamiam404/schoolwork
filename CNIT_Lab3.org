@@ -1,5 +1,5 @@
 #+title: CNIT 242 LAB 3 Documentation
-#+AUTHOR: Samuel Juergens
+#+AUTHOR: Group 10
 #+DATE: Wed Jun 19 07:35:38 2024
 #+DESCRIPTION: Documentation and notes for the third and final lab for CNIT 242.
 #+TODO: TODO IN-PROGRESS WAITING | DONE CANCELED
