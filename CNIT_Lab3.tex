@@ -1,4 +1,4 @@
-% Created 2024-06-19 Wed 17:00
+% Created 2024-06-19 Wed 17:10
 % Intended LaTeX compiler: pdflatex
 \documentclass[letterpaper]{article}
 \usepackage[utf8]{inputenc}
@@ -14,11 +14,11 @@
 \usepackage{hyperref}
 \usepackage[margin=1in]{geometry}
 \usepackage{float}
-\author{Samuel Juergens}
+\author{Group 10}
 \date{Wed Jun 19 07:35:38 2024}
 \title{CNIT 242 LAB 3 Documentation}
 \hypersetup{
- pdfauthor={Samuel Juergens},
+ pdfauthor={Group 10},
  pdftitle={CNIT 242 LAB 3 Documentation},
  pdfkeywords={},
  pdfsubject={Documentation and notes for the third and final lab for CNIT 242.},
@@ -31,13 +31,13 @@
 
 \newpage
 \section{{\bfseries\sffamily IN-PROGRESS} Lab 3}
-\label{sec:orgde37aff}
+\label{sec:org71c7d57}
 \noindent\textbf{DEADLINE:} \textit{<2024-06-28 Fri>}\\[0pt]
 \subsection{Intro video notes}
-\label{sec:orgf1e798f}
+\label{sec:orgf17be9a}
 \url{https://purdue.brightspace.com/d2l/le/content/1013650/viewContent/16679580/View}
 \subsubsection{Network Setup (0-10:30min)}
-\label{sec:org0487557}
+\label{sec:orgf0bca58}
 \begin{itemize}
 \item Add new nic to outer VCenter
 \item Power cycle the ESXi servers
@@ -47,7 +47,7 @@
 \end{itemize}
 \begin{enumerate}
 \item Network topology
-\label{sec:org829bbfe}
+\label{sec:org9c2a504}
 \begin{figure}[H]
 \centering
 \includegraphics[width=12.5cm]{/home/sam/Screenshots/screenshot_2024-06-19_11-37-58.png}
@@ -55,7 +55,7 @@
 \end{figure}
 \end{enumerate}
 \subsubsection{Domain controllers (10:30-14:20min)}
-\label{sec:org702b0a5}
+\label{sec:orgc09ecea}
 \begin{itemize}
 \item Setup new domain controller(SCDC2) using the windows 2019 template and put in on the port group that you just made(the host portion of the netmask will be different)
 \item Configure the DNS of (SCDC2) to point to (SCDC1) before you upgrade it to a domain controller
@@ -66,7 +66,7 @@
 \caption{Screenshot of video part talking about setting up domain controllers.}
 \end{figure}
 \subsubsection{DNS Configuration (14:20-18:05min)}
-\label{sec:org361d478}
+\label{sec:org63a1516}
 \begin{itemize}
 \item DNS settings will need to be changed to address the new site
 \end{itemize}
@@ -76,7 +76,7 @@
 \caption{DNS settings between sites. Our IPs will be different.}
 \end{figure}
 \subsubsection{Sites and Subnets (18:05-24:40min)}
-\label{sec:org23ca52a}
+\label{sec:org408b258}
 \begin{enumerate}
 \item Using ``active directory sites and services'' for this
 \end{enumerate}
@@ -86,7 +86,7 @@
 \caption{Overview of the sites. Each one will have their respective VMs/Servers in them not shown here.}
 \end{figure}
 \subsubsection{DFS (21:40-29:36min)}
-\label{sec:org883df98}
+\label{sec:org2fccb33}
 \begin{itemize}
 \item Creating a share using the domain name
 \item EX: \texttt{\textbackslash{}\textbackslash{}<domainname>\textbackslash{}Share}
@@ -98,7 +98,7 @@
 \caption{I don't really understand whats going on here. Will need to do more research. Something about optimizing sharing resources.}
 \end{figure}
 \subsubsection{IIS (29:37-32:35min)}
-\label{sec:org7e1f8d6}
+\label{sec:orge49d533}
 \begin{itemize}
 \item public webpage
 \item private webpage
@@ -116,7 +116,7 @@
 \caption{Setting up webpages that interact with our system in various ways.}
 \end{figure}
 \subsubsection{WSUS (32:36-END)}
-\label{sec:org0643039}
+\label{sec:org1ab5634}
 ``Windows Software Update Service''
 \begin{itemize}
 \item Need to make another windows server for this
@@ -135,12 +135,12 @@
 \caption{Overview the the WSUS configuration.}
 \end{figure}
 \subsection{Objectives}
-\label{sec:org11c5c8d}
+\label{sec:org3255c14}
 \subsubsection{Phase I}
-\label{sec:orga3175b8}
+\label{sec:org533fd26}
 \begin{enumerate}
 \item {\bfseries\sffamily IN-PROGRESS} Add a new VM port group to your ESXi servers representing a second enterprise location
-\label{sec:org746c7f2}
+\label{sec:orga651829}
 \noindent\textbf{DEADLINE:} \textit{<2024-06-19 Wed>}\\[0pt]
 \begin{itemize}
 \item[{$\square$}] Put a new physical NIC of your ESXi VM (outer virtualization layer in studentvc) into the
@@ -155,17 +155,17 @@ descriptively
 \end{itemize}
 IP Configuration Sheet
 \item {\bfseries\sffamily TODO} Deploy a new instance of your Windows Server VM template and implement it as a second domain controller at the new location
-\label{sec:org3fcbe53}
+\label{sec:org6c61882}
 \noindent\textbf{DEADLINE:} \textit{<2024-06-20 Thu>}\\[0pt]
 \begin{itemize}
 \item[{$\square$}] Define the new subnet/site in Active Directory
 \item[{$\square$}] Change/move FSMO roles per best practices from lecture
 \end{itemize}
 \item {\bfseries\sffamily TODO} Install a Windows 10 VM at the new location
-\label{sec:org04fb353}
+\label{sec:orge379aae}
 \noindent\textbf{DEADLINE:} \textit{<2024-06-20 Thu>}\\[0pt]
 \item {\bfseries\sffamily TODO} Implement Microsoft Backup
-\label{sec:org9c22023}
+\label{sec:org7eaf35e}
 \noindent\textbf{DEADLINE:} \textit{<2024-06-21 Fri>}\\[0pt]
 \begin{itemize}
 \item[{$\square$}] Set up scheduled backups of your domain controllers using Vembu backup
@@ -185,7 +185,7 @@ domain controller database (DCDB)
 \item[{$\square$}] You need only keep one week’s worth of data
 \end{itemize}
 \item {\bfseries\sffamily TODO} Printing
-\label{sec:orgef79573}
+\label{sec:org5c5fa20}
 \noindent\textbf{DEADLINE:} \textit{<2024-06-22 Sat>}\\[0pt]
 \begin{itemize}
 \item[{$\square$}] Create a new user and make them a print operator/administrator
@@ -198,7 +198,7 @@ domain controller database (DCDB)
 \end{itemize}
 \end{itemize}
 \item {\bfseries\sffamily TODO} Clone the Windows Server VM template and implement an IIS web server
-\label{sec:org58843ca}
+\label{sec:orgc15cc4f}
 \noindent\textbf{DEADLINE:} \textit{<2024-06-23 Sun>}\\[0pt]
 \url{https://purdue.brightspace.com/d2l/le/content/1013650/viewContent/16679581/View}
 \begin{itemize}
@@ -207,7 +207,7 @@ domain controller database (DCDB)
 \item[{$\square$}] Configure a site-specific web page that only machines on the first VLAN can access
 \end{itemize}
 \item {\bfseries\sffamily TODO} Implement DFS across your two domain controllers
-\label{sec:org063f037}
+\label{sec:org16c0fc6}
 \noindent\textbf{DEADLINE:} \textit{<2024-06-24 Mon>}\\[0pt]
 \begin{itemize}
 \item[{$\square$}] Implement a DFS domain namespace
@@ -227,10 +227,10 @@ domain controllers
 clients access the shares from the domain controller at their site.
 \end{enumerate}
 \subsubsection{Phase 2}
-\label{sec:orgdc53c9f}
+\label{sec:org4e464cc}
 \begin{enumerate}
 \item {\bfseries\sffamily TODO} Clone the Windows Server VM template and implement a Windows Server Update Services (WSUS) instance
-\label{sec:org5ef5e7b}
+\label{sec:orgf613496}
 \noindent\textbf{DEADLINE:} \textit{<2024-06-25 Tue>}\\[0pt]
 \begin{itemize}
 \item[{$\square$}] Add a second 80 GB virtual hard drive (thin provisioned) to house downloaded
@@ -240,25 +240,25 @@ updates
 \item[{$\square$}] Configure your clients to pull updates from your WSUS server via a GPO
 \end{itemize}
 \item {\bfseries\sffamily TODO} Use PowerShell Remote to list/stop/start services on a remote machine
-\label{sec:org7d447cd}
+\label{sec:orgf503832}
 \noindent\textbf{DEADLINE:} \textit{<2024-06-26 Wed>}\\[0pt]
 \item {\bfseries\sffamily TODO} Implement VMware Thinapp
-\label{sec:org392d8c2}
+\label{sec:org12e89db}
 \noindent\textbf{DEADLINE:} \textit{<2024-06-27 Thu>}\\[0pt]
 \begin{itemize}
 \item[{$\square$}] Package Microsoft Visio 7 and deploy to your physical machines using thinapp
 \end{itemize}
 \end{enumerate}
 \subsubsection{Notes}
-\label{sec:orgd61037f}
+\label{sec:org1063aae}
 \begin{enumerate}
 \item Add Additional Virtual Machines
-\label{sec:org3aec9d7}
+\label{sec:org714982b}
 \begin{itemize}
 \item New virtual machines may be added to either ESXi server and stored on any available datastore.
 \end{itemize}
 \item System Backup
-\label{sec:org1321366}
+\label{sec:org93116c1}
 \begin{itemize}
 \item Configure the built-in backup solution (MS Backup) to automatically back up the Domain
 \end{itemize}
@@ -266,7 +266,7 @@ Controller database and all user files on the domain controllers to a share on t
 Windows 10 client. Implement a media (backup file) rotation scheme per lecture. To schedule the
 backups to run automatically you will have to use the utility built into Windows 2012 Server.
 \item Printing
-\label{sec:org80dbf81}
+\label{sec:org306a1e1}
 \begin{itemize}
 \item Create two print queues for the lab printer – one that duplexes and one that doesn't. Experiment
 \end{itemize}
@@ -274,7 +274,7 @@ with controlling the printer (start/stop the queue, etc.) and other users’ pri
 limited, shared resource so minimizing actual printing during this process will help all groups.
 Pause the printer to enable multiple jobs to be queued, then re-order/delete print jobs.
 \item Distributed File System (DFS)
-\label{sec:org1e23da9}
+\label{sec:orgede890d}
 \begin{itemize}
 \item Implement a DFS domain namespace such that \texttt{\textbackslash{}\textbackslash{}yourdomain.tld\textbackslash{}dfs} shows available network
 \end{itemize}
@@ -288,7 +288,7 @@ server at their site to access the share. The physical server being accessed can
 the netstat command to show open connections.
 Additional information on DFS can be found on Microsoft Technet at \url{https://docs.microsoft.com/en-us/windows-server/storage/dfs-namespaces/dfs-overview}.
 \item Windows Server Update Services
-\label{sec:org6d3c9ff}
+\label{sec:orgc47bf73}
 \begin{itemize}
 \item Enable Microsoft Windows Server Update Services (WSUS) on a new Windows Server instance.
 \end{itemize}
@@ -304,13 +304,13 @@ wsus.cit.lcl.
 \end{itemize}
 WSUS server automatically using group policy.
 \item VMware Thinapp
-\label{sec:org9e3f7bc}
+\label{sec:org51f00ff}
 Using a clean install of Windows 10, take a snapshot and install Thinapp. Run the Thinapp setup-
 capture and install Visio. Concluded setup-capture and save the package to a network location.
 Revert to the snapshot and run the package on the comput
 \end{enumerate}
 
 \section{{\bfseries\sffamily TODO} Lab 3 Report}
-\label{sec:org541819c}
+\label{sec:org8e5ae2e}
 \noindent\textbf{DEADLINE:} \textit{<2024-07-06 Sat>}\\[0pt]
 \end{document}
