@@ -1,0 +1,170 @@
+#+title: CNIT 242 LAB 3 Documentation
+#+AUTHOR: Samuel Juergens
+#+DATE: Wed Jun 19 07:35:38 2024
+#+DESCRIPTION: Documentation and notes for the third and final lab for CNIT 242.
+#+TODO: TODO IN-PROGRESS WAITING | DONE CANCELED
+#+OPTIONS: p:t todo:t
+
+#+LATEX_CLASS_OPTIONS: [letterpaper]
+#+LATEX_HEADER: \usepackage[margin=1in]{geometry}
+#+LATEX_HEADER: \usepackage{float}
+\newpage
+* IN-PROGRESS Lab 3
+DEADLINE:<2024-06-28 Fri>
+** Intro video notes
+https://purdue.brightspace.com/d2l/le/content/1013650/viewContent/16679580/View
+*** Network Setup (0-10:30min)
+- Add new nic to outer VCenter
+- Power cycle the ESXi servers
+  + Turn off all the VMs inside the ESXi servers before restarting them
+**** Network topology
+#+ATTR_ORG: :width 800 :align center
+#+ATTR_LATEX: :width 12.5cm :align left :placement [H]
+#+CAPTION: Network topology as seen in the introductory video. Purple is the new part. Note that our IPs are different.
+[[/home/sam/Screenshots/screenshot_2024-06-19_11-37-58.png]]
+*** Domain controllers (10:30-14:20min)
+- Setup new domain controller(SCDC2) using the windows 2019 template and put in on the port group that you just made(the host portion of the netmask will be different)
+- Configure the DNS of (SCDC2) to point to (SCDC1) before you upgrade it to a domain controller
+#+ATTR_ORG: :width 800 :align center
+#+ATTR_LATEX: :width 12.5cm :align left :placement [H]
+#+CAPTION: Screenshot of video part talking about setting up domain controllers.
+  [[/home/sam/Screenshots/screenshot_2024-06-19_11-53-25.png]]
+*** DNS Configuration (14:20-18:05min)
+- DNS settings will need to be changed to address the new site
+#+ATTR_ORG: :width 800 :align center
+#+ATTR_LATEX: :width 12.5cm :align left :placement [H]
+#+CAPTION: DNS settings between sites. Our IPs will be different.
+[[/home/sam/Screenshots/screenshot_2024-06-19_12-06-48.png]]
+*** Sites and Subnets (18:05-24:40min)
+1. Using "active directory sites and services" for this
+#+ATTR_ORG: :width 800 :align center
+#+ATTR_LATEX: :width 12.5cm :align left :placement [H]
+#+CAPTION: Overview of the sites. Each one will have their respective VMs/Servers in them not shown here.
+[[/home/sam/Screenshots/screenshot_2024-06-19_12-16-57.png]]
+*** DFS (21:40-29:36min)
+- Creating a share using the domain name
+- EX: =\\<domainname>\Share=
+- needs a DFS sync task
+#+ATTR_ORG: :width 800 :align center
+#+ATTR_LATEX: :width 12.5cm :align left :placement [H]
+#+CAPTION: I don't really understand whats going on here. Will need to do more research. Something about optimizing sharing resources.
+[[/home/sam/Screenshots/screenshot_2024-06-19_12-29-19.png]]
+*** IIS (29:37-32:35min)
+- public webpage
+- private webpage
+  + configure so that it authenticates against the users in the domain
+- site specific webpage
+  + setup so that only the people in that site can access
+#+ATTR_ORG: :width 800 :align center
+#+ATTR_LATEX: :width 12.5cm :align left :placement [H]
+#+CAPTION: Setting up webpages that interact with our system in various ways.
+[[/home/sam/Screenshots/screenshot_2024-06-19_12-36-04.png]]
+*** WSUS (32:36-END)
+"Windows Software Update Service"
+- Need to make another windows server for this
+  + Install WSUS onto it
+- We just need the updates for windows 10 and server 2019 and maybe 2022(for SCDC1)
+- You have to tell each of your devices about the WSUS server(so it can get its updates from there)
+  + Use group policy for this
+#+ATTR_ORG: :width 800 :align center
+#+ATTR_LATEX: :width 12.5cm :align left :placement [H]
+#+CAPTION: Overview the the WSUS configuration.
+[[/home/sam/Screenshots/screenshot_2024-06-19_12-48-41.png]]
+** Objectives
+*** Phase I
+**** IN-PROGRESS Add a new VM port group to your ESXi servers representing a second enterprise location
+DEADLINE:<2024-06-19 Wed>
+- [ ] Put a new physical NIC of your ESXi VM (outer virtualization layer in studentvc) into the
+port group specified in the IP Configuration Sheet
+- [ ] Name your new port group (in your inner virtualization layer on your ESXi servers)
+descriptively
+- [ ] Address all VMs in this new location using the “Secondary IP Addresses” range from the
+IP Configuration Sheet
+**** TODO Deploy a new instance of your Windows Server VM template and implement it as a second domain controller at the new location
+DEADLINE:<2024-06-20 Thu>
+- [ ] Define the new subnet/site in Active Directory
+- [ ] Change/move FSMO roles per best practices from lecture
+**** TODO Install a Windows 10 VM at the new location
+DEADLINE:<2024-06-20 Fri>
+**** TODO Implement Microsoft Backup
+DEADLINE:<2024-06-21 Sat>
+- [ ] Set up scheduled backups of your domain controllers using Vembu backup
+- [ ] https://www.vembu.com/free-windows-servers-backup/
+- [ ] Create a share on a Windows 10 client in your outer virtualization layer to use as
+a backup target
+ + [ ] Add a new disk to the Windows 10 client VM to house backups
+- [ ] To conserve disk space in the lab environment, backup only user files and the
+domain controller database (DCDB)
+- [ ] Follow best practices as defined in lecture for backups
+- [ ] You need only keep one week’s worth of data
+**** TODO Printing
+DEADLINE:<2024-06-22 Sun>
+- [ ] Create a new user and make them a print operator/administrator
+  + [ ] Experiment with controlling the printer and other user’s print jobs
+- [ ] Create a second queue for the printer that prints on legal size paper
+  + [ ] Make the legal size printer available to only members of the administrators group
+**** TODO Clone the Windows Server VM template and implement an IIS web server
+DEADLINE:<2024-06-23 Mon>
+https://purdue.brightspace.com/d2l/le/content/1013650/viewContent/16679581/View
+- [ ] Configure a public web page on the server that anyone can access
+- [ ] Configure a private web page on the server that only members of the domain can access
+- [ ] Configure a site-specific web page that only machines on the first VLAN can access
+**** TODO Implement DFS across your two domain controllers
+DEADLINE:<2024-06-24 Tue>
+- [ ] Implement a DFS domain namespace
+  + [ ] Change the references to the shares hosting home directories and desktops in
+profiles, folder redirection, and group policy to reference the DFS namespace
+share instead of a specific server share
+- [ ] Implement DFS replication to replicate home directory and desktop data between the
+domain controllers
+ + [ ] Using DFS and the Active Directory sites tool configure the domain such that the
+clients access the shares from the domain controller at their site.
+*** Phase 2
+**** TODO Clone the Windows Server VM template and implement a Windows Server Update Services (WSUS) instance
+DEADLINE:<2024-06-25 Wed>
+- [ ] Add a second 80 GB virtual hard drive (thin provisioned) to house downloaded
+updates
+- [ ] Configure your clients to pull updates from your WSUS server via a GPO
+**** TODO Use PowerShell Remote to list/stop/start services on a remote machine
+DEADLINE:<2024-06-26 Thu>
+**** TODO Implement VMware Thinapp
+DEADLINE:<2024-06-27 Fri>
+- [ ] Package Microsoft Visio 7 and deploy to your physical machines using thinapp
+*** Notes
+**** Add Additional Virtual Machines
+- New virtual machines may be added to either ESXi server and stored on any available datastore.
+**** System Backup
+- Configure the built-in backup solution (MS Backup) to automatically back up the Domain
+Controller database and all user files on the domain controllers to a share on the physical
+Windows 10 client. Implement a media (backup file) rotation scheme per lecture. To schedule the
+backups to run automatically you will have to use the utility built into Windows 2012 Server.
+**** Printing
+- Create two print queues for the lab printer – one that duplexes and one that doesn't. Experiment
+with controlling the printer (start/stop the queue, etc.) and other users’ print jobs. The printer is a
+limited, shared resource so minimizing actual printing during this process will help all groups.
+Pause the printer to enable multiple jobs to be queued, then re-order/delete print jobs.
+**** Distributed File System (DFS)
+- Implement a DFS domain namespace such that =\\yourdomain.tld\dfs= shows available network
+shares. Reconfigure folder redirection/profiles/etc to refer to the DFS namespace
+=(\\yourdomain.tld\dfs\share)= rather than the server =(\\server\share).=
+- Implement DFS replication so that the shares in the server namespace are replicated between the
+two domain controllers and are available on each. The client at each site should connect to the
+server at their site to access the share. The physical server being accessed can be shown by using
+the netstat command to show open connections.
+Additional information on DFS can be found on Microsoft Technet at https://docs.microsoft.com/en-us/windows-server/storage/dfs-namespaces/dfs-overview.
+**** Windows Server Update Services
+- Enable Microsoft Windows Server Update Services (WSUS) on a new Windows Server instance.
+Create, partition, and format a second virtual hard drive to house the update store.
+- Once WSUS is installed, updates will have to downloaded and authorized for your Windows 10
+and Windows Server hosts. Only download updates for these two operating systems. To save
+time, your WSUS server can be configured to get updates from the CIT/NET WSUS server at
+wsus.cit.lcl.
+- Clients that are members of the domain can easily be configured to receive updates from the
+WSUS server automatically using group policy.
+**** VMware Thinapp
+Using a clean install of Windows 10, take a snapshot and install Thinapp. Run the Thinapp setup-
+capture and install Visio. Concluded setup-capture and save the package to a network location.
+Revert to the snapshot and run the package on the comput
+
+* TODO Lab 3 Report
+DEADLINE:<2024-07-06 Sat>

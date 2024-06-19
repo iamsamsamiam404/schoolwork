@@ -1,0 +1,22 @@
+#+title: Lab Report 2
+#+AUTHOR: Group 10
+#+DATE:Wed Jun 19 15:42:07 2024
+#+DESCRIPTION: Lab report 2 for CNIT 242
+#+COMMENT: DUE:<2024-06-22 Sat>
+
+#+TODO: TODO IN-PROGRESS WAITING | DONE CANCELED
+#+OPTIONS: p:t todo:t
+
+#+LATEX_CLASS_OPTIONS: [letterpaper]
+#+LATEX_HEADER: \usepackage[margin=1in]{geometry}
+#+LATEX_HEADER: \usepackage{float}
+\newpage
+
+* Business Case
+* Procedures (Sam)
+* Problem Solving (Sam)
+* Results (Sam)
+** Diagrams
+* Conclusions
+* Recommendations
+* Bibliography
