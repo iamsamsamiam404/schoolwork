@@ -1,4 +1,4 @@
-% Created 2024-06-20 Thu 13:03
+% Created 2024-06-20 Thu 14:05
 % Intended LaTeX compiler: pdflatex
 \documentclass[letterpaper]{article}
 \usepackage[utf8]{inputenc}
@@ -32,17 +32,32 @@
 \newpage
 
 \section{Business Case}
-\label{sec:org97d0ebc}
+\label{sec:org0e1f762}
 \section{Procedures}
-\label{sec:orgdc9a73d}
+\label{sec:orgc3ad9ae}
 
 In this lab, we followed a two-phase process to convert a virtual environment into a nested virtual environment using VMware vSphere. Each phase had distinct objectives and steps, which were organized based on tasks and components involved. This documentation is written in past tense to accurately describe the procedures followed. The formatting is as follows: buttons are \textbf{bold}, options are \uline{italicized}, text entered into the computer is in `code`, and menu navigation is indicated by the pipe symbol and italic words: \uline{Start | Programs | MS Office | Word}.
 
-\subsection{Phase I: Setting Up the Environment}
-\label{sec:org390b0dc}
 
+
+\subsection{Phase I: Setting Up the Environment}
+\label{sec:orgbde9e60}
+\subsubsection{ISCSi IP Information}
+\label{sec:orgff52100}
+\begin{center}
+\begin{tabular}{lrrrr}
+ & \textbf{ESXi1.2 Server} & \textbf{ESXi2.1 Server} & \textbf{Windows 10 VM} & \textbf{vCenter}\\[0pt]
+\hline
+\textbf{Pnic 1 (Port Group A)} & 44.100.10.191 & 44.100.10.192 & 44.100.10.111 & 44.100.10.170\\[0pt]
+\textbf{Pnic 2 (iSCSI Port Group)} & 192.168.52.10 & 192.168.54.10 & N/A & N/A\\[0pt]
+\textbf{Subnet Mask} & 255.255.255.0 & 255.255.255.0 & 255.255.255.0 & 255.255.255.0\\[0pt]
+\textbf{SAN server IP} & 192.168.52.254 & 192.168.54.254 & N/A & N/A\\[0pt]
+\textbf{DNS} & 44.100.10.10 & 44.100.10.10 & 44.100.10.10 & 44.100.10.10\\[0pt]
+\hline
+\end{tabular}
+\end{center}
 \subsubsection{1. Install ESXi Servers:}
-\label{sec:org1714465}
+\label{sec:orge573bbf}
 \begin{itemize}
 \item Configured hardware settings: set CPU, hard disk, memory, and port group.
 \begin{itemize}
@@ -54,8 +69,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \item Launched the ESXi server installer:
 \begin{itemize}
 \item Inserted the ESXi installer ISO and booted the server.
-\item Followed the on-screen instructions to complete the installation.
-\item Recorded the IPv6 address for future reference.
+\item Accepted the default options to complete the installation.
 \end{itemize}
 \item Connected to the ESXi server via a Windows 10 machine:
 \begin{itemize}
@@ -65,7 +79,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{2. Install vCenter Server Virtual Appliance:}
-\label{sec:orgfacf4a4}
+\label{sec:orgd9317cb}
 \begin{itemize}
 \item Accessed the RTFM fileshare and opened the installer:
 \begin{itemize}
@@ -86,7 +100,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{3. Configuration and Deployment:}
-\label{sec:org218da6c}
+\label{sec:orga2c9eab}
 \begin{itemize}
 \item Completed Phase I and proceeded to Phase II by clicking \textbf{Next}.
 \item Added the ESXi host:
@@ -95,7 +109,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \item Navigated to \uline{Hosts and Clusters}.
 \item Clicked \textbf{Add Host}.
 \item Entered the ESXi host IP address, username, and password.
-\item Followed the prompts to complete the addition of the host.
+\item Accepted the default options to complete the addition of the host.
 \end{itemize}
 \item Activated SSH:
 \begin{itemize}
@@ -111,7 +125,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{4. vSphere Setup:}
-\label{sec:org273a090}
+\label{sec:orgaac2662}
 \begin{itemize}
 \item Logged into vSphere using `administrator@vsphere.local`.
 \item Created a new datacenter:
@@ -124,7 +138,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \begin{itemize}
 \item Right-clicked the newly created datacenter and selected \textbf{Add Host}.
 \item Entered the IP address, username, and password of the ESXi host.
-\item Followed the prompts to add the host to the datacenter.
+\item Accepted the default prompts to add the host to the datacenter.
 \end{itemize}
 \item Configured the ESXi management network:
 \begin{itemize}
@@ -137,7 +151,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{5. Active Directory Integration:}
-\label{sec:orgb8774f2}
+\label{sec:org2593d9f}
 \begin{itemize}
 \item Configured NTP, hostname, DNS, and gateway for vCenter:
 \begin{itemize}
@@ -155,7 +169,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{6. Moving Windows 10 Virtual Machine:}
-\label{sec:orgf682f98}
+\label{sec:org6e9dfeb}
 \begin{itemize}
 \item Used VMware Converter to move the VM from Windows 10 Workstation to ESXi server:
 \begin{itemize}
@@ -169,7 +183,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{7. Physical to Virtual (P-to-V) Conversion:}
-\label{sec:org31fb6ef}
+\label{sec:orgd41dd3b}
 \begin{itemize}
 \item Installed VMware Converter on the domain controller:
 \begin{itemize}
@@ -182,12 +196,11 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \item Reconfigured IPv4 settings to the previous settings for the domain controller.
 \end{itemize}
 \end{itemize}
-
 \subsection{Phase II: Configuring SAN Datastore and Managing Virtual Machines}
-\label{sec:orgdf999f6}
+\label{sec:org0219c4d}
 
 \subsubsection{1. Configure SAN Datastore:}
-\label{sec:org92efd2c}
+\label{sec:org108957a}
 \begin{itemize}
 \item Logged into vCenter.
 \item Clicked on the ESXi host, navigated to \uline{Configure | Storage Adapters}.
@@ -200,7 +213,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{2. Network Adapter Configuration:}
-\label{sec:org049638e}
+\label{sec:org2652881}
 \begin{itemize}
 \item Opened vCenter, selected the ESXi server.
 \item Under VM Hardware, added a new network adapter:
@@ -213,7 +226,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{3. Storage Configuration:}
-\label{sec:org52acd2d}
+\label{sec:org009f0f3}
 \begin{itemize}
 \item Repeated the above steps for the second ESXi host.
 \item Created a new VMFS datastore:
@@ -235,7 +248,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{4. Enable iSCSI Adapter:}
-\label{sec:org9b110ee}
+\label{sec:org06e2077}
 \begin{itemize}
 \item Navigated to \uline{Storage}.
 \item Selected the iSCSI adapter and ensured it was enabled.
@@ -247,7 +260,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{5. Virtual Machine Management:}
-\label{sec:orge3da4e1}
+\label{sec:org7e99b26}
 \begin{itemize}
 \item Installed a fresh Windows Server 2019:
 \begin{itemize}
@@ -267,7 +280,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{6. Migrating Virtual Machines:}
-\label{sec:orgf5ef35d}
+\label{sec:orgf9cb39f}
 \begin{itemize}
 \item Moved running VMs using vMotion and storage vMotion:
 \begin{itemize}
@@ -278,15 +291,15 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 
 
 \section{Problem Solving (Sam)}
-\label{sec:orgd8ef717}
+\label{sec:org22c875a}
 \section{Results (Sam)}
-\label{sec:org1f50c28}
+\label{sec:org81f249c}
 \subsection{Diagrams}
-\label{sec:org7c2171a}
+\label{sec:org421492f}
 \section{Conclusions}
-\label{sec:org9268cdf}
+\label{sec:org3cf6dc4}
 \section{Recommendations}
-\label{sec:org18b7ed8}
+\label{sec:org0bcf76f}
 \section{Bibliography}
-\label{sec:orgdf0f7b9}
+\label{sec:orge5d71ea}
 \end{document}

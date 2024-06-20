@@ -17,8 +17,18 @@
 
 In this lab, we followed a two-phase process to convert a virtual environment into a nested virtual environment using VMware vSphere. Each phase had distinct objectives and steps, which were organized based on tasks and components involved. This documentation is written in past tense to accurately describe the procedures followed. The formatting is as follows: buttons are *bold*, options are _italicized_, text entered into the computer is in `code`, and menu navigation is indicated by the pipe symbol and italic words: _Start | Programs | MS Office | Word_.
 
-** Phase I: Setting Up the Environment
 
+
+** Phase I: Setting Up the Environment
+*** ISCSi IP Information
+|                             | *ESXi1.2 Server* | *ESXi2.1 Server* | *Windows 10 VM* |     *vCenter* |
+|-----------------------------+------------------+------------------+-----------------+---------------|
+| *Pnic 1 (Port Group A)*     |    44.100.10.191 |    44.100.10.192 |   44.100.10.111 | 44.100.10.170 |
+| *Pnic 2 (iSCSI Port Group)* |    192.168.52.10 |    192.168.54.10 |             N/A |           N/A |
+| *Subnet Mask*               |    255.255.255.0 |    255.255.255.0 |   255.255.255.0 | 255.255.255.0 |
+| *SAN server IP*             |   192.168.52.254 |   192.168.54.254 |             N/A |           N/A |
+| *DNS*                       |     44.100.10.10 |     44.100.10.10 |    44.100.10.10 |  44.100.10.10 |
+|-----------------------------+------------------+------------------+-----------------+---------------|
 *** 1. Install ESXi Servers:
    - Configured hardware settings: set CPU, hard disk, memory, and port group.
      - _CPU_: 8 CPUs
@@ -27,8 +37,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
      - _Enable hardware virtualization_: Check *Expose hardware-assisted virtualization to the guest OS* under the _CPU_ tab.
    - Launched the ESXi server installer:
      - Inserted the ESXi installer ISO and booted the server.
-     - Followed the on-screen instructions to complete the installation.
-     - Recorded the IPv6 address for future reference.
+     - Accepted the default options to complete the installation.
    - Connected to the ESXi server via a Windows 10 machine:
      - Opened a browser and navigated to the ESXi server's IP address.
      - Logged in with the credentials created during installation.
@@ -54,7 +63,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
      - Navigated to _Hosts and Clusters_.
      - Clicked *Add Host*.
      - Entered the ESXi host IP address, username, and password.
-     - Followed the prompts to complete the addition of the host.
+     - Accepted the default options to complete the addition of the host.
    - Activated SSH:
      - Selected the ESXi host and navigated to _Configure | Services_.
      - Located *SSH*, clicked *Edit*, and set it to *Start and stop with host*.
@@ -72,7 +81,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
    - Added ESXi hosts:
      - Right-clicked the newly created datacenter and selected *Add Host*.
      - Entered the IP address, username, and password of the ESXi host.
-     - Followed the prompts to add the host to the datacenter.
+     - Accepted the default prompts to add the host to the datacenter.
    - Configured the ESXi management network:
      - Pressed `F2` on the ESXi host console to customize the system.
      - Navigated to _Configure Management Network | IPv4 Configuration_.
@@ -109,7 +118,6 @@ In this lab, we followed a two-phase process to convert a virtual environment in
      - Shut down the original server.
      - Powered on the new virtual server in vCenter.
      - Reconfigured IPv4 settings to the previous settings for the domain controller.
-
 ** Phase II: Configuring SAN Datastore and Managing Virtual Machines
 
 *** 1. Configure SAN Datastore:
