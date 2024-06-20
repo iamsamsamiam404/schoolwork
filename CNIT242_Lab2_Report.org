@@ -13,7 +13,160 @@
 \newpage
 
 * Business Case
-* Procedures (Sam)
+* Procedures
+
+In this lab, we followed a two-phase process to convert a virtual environment into a nested virtual environment using VMware vSphere. Each phase had distinct objectives and steps, which were organized based on tasks and components involved. This documentation is written in past tense to accurately describe the procedures followed. The formatting is as follows: buttons are *bold*, options are _italicized_, text entered into the computer is in `code`, and menu navigation is indicated by the pipe symbol and italic words: _Start | Programs | MS Office | Word_.
+
+** Phase I: Setting Up the Environment
+
+*** 1. Install ESXi Servers:
+   - Configured hardware settings: set CPU, hard disk, memory, and port group.
+     - _CPU_: 8 CPUs
+     - _Memory_: 32 GB RAM
+     - _Hard Disk_: 1 TB Thin Provisioned Disk
+     - _Enable hardware virtualization_: Check *Expose hardware-assisted virtualization to the guest OS* under the _CPU_ tab.
+   - Launched the ESXi server installer:
+     - Inserted the ESXi installer ISO and booted the server.
+     - Followed the on-screen instructions to complete the installation.
+     - Recorded the IPv6 address for future reference.
+   - Connected to the ESXi server via a Windows 10 machine:
+     - Opened a browser and navigated to the ESXi server's IP address.
+     - Logged in with the credentials created during installation.
+
+*** 2. Install vCenter Server Virtual Appliance:
+   - Accessed the RTFM fileshare and opened the installer:
+     - Navigated to the folder containing the installer: _win32 installer_.
+     - Launched the installer.
+   - Followed the installation steps:
+     - Entered the ESXi IPv4 settings, username, and password.
+     - Set up the root password and name.
+     - Configured the deployment size (left as default).
+     - Enabled thin disk mode.
+     - Assigned an IP address, set the default gateway and network mask.
+     - Entered the DNS server IP from the Windows server.
+     - Verified settings and clicked *Finish*.
+     - Waited for the installation to complete.
+
+*** 3. Configuration and Deployment:
+   - Completed Phase I and proceeded to Phase II by clicking *Next*.
+   - Added the ESXi host:
+     - Opened vCenter and logged in with `administrator@vsphere.local`.
+     - Navigated to _Hosts and Clusters_.
+     - Clicked *Add Host*.
+     - Entered the ESXi host IP address, username, and password.
+     - Followed the prompts to complete the addition of the host.
+   - Activated SSH:
+     - Selected the ESXi host and navigated to _Configure | Services_.
+     - Located *SSH*, clicked *Edit*, and set it to *Start and stop with host*.
+   - Created a new Single Sign-On (SSO) domain:
+     - During vCenter setup, created an SSO domain named `vsphere.local`.
+     - Set up the SSO password, clicked *Next*, and finished the setup.
+     - Closed the setup wizard.
+
+*** 4. vSphere Setup:
+   - Logged into vSphere using `administrator@vsphere.local`.
+   - Created a new datacenter:
+     - Navigated to _Hosts and Clusters_.
+     - Right-clicked on the vCenter server and selected *New Datacenter*.
+     - Named the datacenter and clicked *OK*.
+   - Added ESXi hosts:
+     - Right-clicked the newly created datacenter and selected *Add Host*.
+     - Entered the IP address, username, and password of the ESXi host.
+     - Followed the prompts to add the host to the datacenter.
+   - Configured the ESXi management network:
+     - Pressed `F2` on the ESXi host console to customize the system.
+     - Navigated to _Configure Management Network | IPv4 Configuration_.
+     - Set static IPv4 address, subnet mask, and default gateway.
+     - Navigated to _DNS Configuration_ and set the DNS server to the Windows server IP.
+     - Restarted the management network.
+
+*** 5. Active Directory Integration:
+   - Configured NTP, hostname, DNS, and gateway for vCenter:
+     - Logged into vSphere.
+     - Navigated to _Administration | System Configuration_.
+     - Selected the vCenter server and clicked *Configure*.
+     - Set NTP settings, hostname, DNS, and gateway.
+   - Joined Active Directory Domain:
+     - Navigated to _Administration | Active Directory Domain_.
+     - Clicked *Join Domain*, entered the domain details, and rebooted the node.
+   - Configured forward zone for vCenter in the DNS server.
+
+*** 6. Moving Windows 10 Virtual Machine:
+   - Used VMware Converter to move the VM from Windows 10 Workstation to ESXi server:
+     - Opened VMware Converter.
+     - Selected *Convert Machine*.
+     - Chose the option for VMware Workstation or other VMware virtual machine.
+     - Browsed and selected the virtual machine file.
+     - Entered vCenter IP and SSO information.
+     - Verified settings and clicked *Finish*.
+
+*** 7. Physical to Virtual (P-to-V) Conversion:
+   - Installed VMware Converter on the domain controller:
+     - Downloaded and installed VMware Converter.
+     - Launched the Converter and selected the domain controller as the source.
+     - Set the destination as vCenter using its IP and SSO credentials.
+     - Chose thin provisioning and accepted defaults.
+     - Shut down the original server.
+     - Powered on the new virtual server in vCenter.
+     - Reconfigured IPv4 settings to the previous settings for the domain controller.
+
+** Phase II: Configuring SAN Datastore and Managing Virtual Machines
+
+*** 1. Configure SAN Datastore:
+   - Logged into vCenter.
+   - Clicked on the ESXi host, navigated to _Configure | Storage Adapters_.
+   - Added a new iSCSI adapter:
+     - Clicked *Add Software Adapter*.
+     - Selected the iSCSI adapter created.
+     - Went to _Dynamic Discovery_ and added the SAN IP address.
+
+*** 2. Network Adapter Configuration:
+   - Opened vCenter, selected the ESXi server.
+   - Under VM Hardware, added a new network adapter:
+     - Clicked *Edit* under the VM Hardware section.
+     - Selected *Add New Device* and chose *Network Adapter*.
+     - Configured the new network adapter to use the CNIT242 iSCSI port group.
+     - Clicked *OK*.
+
+*** 3. Storage Configuration:
+   - Repeated the above steps for the second ESXi host.
+   - Created a new VMFS datastore:
+     - Clicked *Storage*.
+     - Selected *New Datastore*.
+     - Chose *VMFS* and selected the FreeNAS iSCSI disk.
+     - Used the full disk and selected VMFS 6.
+   - Added VM Kernel NIC:
+     - Navigated to _Networking_.
+     - Clicked *Add VMkernel NIC*.
+     - Created a new port group named CNIT242 iSCSI.
+     - Selected the appropriate vSwitch and set IPv4 to static.
+     - Entered IP address `192.168.52.10` and subnet mask `255.255.255.0`.
+     - Clicked *Create*.
+
+*** 4. Enable iSCSI Adapter:
+   - Navigated to _Storage_.
+   - Selected the iSCSI adapter and ensured it was enabled.
+   - Added dynamic targets:
+     - Clicked *Port Bindings* and selected the VMkernel interface created.
+     - Added a dynamic target with IP address `192.168.52.254` and port `3260`.
+
+*** 5. Virtual Machine Management:
+   - Installed a fresh Windows Server 2019:
+     - Created a new VM and installed Windows Server 2019.
+     - Applied all service packs and updates.
+     - Saved the VM as a template for future use.
+   - Used VMware Snapshots to protect configurations during changes:
+     - Took snapshots before making major changes.
+   - Set permissions in vCenter:
+     - Navigated to _Permissions_.
+     - Added AD users/groups and set their access levels.
+
+*** 6. Migrating Virtual Machines:
+   - Moved running VMs using vMotion and storage vMotion:
+     - Used storage vMotion to move the Windows 10 VM from the local datastore to the SAN datastore.
+     - Used vMotion to migrate the Windows 10 VM between servers while retaining it on the SAN datastore.
+
+
 * Problem Solving (Sam)
 * Results (Sam)
 ** Diagrams

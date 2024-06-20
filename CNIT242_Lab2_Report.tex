@@ -1,4 +1,4 @@
-% Created 2024-06-19 Wed 17:00
+% Created 2024-06-20 Thu 13:03
 % Intended LaTeX compiler: pdflatex
 \documentclass[letterpaper]{article}
 \usepackage[utf8]{inputenc}
@@ -32,19 +32,261 @@
 \newpage
 
 \section{Business Case}
-\label{sec:org26c3918}
-\section{Procedures (Sam)}
-\label{sec:org4c49380}
+\label{sec:org97d0ebc}
+\section{Procedures}
+\label{sec:orgdc9a73d}
+
+In this lab, we followed a two-phase process to convert a virtual environment into a nested virtual environment using VMware vSphere. Each phase had distinct objectives and steps, which were organized based on tasks and components involved. This documentation is written in past tense to accurately describe the procedures followed. The formatting is as follows: buttons are \textbf{bold}, options are \uline{italicized}, text entered into the computer is in `code`, and menu navigation is indicated by the pipe symbol and italic words: \uline{Start | Programs | MS Office | Word}.
+
+\subsection{Phase I: Setting Up the Environment}
+\label{sec:org390b0dc}
+
+\subsubsection{1. Install ESXi Servers:}
+\label{sec:org1714465}
+\begin{itemize}
+\item Configured hardware settings: set CPU, hard disk, memory, and port group.
+\begin{itemize}
+\item \uline{CPU}: 8 CPUs
+\item \uline{Memory}: 32 GB RAM
+\item \uline{Hard Disk}: 1 TB Thin Provisioned Disk
+\item \uline{Enable hardware virtualization}: Check \textbf{Expose hardware-assisted virtualization to the guest OS} under the \uline{CPU} tab.
+\end{itemize}
+\item Launched the ESXi server installer:
+\begin{itemize}
+\item Inserted the ESXi installer ISO and booted the server.
+\item Followed the on-screen instructions to complete the installation.
+\item Recorded the IPv6 address for future reference.
+\end{itemize}
+\item Connected to the ESXi server via a Windows 10 machine:
+\begin{itemize}
+\item Opened a browser and navigated to the ESXi server's IP address.
+\item Logged in with the credentials created during installation.
+\end{itemize}
+\end{itemize}
+
+\subsubsection{2. Install vCenter Server Virtual Appliance:}
+\label{sec:orgfacf4a4}
+\begin{itemize}
+\item Accessed the RTFM fileshare and opened the installer:
+\begin{itemize}
+\item Navigated to the folder containing the installer: \uline{win32 installer}.
+\item Launched the installer.
+\end{itemize}
+\item Followed the installation steps:
+\begin{itemize}
+\item Entered the ESXi IPv4 settings, username, and password.
+\item Set up the root password and name.
+\item Configured the deployment size (left as default).
+\item Enabled thin disk mode.
+\item Assigned an IP address, set the default gateway and network mask.
+\item Entered the DNS server IP from the Windows server.
+\item Verified settings and clicked \textbf{Finish}.
+\item Waited for the installation to complete.
+\end{itemize}
+\end{itemize}
+
+\subsubsection{3. Configuration and Deployment:}
+\label{sec:org218da6c}
+\begin{itemize}
+\item Completed Phase I and proceeded to Phase II by clicking \textbf{Next}.
+\item Added the ESXi host:
+\begin{itemize}
+\item Opened vCenter and logged in with `administrator@vsphere.local`.
+\item Navigated to \uline{Hosts and Clusters}.
+\item Clicked \textbf{Add Host}.
+\item Entered the ESXi host IP address, username, and password.
+\item Followed the prompts to complete the addition of the host.
+\end{itemize}
+\item Activated SSH:
+\begin{itemize}
+\item Selected the ESXi host and navigated to \uline{Configure | Services}.
+\item Located \textbf{SSH}, clicked \textbf{Edit}, and set it to \textbf{Start and stop with host}.
+\end{itemize}
+\item Created a new Single Sign-On (SSO) domain:
+\begin{itemize}
+\item During vCenter setup, created an SSO domain named `vsphere.local`.
+\item Set up the SSO password, clicked \textbf{Next}, and finished the setup.
+\item Closed the setup wizard.
+\end{itemize}
+\end{itemize}
+
+\subsubsection{4. vSphere Setup:}
+\label{sec:org273a090}
+\begin{itemize}
+\item Logged into vSphere using `administrator@vsphere.local`.
+\item Created a new datacenter:
+\begin{itemize}
+\item Navigated to \uline{Hosts and Clusters}.
+\item Right-clicked on the vCenter server and selected \textbf{New Datacenter}.
+\item Named the datacenter and clicked \textbf{OK}.
+\end{itemize}
+\item Added ESXi hosts:
+\begin{itemize}
+\item Right-clicked the newly created datacenter and selected \textbf{Add Host}.
+\item Entered the IP address, username, and password of the ESXi host.
+\item Followed the prompts to add the host to the datacenter.
+\end{itemize}
+\item Configured the ESXi management network:
+\begin{itemize}
+\item Pressed `F2` on the ESXi host console to customize the system.
+\item Navigated to \uline{Configure Management Network | IPv4 Configuration}.
+\item Set static IPv4 address, subnet mask, and default gateway.
+\item Navigated to \uline{DNS Configuration} and set the DNS server to the Windows server IP.
+\item Restarted the management network.
+\end{itemize}
+\end{itemize}
+
+\subsubsection{5. Active Directory Integration:}
+\label{sec:orgb8774f2}
+\begin{itemize}
+\item Configured NTP, hostname, DNS, and gateway for vCenter:
+\begin{itemize}
+\item Logged into vSphere.
+\item Navigated to \uline{Administration | System Configuration}.
+\item Selected the vCenter server and clicked \textbf{Configure}.
+\item Set NTP settings, hostname, DNS, and gateway.
+\end{itemize}
+\item Joined Active Directory Domain:
+\begin{itemize}
+\item Navigated to \uline{Administration | Active Directory Domain}.
+\item Clicked \textbf{Join Domain}, entered the domain details, and rebooted the node.
+\end{itemize}
+\item Configured forward zone for vCenter in the DNS server.
+\end{itemize}
+
+\subsubsection{6. Moving Windows 10 Virtual Machine:}
+\label{sec:orgf682f98}
+\begin{itemize}
+\item Used VMware Converter to move the VM from Windows 10 Workstation to ESXi server:
+\begin{itemize}
+\item Opened VMware Converter.
+\item Selected \textbf{Convert Machine}.
+\item Chose the option for VMware Workstation or other VMware virtual machine.
+\item Browsed and selected the virtual machine file.
+\item Entered vCenter IP and SSO information.
+\item Verified settings and clicked \textbf{Finish}.
+\end{itemize}
+\end{itemize}
+
+\subsubsection{7. Physical to Virtual (P-to-V) Conversion:}
+\label{sec:org31fb6ef}
+\begin{itemize}
+\item Installed VMware Converter on the domain controller:
+\begin{itemize}
+\item Downloaded and installed VMware Converter.
+\item Launched the Converter and selected the domain controller as the source.
+\item Set the destination as vCenter using its IP and SSO credentials.
+\item Chose thin provisioning and accepted defaults.
+\item Shut down the original server.
+\item Powered on the new virtual server in vCenter.
+\item Reconfigured IPv4 settings to the previous settings for the domain controller.
+\end{itemize}
+\end{itemize}
+
+\subsection{Phase II: Configuring SAN Datastore and Managing Virtual Machines}
+\label{sec:orgdf999f6}
+
+\subsubsection{1. Configure SAN Datastore:}
+\label{sec:org92efd2c}
+\begin{itemize}
+\item Logged into vCenter.
+\item Clicked on the ESXi host, navigated to \uline{Configure | Storage Adapters}.
+\item Added a new iSCSI adapter:
+\begin{itemize}
+\item Clicked \textbf{Add Software Adapter}.
+\item Selected the iSCSI adapter created.
+\item Went to \uline{Dynamic Discovery} and added the SAN IP address.
+\end{itemize}
+\end{itemize}
+
+\subsubsection{2. Network Adapter Configuration:}
+\label{sec:org049638e}
+\begin{itemize}
+\item Opened vCenter, selected the ESXi server.
+\item Under VM Hardware, added a new network adapter:
+\begin{itemize}
+\item Clicked \textbf{Edit} under the VM Hardware section.
+\item Selected \textbf{Add New Device} and chose \textbf{Network Adapter}.
+\item Configured the new network adapter to use the CNIT242 iSCSI port group.
+\item Clicked \textbf{OK}.
+\end{itemize}
+\end{itemize}
+
+\subsubsection{3. Storage Configuration:}
+\label{sec:org52acd2d}
+\begin{itemize}
+\item Repeated the above steps for the second ESXi host.
+\item Created a new VMFS datastore:
+\begin{itemize}
+\item Clicked \textbf{Storage}.
+\item Selected \textbf{New Datastore}.
+\item Chose \textbf{VMFS} and selected the FreeNAS iSCSI disk.
+\item Used the full disk and selected VMFS 6.
+\end{itemize}
+\item Added VM Kernel NIC:
+\begin{itemize}
+\item Navigated to \uline{Networking}.
+\item Clicked \textbf{Add VMkernel NIC}.
+\item Created a new port group named CNIT242 iSCSI.
+\item Selected the appropriate vSwitch and set IPv4 to static.
+\item Entered IP address `192.168.52.10` and subnet mask `255.255.255.0`.
+\item Clicked \textbf{Create}.
+\end{itemize}
+\end{itemize}
+
+\subsubsection{4. Enable iSCSI Adapter:}
+\label{sec:org9b110ee}
+\begin{itemize}
+\item Navigated to \uline{Storage}.
+\item Selected the iSCSI adapter and ensured it was enabled.
+\item Added dynamic targets:
+\begin{itemize}
+\item Clicked \textbf{Port Bindings} and selected the VMkernel interface created.
+\item Added a dynamic target with IP address `192.168.52.254` and port `3260`.
+\end{itemize}
+\end{itemize}
+
+\subsubsection{5. Virtual Machine Management:}
+\label{sec:orge3da4e1}
+\begin{itemize}
+\item Installed a fresh Windows Server 2019:
+\begin{itemize}
+\item Created a new VM and installed Windows Server 2019.
+\item Applied all service packs and updates.
+\item Saved the VM as a template for future use.
+\end{itemize}
+\item Used VMware Snapshots to protect configurations during changes:
+\begin{itemize}
+\item Took snapshots before making major changes.
+\end{itemize}
+\item Set permissions in vCenter:
+\begin{itemize}
+\item Navigated to \uline{Permissions}.
+\item Added AD users/groups and set their access levels.
+\end{itemize}
+\end{itemize}
+
+\subsubsection{6. Migrating Virtual Machines:}
+\label{sec:orgf5ef35d}
+\begin{itemize}
+\item Moved running VMs using vMotion and storage vMotion:
+\begin{itemize}
+\item Used storage vMotion to move the Windows 10 VM from the local datastore to the SAN datastore.
+\item Used vMotion to migrate the Windows 10 VM between servers while retaining it on the SAN datastore.
+\end{itemize}
+\end{itemize}
+
+
 \section{Problem Solving (Sam)}
-\label{sec:org68c09cd}
+\label{sec:orgd8ef717}
 \section{Results (Sam)}
-\label{sec:orgf4c2fe5}
+\label{sec:org1f50c28}
 \subsection{Diagrams}
-\label{sec:orgf6187dc}
+\label{sec:org7c2171a}
 \section{Conclusions}
-\label{sec:org533c518}
+\label{sec:org9268cdf}
 \section{Recommendations}
-\label{sec:orga3e4b81}
+\label{sec:org18b7ed8}
 \section{Bibliography}
-\label{sec:orga9f689a}
+\label{sec:orgdf0f7b9}
 \end{document}
