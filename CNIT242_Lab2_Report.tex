@@ -1,4 +1,4 @@
-% Created 2024-06-20 Thu 14:17
+% Created 2024-06-20 Thu 16:10
 % Intended LaTeX compiler: pdflatex
 \documentclass[letterpaper]{article}
 \usepackage[utf8]{inputenc}
@@ -32,32 +32,16 @@
 \newpage
 
 \section{Business Case}
-\label{sec:org3b5908f}
+\label{sec:org0e97e87}
 \section{Procedures}
-\label{sec:orgedb74ad}
+\label{sec:orga280179}
 
 In this lab, we followed a two-phase process to convert a virtual environment into a nested virtual environment using VMware vSphere. Each phase had distinct objectives and steps, which were organized based on tasks and components involved. This documentation is written in past tense to accurately describe the procedures followed. The formatting is as follows: buttons are \textbf{bold}, options are \uline{italicized}, text entered into the computer is in `code`, and menu navigation is indicated by the pipe symbol and italic words: \uline{Start | Programs | MS Office | Word}.
 
-
-
 \subsection{Phase I: Setting Up the Environment}
-\label{sec:org47596e2}
-\subsubsection{IP Information}
-\label{sec:org0624596}
-\begin{center}
-\begin{tabular}{lrrrr}
- & \textbf{ESXi1.2 Server} & \textbf{ESXi2.1 Server} & \textbf{Windows 10 VM} & \textbf{vCenter}\\[0pt]
-\hline
-\textbf{Pnic 1 (Port Group A)} & 44.100.10.191 & 44.100.10.192 & 44.100.10.111 & 44.100.10.170\\[0pt]
-\textbf{Pnic 2 (iSCSI Port Group)} & 192.168.52.10 & 192.168.54.10 & N/A & N/A\\[0pt]
-\textbf{Subnet Mask} & 255.255.255.0 & 255.255.255.0 & 255.255.255.0 & 255.255.255.0\\[0pt]
-\textbf{SAN server IP} & 192.168.52.254 & 192.168.54.254 & N/A & N/A\\[0pt]
-\textbf{DNS} & 44.100.10.10 & 44.100.10.10 & 44.100.10.10 & 44.100.10.10\\[0pt]
-\hline
-\end{tabular}
-\end{center}
+\label{sec:orgc80c53e}
 \subsubsection{1. Install ESXi Servers:}
-\label{sec:orgd504a11}
+\label{sec:orgc4fc515}
 \begin{itemize}
 \item Configured hardware settings: set CPU, hard disk, memory, and port group.
 \begin{itemize}
@@ -79,7 +63,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{2. Install vCenter Server Virtual Appliance:}
-\label{sec:org56184cc}
+\label{sec:org87e55e5}
 \begin{itemize}
 \item Accessed the RTFM fileshare and opened the installer:
 \begin{itemize}
@@ -100,7 +84,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{3. Configuration and Deployment:}
-\label{sec:org2b135d7}
+\label{sec:org16865d9}
 \begin{itemize}
 \item Completed Phase I and proceeded to Phase II by clicking \textbf{Next}.
 \item Added the ESXi host:
@@ -125,7 +109,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{4. vSphere Setup:}
-\label{sec:org98f0368}
+\label{sec:org1d8d9c6}
 \begin{itemize}
 \item Logged into vSphere using `administrator@vsphere.local`.
 \item Created a new datacenter:
@@ -151,7 +135,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{5. Active Directory Integration:}
-\label{sec:org9ebc207}
+\label{sec:org89e9751}
 \begin{itemize}
 \item Configured NTP, hostname, DNS, and gateway for vCenter:
 \begin{itemize}
@@ -169,7 +153,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{6. Moving Windows 10 Virtual Machine:}
-\label{sec:org841ce2f}
+\label{sec:org454932d}
 \begin{itemize}
 \item Used VMware Converter to move the VM from Windows 10 Workstation to ESXi server:
 \begin{itemize}
@@ -183,7 +167,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{7. Physical to Virtual (P-to-V) Conversion:}
-\label{sec:orgf28d7d9}
+\label{sec:org955ded0}
 \begin{itemize}
 \item Installed VMware Converter on the domain controller:
 \begin{itemize}
@@ -197,10 +181,10 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 \end{itemize}
 \subsection{Phase II: Configuring SAN Datastore and Managing Virtual Machines}
-\label{sec:orgda1df46}
+\label{sec:orga7f9632}
 
 \subsubsection{1. Configure SAN Datastore:}
-\label{sec:orgc86bbbc}
+\label{sec:org1335f58}
 \begin{itemize}
 \item Logged into vCenter.
 \item Clicked on the ESXi host, navigated to \uline{Configure | Storage Adapters}.
@@ -213,7 +197,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{2. Network Adapter Configuration:}
-\label{sec:orgfa14d0a}
+\label{sec:orgd5ddebe}
 \begin{itemize}
 \item Opened vCenter, selected the ESXi server.
 \item Under VM Hardware, added a new network adapter:
@@ -226,7 +210,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{3. Storage Configuration:}
-\label{sec:orgcf174b9}
+\label{sec:org70f1c79}
 \begin{itemize}
 \item Repeated the above steps for the second ESXi host.
 \item Created a new VMFS datastore:
@@ -248,7 +232,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{4. Enable iSCSI Adapter:}
-\label{sec:org3e77a76}
+\label{sec:orgf13b8d9}
 \begin{itemize}
 \item Navigated to \uline{Storage}.
 \item Selected the iSCSI adapter and ensured it was enabled.
@@ -259,84 +243,167 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 \end{itemize}
 
-\subsubsection{5. Virtual Machine Management:}
-\label{sec:orgb94b91d}
+\subsubsection{5. Installed Windows Server 2019 Virtual Machine:}
+\label{sec:orgda3051c}
 \begin{itemize}
-\item Installed a fresh Windows Server 2019:
+\item Inside vCenter, navigated to the target datastore (e.g., datastore1).
+\item Clicked \textbf{Upload Files}.
+\item Accessed the network location `$\backslash$\rtfm.cit.lcl`.
+\item Located and selected the Windows Server 2019 ISO file.
+\item Selected an ESXi host (e.g., 44.100.10.91).
+\item Created a new virtual machine:
 \begin{itemize}
-\item Created a new VM:
-\begin{itemize}
-\item Navigated to \uline{Hosts and Clusters}.
-\item Right-clicked on the ESXi host and selected \textbf{New Virtual Machine}.
-\item Chose \textbf{Create a new virtual machine} and clicked \textbf{Next}.
-\item Entered a name for the VM and selected a location.
-\item Selected a compute resource and clicked \textbf{Next}.
-\item Selected the datastore and clicked \textbf{Next}.
-\item Chose the compatibility and clicked \textbf{Next}.
-\item Selected the guest OS as Windows Server 2019 and clicked \textbf{Next}.
-\item Configured the hardware settings, including CPUs, memory, and network.
-\item Clicked \textbf{Next} and then \textbf{Finish}.
+\item Named it WindowsServer2019.
+\item Selected datastore and compute resource (ESXi host address).
+\item Chose storage (same datastore as before).
+\item Compatibility set to ESXi 8 and later.
+\item Accepted defaults for guest OS.
+\item Modified disk provisioning to \textbf{Thin}.
+\item Added CD/DVD drive, connected ISO file (`datastore1` → Windows Server 2019 ISO).
+\item Finished setup.
 \end{itemize}
-\item Installed Windows Server 2019:
+\item Powered on Windows Server 2019 VM.
+\item Proceeded with installation, created admin account.
+\item Installed VMware Tools, mounted and ran setup.
+\item Configured network settings (Ethernet0):
 \begin{itemize}
-\item Mounted the Windows Server 2019 ISO to the VM.
-\item Started the VM and followed the installation steps.
-\item Applied all service packs and updates.
+\item Set IP address to 44.100.10.11, subnet mask to 255.255.255.0, default gateway to 44.100.10.1, DNS to 44.100.10.10.
 \end{itemize}
-\item Saved the VM as a template for future use:
+\item Restarted Windows Server 2019.
+\item Checked for updates, installed, and restarted.
+\item Configured NTP time server:
 \begin{itemize}
-\item Right-clicked the VM and selected \textbf{Template | Convert to Template}.
+\item Opened Command Prompt as admin.
+\item Configured time server: `w32tm /config /manualpeerlist:``tick.cit.lcl'' /syncfromflags:manual /reliable:YES /update`.
+\item Resynchronized time: `w32tm /resync`.
+\item Verified changes: `w32tm /query /status`.
 \end{itemize}
-\end{itemize}
-\item Used VMware Snapshots to protect configurations during changes:
+\item Powered off Windows Server 2019.
+\item Converted VM to template: Right-clicked → \textbf{Template} → \textbf{Convert to template}.
+\item Moved template to SAN datastore:
 \begin{itemize}
-\item Took snapshots before making major changes:
-\begin{itemize}
-\item Right-clicked the VM and selected \textbf{Snapshot | Take Snapshot}.
-\item Entered a name and description for the snapshot and clicked \textbf{OK}.
+\item Navigated to ESXi host interface holding Windows Server 2019.
+\item Went to \textbf{Storage} → \textbf{Datastore Browser}.
+\item Located template on `datastore1`, moved it to `SANdatastoreG10`.
 \end{itemize}
-\end{itemize}
-\item Set permissions in vCenter:
+\item Registered template as VM in vCenter:
 \begin{itemize}
-\item Navigated to \uline{Permissions}.
-\item Right-clicked the datacenter or VM and selected \textbf{Add Permission}.
-\item Added AD users/groups and set their access levels.
-\item Clicked \textbf{OK} to apply the permissions.
+\item Navigated to the folder where Windows Server 2019 template was moved (SANdatastoreG10).
+\item Found `.vmtx` file, clicked to select.
+\item Clicked \textbf{Register VM}.
+\item Named VM, selected datastore, compute resource, and finished.
 \end{itemize}
 \end{itemize}
 
-\subsubsection{6. Migrating Virtual Machines:}
-\label{sec:orga1cc1d7}
+\subsubsection{6. Set Permissions:}
+\label{sec:org5cfd233}
 \begin{itemize}
-\item Moved running VMs using vMotion and storage vMotion:
-\begin{itemize}
-\item Used storage vMotion to move the Windows 10 VM from the local datastore to the SAN datastore:
-\begin{itemize}
-\item Right-clicked the VM and selected \textbf{Migrate}.
-\item Chose \textbf{Change datastore} and clicked \textbf{Next}.
-\item Selected the destination datastore (SAN datastore) and clicked \textbf{Next}.
-\item Clicked \textbf{Finish} to start the migration.
+\item Inside vCenter, navigated to Windows 11 VM.
+\item Went to \textbf{Permissions} tab.
+\item Clicked \textbf{Add}.
+\item Changed domain to Active Directory domain (`group10.c242.cit.lcl`).
+\item Added user (e.g., ESstudents).
+\item Assigned role (e.g., Read only).
+\item Clicked \textbf{OK}.
 \end{itemize}
-\item Used vMotion to migrate the Windows 10 VM between servers while retaining it on the SAN datastore:
+
+\subsubsection{7. Migrated Storage to SAN (Storage vMotion):}
+\label{sec:orge4fdcf7}
 \begin{itemize}
-\item Right-clicked the VM and selected \textbf{Migrate}.
-\item Chose \textbf{Change host} and clicked \textbf{Next}.
-\item Selected the destination host (the other ESXi server) and clicked \textbf{Next}.
-\item Clicked \textbf{Finish} to start the migration.
+\item Inside vCenter, found Windows 11 VM in the sidebar.
+\item Right-clicked and selected \textbf{Migrate}.
+\item Chose \textbf{Change storage only}.
+\item Clicked \textbf{Next}.
+\item In \textbf{Select Storage}, chose:
+\begin{itemize}
+\item Virtual disk format: \textbf{Thin Provision}.
+\item Destination datastore: `SANdatastoreG10`.
 \end{itemize}
+\item Clicked \textbf{Next} and \textbf{Finish}.
+\item Monitored progress in \textbf{Monitor → Tasks and Events → Tasks}.
+\item VM could still be used during migration.
 \end{itemize}
+
+\subsubsection{8. Migrated Compute Resource (vMotion):}
+\label{sec:org12a25ae}
+\begin{itemize}
+\item Inside vCenter, found Windows 11 VM in the sidebar.
+\item Right-clicked and selected \textbf{Migrate}.
+\item Chose \textbf{Change compute resource only}.
+\item Clicked \textbf{Next}.
+\item Selected the target ESXi host (e.g., `44.100.10.92`).
+\item Accepted default options.
+\item Clicked \textbf{Finish}.
+\item VM remained operational during migration.
 \end{itemize}
 
 \section{Problem Solving (Sam)}
-\label{sec:org34012b4}
+\label{sec:org2db55ea}
 \section{Results (Sam)}
-\label{sec:orgdeec9c0}
+\label{sec:org83c2be6}
+In this lab, a nested virtual environment was successfully created and configured using VMware vSphere. This involved setting up two ESXi servers, installing a vCenter server, and migrating existing virtual machines from a VMware Workstation environment into the new ESXi environment. Various VMware tools and techniques were utilized to manage and optimize the virtual environment, ensuring efficient resource allocation and network configuration. The following sections detail the physical and logical network setups, the IP schema, and computer names along with login information.
+\subsection{Summary of Accomplishments}
+\label{sec:org1922347}
+\begin{itemize}
+\item Installation and Configuration of ESXi Servers
+\begin{itemize}
+\item Two ESXi servers were successfully installed and configured with 8 CPUs, 32 GB RAM, and 1 TB thin provisioned disks. Hardware virtualization was enabled.
+\end{itemize}
+\item Deployment of vCenter Server
+\begin{itemize}
+\item vCenter Server was installed, configured, and joined to the Active Directory domain.
+\end{itemize}
+\item Migration of Windows 10 VM
+\begin{itemize}
+\item The Windows 10 VM was successfully migrated from VMware Workstation to the ESXi server and added to the inventory.
+\end{itemize}
+\item P-to-V Conversion of Domain Controller
+\begin{itemize}
+\item Using VMware Converter, the domain controller was migrated from a physical to a virtual environment on the ESXi server.
+\end{itemize}
+\item Configuration of SAN Datastore
+\begin{itemize}
+\item Both ESXi servers were configured to access an iSCSI SAN LUN and formatted as a VMFS datastore.
+\end{itemize}
+\item Installation and Template Creation of Windows Server 2019
+\begin{itemize}
+\item A fresh Windows Server 2019 was installed, updated, and saved as a template for future use.
+\end{itemize}
+\item Virtual Machine Management
+\begin{itemize}
+\item VMware Snapshots were used to protect configurations during changes, and virtual machine access was controlled through vCenter permissions.
+\end{itemize}
+\item Virtual Machine Migration
+\begin{itemize}
+\item VMs were migrated between datastores and ESXi hosts using vMotion and storage vMotion.
+\end{itemize}
+\end{itemize}
+\newgeometry{left=1cm,right=1cm,top=1cm,bottom=1cm}
+\subsection{Machine Networking/Login Information Table}
+\label{sec:org8c3019e}
+\centering
+\begin{center}
+\begin{tabular}{lrrlll}
+ & \textbf{ESXi1.2 Server} & \textbf{ESXi2.1 Server} & \textbf{vCenter} & \textbf{Windows 10 VM} & \textbf{Windows 2019 Srv.}\\[0pt]
+\hline
+\textbf{Pnic1 (CNIT242G10A)} & 44.100.10.191 & 44.100.10.192 & 44.100.10.170 & 44.100.10.111 & 44.100.10.11\\[0pt]
+\textbf{Pnic2 (CNIT242iSCSI)} & 192.168.52.10 & 192.168.54.10 & N/A & N/A & N/A\\[0pt]
+\textbf{Subnet Mask} & 255.255.255.0 & 255.255.255.0 & 255.255.255.0 & 255.255.255.0 & 255.255.255.0\\[0pt]
+\textbf{Default Gateway} & 44.100.10.1 & 44.100.10.1 & 44.100.10.1 & 44.100.10.1 & 44.100.10.1\\[0pt]
+\textbf{DNS} & 44.100.10.10 & 44.100.10.10 & 44.100.10.10 & 44.100.10.10 & 44.100.10.10\\[0pt]
+\textbf{SAN server IP} & 192.168.52.254 & 192.168.54.254 & N/A & N/A & N/A\\[0pt]
+\textbf{Login} & root & root & administrator & Administrator & Administrator\\[0pt]
+\textbf{Password} & Cnit242! & Cnit242! & Cnit242! & Cnit242! & Cnit242!\\[0pt]
+\hline
+\end{tabular}
+\end{center}
+\restoregeometry
 \subsection{Diagrams}
-\label{sec:org785155f}
+\label{sec:org668d319}
 \section{Conclusions}
-\label{sec:orgb4f4c02}
+\label{sec:org9a0f906}
 \section{Recommendations}
-\label{sec:org93ff01b}
+\label{sec:org0f3174e}
 \section{Bibliography}
-\label{sec:org0fa76fd}
+\label{sec:org439b184}
 \end{document}

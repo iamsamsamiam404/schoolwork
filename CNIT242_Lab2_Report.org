@@ -17,18 +17,7 @@
 
 In this lab, we followed a two-phase process to convert a virtual environment into a nested virtual environment using VMware vSphere. Each phase had distinct objectives and steps, which were organized based on tasks and components involved. This documentation is written in past tense to accurately describe the procedures followed. The formatting is as follows: buttons are *bold*, options are _italicized_, text entered into the computer is in `code`, and menu navigation is indicated by the pipe symbol and italic words: _Start | Programs | MS Office | Word_.
 
-
-
 ** Phase I: Setting Up the Environment
-*** IP Information
-|                             | *ESXi1.2 Server* | *ESXi2.1 Server* | *Windows 10 VM* |     *vCenter* |
-|-----------------------------+------------------+------------------+-----------------+---------------|
-| *Pnic 1 (Port Group A)*     |    44.100.10.191 |    44.100.10.192 |   44.100.10.111 | 44.100.10.170 |
-| *Pnic 2 (iSCSI Port Group)* |    192.168.52.10 |    192.168.54.10 |             N/A |           N/A |
-| *Subnet Mask*               |    255.255.255.0 |    255.255.255.0 |   255.255.255.0 | 255.255.255.0 |
-| *SAN server IP*             |   192.168.52.254 |   192.168.54.254 |             N/A |           N/A |
-| *DNS*                       |     44.100.10.10 |     44.100.10.10 |    44.100.10.10 |  44.100.10.10 |
-|-----------------------------+------------------+------------------+-----------------+---------------|
 *** 1. Install ESXi Servers:
    - Configured hardware settings: set CPU, hard disk, memory, and port group.
      - _CPU_: 8 CPUs
@@ -158,50 +147,111 @@ In this lab, we followed a two-phase process to convert a virtual environment in
      - Clicked *Port Bindings* and selected the VMkernel interface created.
      - Added a dynamic target with IP address `192.168.52.254` and port `3260`.
 
-*** 5. Virtual Machine Management:
-   - Installed a fresh Windows Server 2019:
-     - Created a new VM:
-       - Navigated to _Hosts and Clusters_.
-       - Right-clicked on the ESXi host and selected *New Virtual Machine*.
-       - Chose *Create a new virtual machine* and clicked *Next*.
-       - Entered a name for the VM and selected a location.
-       - Selected a compute resource and clicked *Next*.
-       - Selected the datastore and clicked *Next*.
-       - Chose the compatibility and clicked *Next*.
-       - Selected the guest OS as Windows Server 2019 and clicked *Next*.
-       - Configured the hardware settings, including CPUs, memory, and network.
-       - Clicked *Next* and then *Finish*.
-     - Installed Windows Server 2019:
-       - Mounted the Windows Server 2019 ISO to the VM.
-       - Started the VM and followed the installation steps.
-       - Applied all service packs and updates.
-     - Saved the VM as a template for future use:
-       - Right-clicked the VM and selected *Template | Convert to Template*.
-   - Used VMware Snapshots to protect configurations during changes:
-     - Took snapshots before making major changes:
-       - Right-clicked the VM and selected *Snapshot | Take Snapshot*.
-       - Entered a name and description for the snapshot and clicked *OK*.
-   - Set permissions in vCenter:
-     - Navigated to _Permissions_.
-     - Right-clicked the datacenter or VM and selected *Add Permission*.
-     - Added AD users/groups and set their access levels.
-     - Clicked *OK* to apply the permissions.
+*** 5. Installed Windows Server 2019 Virtual Machine:
+   - Inside vCenter, navigated to the target datastore (e.g., datastore1).
+   - Clicked *Upload Files*.
+   - Accessed the network location `\\rtfm.cit.lcl`.
+   - Located and selected the Windows Server 2019 ISO file.
+   - Selected an ESXi host (e.g., 44.100.10.91).
+   - Created a new virtual machine:
+     - Named it WindowsServer2019.
+     - Selected datastore and compute resource (ESXi host address).
+     - Chose storage (same datastore as before).
+     - Compatibility set to ESXi 8 and later.
+     - Accepted defaults for guest OS.
+     - Modified disk provisioning to *Thin*.
+     - Added CD/DVD drive, connected ISO file (`datastore1` → Windows Server 2019 ISO).
+     - Finished setup.
+   - Powered on Windows Server 2019 VM.
+   - Proceeded with installation, created admin account.
+   - Installed VMware Tools, mounted and ran setup.
+   - Configured network settings (Ethernet0):
+     - Set IP address to 44.100.10.11, subnet mask to 255.255.255.0, default gateway to 44.100.10.1, DNS to 44.100.10.10.
+   - Restarted Windows Server 2019.
+   - Checked for updates, installed, and restarted.
+   - Configured NTP time server:
+     - Opened Command Prompt as admin.
+     - Configured time server: `w32tm /config /manualpeerlist:"tick.cit.lcl" /syncfromflags:manual /reliable:YES /update`.
+     - Resynchronized time: `w32tm /resync`.
+     - Verified changes: `w32tm /query /status`.
+   - Powered off Windows Server 2019.
+   - Converted VM to template: Right-clicked → *Template* → *Convert to template*.
+   - Moved template to SAN datastore:
+     - Navigated to ESXi host interface holding Windows Server 2019.
+     - Went to *Storage* → *Datastore Browser*.
+     - Located template on `datastore1`, moved it to `SANdatastoreG10`.
+   - Registered template as VM in vCenter:
+     - Navigated to the folder where Windows Server 2019 template was moved (SANdatastoreG10).
+     - Found `.vmtx` file, clicked to select.
+     - Clicked *Register VM*.
+     - Named VM, selected datastore, compute resource, and finished.
 
-*** 6. Migrating Virtual Machines:
-   - Moved running VMs using vMotion and storage vMotion:
-     - Used storage vMotion to move the Windows 10 VM from the local datastore to the SAN datastore:
-       - Right-clicked the VM and selected *Migrate*.
-       - Chose *Change datastore* and clicked *Next*.
-       - Selected the destination datastore (SAN datastore) and clicked *Next*.
-       - Clicked *Finish* to start the migration.
-     - Used vMotion to migrate the Windows 10 VM between servers while retaining it on the SAN datastore:
-       - Right-clicked the VM and selected *Migrate*.
-       - Chose *Change host* and clicked *Next*.
-       - Selected the destination host (the other ESXi server) and clicked *Next*.
-       - Clicked *Finish* to start the migration.
+*** 6. Set Permissions:
+   - Inside vCenter, navigated to Windows 11 VM.
+   - Went to *Permissions* tab.
+   - Clicked *Add*.
+   - Changed domain to Active Directory domain (`group10.c242.cit.lcl`).
+   - Added user (e.g., ESstudents).
+   - Assigned role (e.g., Read only).
+   - Clicked *OK*.
+
+*** 7. Migrated Storage to SAN (Storage vMotion):
+   - Inside vCenter, found Windows 11 VM in the sidebar.
+   - Right-clicked and selected *Migrate*.
+   - Chose *Change storage only*.
+   - Clicked *Next*.
+   - In *Select Storage*, chose:
+     - Virtual disk format: *Thin Provision*.
+     - Destination datastore: `SANdatastoreG10`.
+   - Clicked *Next* and *Finish*.
+   - Monitored progress in *Monitor → Tasks and Events → Tasks*.
+   - VM could still be used during migration.
+
+*** 8. Migrated Compute Resource (vMotion):
+   - Inside vCenter, found Windows 11 VM in the sidebar.
+   - Right-clicked and selected *Migrate*.
+   - Chose *Change compute resource only*.
+   - Clicked *Next*.
+   - Selected the target ESXi host (e.g., `44.100.10.92`).
+   - Accepted default options.
+   - Clicked *Finish*.
+   - VM remained operational during migration.
 
 * Problem Solving (Sam)
 * Results (Sam)
+In this lab, a nested virtual environment was successfully created and configured using VMware vSphere. This involved setting up two ESXi servers, installing a vCenter server, and migrating existing virtual machines from a VMware Workstation environment into the new ESXi environment. Various VMware tools and techniques were utilized to manage and optimize the virtual environment, ensuring efficient resource allocation and network configuration. The following sections detail the physical and logical network setups, the IP schema, and computer names along with login information.
+** Summary of Accomplishments
+- Installation and Configuration of ESXi Servers
+   + Two ESXi servers were successfully installed and configured with 8 CPUs, 32 GB RAM, and 1 TB thin provisioned disks. Hardware virtualization was enabled.
+- Deployment of vCenter Server
+   + vCenter Server was installed, configured, and joined to the Active Directory domain.
+- Migration of Windows 10 VM
+   + The Windows 10 VM was successfully migrated from VMware Workstation to the ESXi server and added to the inventory.
+- P-to-V Conversion of Domain Controller
+   + Using VMware Converter, the domain controller was migrated from a physical to a virtual environment on the ESXi server.
+- Configuration of SAN Datastore
+   + Both ESXi servers were configured to access an iSCSI SAN LUN and formatted as a VMFS datastore.
+- Installation and Template Creation of Windows Server 2019
+   + A fresh Windows Server 2019 was installed, updated, and saved as a template for future use.
+- Virtual Machine Management
+   + VMware Snapshots were used to protect configurations during changes, and virtual machine access was controlled through vCenter permissions.
+- Virtual Machine Migration
+   + VMs were migrated between datastores and ESXi hosts using vMotion and storage vMotion.
+\newgeometry{left=1cm,right=1cm,top=1cm,bottom=1cm}
+** Machine Networking/Login Information Table
+\centering
+|                        | *ESXi1.2 Server* | *ESXi2.1 Server* | *vCenter*     | *Windows 10 VM* | *Windows 2019 Srv.* |
+|------------------------+------------------+------------------+---------------+-----------------+---------------------|
+| *Pnic1 (CNIT242G10A)*  |    44.100.10.191 |    44.100.10.192 | 44.100.10.170 | 44.100.10.111   | 44.100.10.11        |
+| *Pnic2 (CNIT242iSCSI)* |    192.168.52.10 |    192.168.54.10 | N/A           | N/A             | N/A                 |
+| *Subnet Mask*          |    255.255.255.0 |    255.255.255.0 | 255.255.255.0 | 255.255.255.0   | 255.255.255.0       |
+| *Default Gateway*      |      44.100.10.1 |      44.100.10.1 | 44.100.10.1   | 44.100.10.1     | 44.100.10.1         |
+| *DNS*                  |     44.100.10.10 |     44.100.10.10 | 44.100.10.10  | 44.100.10.10    | 44.100.10.10        |
+| *SAN server IP*        |   192.168.52.254 |   192.168.54.254 | N/A           | N/A             | N/A                 |
+| *Login*                |             root |             root | administrator | Administrator   | Administrator       |
+| *Password*             |         Cnit242! |         Cnit242! | Cnit242!      | Cnit242!        | Cnit242!            |
+|------------------------+------------------+------------------+---------------+-----------------+---------------------|
+\restoregeometry
 ** Diagrams
 * Conclusions
 * Recommendations
