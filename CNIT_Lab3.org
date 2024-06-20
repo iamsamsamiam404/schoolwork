@@ -72,14 +72,55 @@ https://purdue.brightspace.com/d2l/le/content/1013650/viewContent/16679580/View
 [[/home/sam/Screenshots/screenshot_2024-06-19_12-48-41.png]]
 ** Objectives
 *** Phase I
-**** IN-PROGRESS Add a new VM port group to your ESXi servers representing a second enterprise location
+**** DONE Add a new VM port group to your ESXi servers representing a second enterprise location
 DEADLINE:<2024-06-19 Wed>
-- [ ] Put a new physical NIC of your ESXi VM (outer virtualization layer in studentvc) into the
-port group specified in the IP Configuration Sheet
-- [ ] Name your new port group (in your inner virtualization layer on your ESXi servers)
-descriptively
-- [ ] Address all VMs in this new location using the “Secondary IP Addresses” range from the
-IP Configuration Sheet
+- [X] Put a new physical NIC of your ESXi VM (outer virtualization layer in studentvc) into the port group specified in the IP Configuration Sheet
+- [X] Name your new port group (in your inner virtualization layer on your ESXi servers) descriptively
+- [X] Address all VMs in this new location using the “Secondary IP Addresses” range from the IP Configuration Sheet
+  Start LAB DOCUMENTATION:
+  *Log into the student virtual cluster*
+  - Opened Firefox.
+  - Entered /studentvc.cit.lcl/ in the search bar.
+  - Logged in with my student credentials.
+  *Added new NIC*
+  - Found *ESXi1.2* in the sidebar
+  - | Right click | Edit settings | Virtual Hardware | Add New Device | Network Adapter |
+  - Selected the new network adapter.
+  - | Browse | CNIT24210B | OK
+  - Repeated these steps for *ESXi2.1*
+  *Power cycle the ESXi servers*
+  - Launched web console for *CNIT24200.Group10.juergens.win10* from the sidebar
+  - Opened Firefox.
+  - Entered the ip address of *ESXi1.2*: /44.100.10.191/
+  - Entered login information
+  - Entered the ip address of *ESXi2.1*: /44.100.10.192/
+  - Entered login information
+  - In each ESXi servers respective tab went to | Virtual Machines | Checked checkbox next to Virtual machine | Power off
+  - For each ESXi server clicked | Host | Reset | OK
+  - In each ESXi servers respective tab went to | Virtual Machines | Checked checkbox next to Virtual machine | Power off
+  *Configured ESXi servers network settings*
+  - Navigated back to *ESXi1.2*'s web interface
+  - Clicked | Networking | Add standard virtual switch |
+  - Named it /vSwitch2/
+  - Clicked | ADD |
+  - Clicked | Port groups | Add port group |
+  - Named it /site2/
+  - Selected vSwitch2 from the Virtual switch drop down menu
+  - Clicked | ADD |
+  - Selected | Add VMkernal NIC | site2 | IPv4 only |
+  - Entered /44.100.60.0/ for the Address and /255.255.255.0/ for the subnet mask
+  - Clicked Create
+  - Navigated to *ESXi2.1*'s web interface
+  - Clicked | Networking | Add standard virtual switch |
+  - Named it /vSwitch2/
+  - Clicked | ADD |
+  - Clicked | Port groups | Add port group |
+  - Named it /site2/
+  - Selected vSwitch2 from the Virtual switch drop down menu
+  - Clicked | ADD |
+  - Selected | Add VMkernal NIC | site2 | IPv4 only |
+  - Entered /44.100.60.0/ for the Address and /255.255.255.0/ for the subnet mask
+  - Clicked Create
 **** TODO Deploy a new instance of your Windows Server VM template and implement it as a second domain controller at the new location
 DEADLINE:<2024-06-20 Thu>
 - [ ] Define the new subnet/site in Active Directory
@@ -164,7 +205,12 @@ WSUS server automatically using group policy.
 **** VMware Thinapp
 Using a clean install of Windows 10, take a snapshot and install Thinapp. Run the Thinapp setup-
 capture and install Visio. Concluded setup-capture and save the package to a network location.
-Revert to the snapshot and run the package on the comput
+Revert to the snapshot and run the package on the computer
+**** IP Tables
+- Primary (Site1)
+  - 44.100.10.0/24
+- Secondary (Site2)
+  - 44.100.60.0/24
 
 * TODO Lab 3 Report
 DEADLINE:<2024-07-06 Sat>
