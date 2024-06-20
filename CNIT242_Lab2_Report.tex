@@ -1,4 +1,4 @@
-% Created 2024-06-20 Thu 14:07
+% Created 2024-06-20 Thu 14:17
 % Intended LaTeX compiler: pdflatex
 \documentclass[letterpaper]{article}
 \usepackage[utf8]{inputenc}
@@ -32,18 +32,18 @@
 \newpage
 
 \section{Business Case}
-\label{sec:org573743e}
+\label{sec:org3b5908f}
 \section{Procedures}
-\label{sec:org89f63b1}
+\label{sec:orgedb74ad}
 
 In this lab, we followed a two-phase process to convert a virtual environment into a nested virtual environment using VMware vSphere. Each phase had distinct objectives and steps, which were organized based on tasks and components involved. This documentation is written in past tense to accurately describe the procedures followed. The formatting is as follows: buttons are \textbf{bold}, options are \uline{italicized}, text entered into the computer is in `code`, and menu navigation is indicated by the pipe symbol and italic words: \uline{Start | Programs | MS Office | Word}.
 
 
 
 \subsection{Phase I: Setting Up the Environment}
-\label{sec:orgb6216dc}
+\label{sec:org47596e2}
 \subsubsection{IP Information}
-\label{sec:org793fe37}
+\label{sec:org0624596}
 \begin{center}
 \begin{tabular}{lrrrr}
  & \textbf{ESXi1.2 Server} & \textbf{ESXi2.1 Server} & \textbf{Windows 10 VM} & \textbf{vCenter}\\[0pt]
@@ -57,7 +57,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{tabular}
 \end{center}
 \subsubsection{1. Install ESXi Servers:}
-\label{sec:org48f79ac}
+\label{sec:orgd504a11}
 \begin{itemize}
 \item Configured hardware settings: set CPU, hard disk, memory, and port group.
 \begin{itemize}
@@ -79,7 +79,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{2. Install vCenter Server Virtual Appliance:}
-\label{sec:org1c824b3}
+\label{sec:org56184cc}
 \begin{itemize}
 \item Accessed the RTFM fileshare and opened the installer:
 \begin{itemize}
@@ -100,7 +100,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{3. Configuration and Deployment:}
-\label{sec:org5306093}
+\label{sec:org2b135d7}
 \begin{itemize}
 \item Completed Phase I and proceeded to Phase II by clicking \textbf{Next}.
 \item Added the ESXi host:
@@ -125,7 +125,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{4. vSphere Setup:}
-\label{sec:org7f27dce}
+\label{sec:org98f0368}
 \begin{itemize}
 \item Logged into vSphere using `administrator@vsphere.local`.
 \item Created a new datacenter:
@@ -151,7 +151,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{5. Active Directory Integration:}
-\label{sec:orgdf03417}
+\label{sec:org9ebc207}
 \begin{itemize}
 \item Configured NTP, hostname, DNS, and gateway for vCenter:
 \begin{itemize}
@@ -169,7 +169,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{6. Moving Windows 10 Virtual Machine:}
-\label{sec:org2ddf4ce}
+\label{sec:org841ce2f}
 \begin{itemize}
 \item Used VMware Converter to move the VM from Windows 10 Workstation to ESXi server:
 \begin{itemize}
@@ -183,7 +183,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{7. Physical to Virtual (P-to-V) Conversion:}
-\label{sec:org478b2f8}
+\label{sec:orgf28d7d9}
 \begin{itemize}
 \item Installed VMware Converter on the domain controller:
 \begin{itemize}
@@ -197,10 +197,10 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 \end{itemize}
 \subsection{Phase II: Configuring SAN Datastore and Managing Virtual Machines}
-\label{sec:org60f3e18}
+\label{sec:orgda1df46}
 
 \subsubsection{1. Configure SAN Datastore:}
-\label{sec:org8c2f1c0}
+\label{sec:orgc86bbbc}
 \begin{itemize}
 \item Logged into vCenter.
 \item Clicked on the ESXi host, navigated to \uline{Configure | Storage Adapters}.
@@ -213,7 +213,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{2. Network Adapter Configuration:}
-\label{sec:org45d366d}
+\label{sec:orgfa14d0a}
 \begin{itemize}
 \item Opened vCenter, selected the ESXi server.
 \item Under VM Hardware, added a new network adapter:
@@ -226,7 +226,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{3. Storage Configuration:}
-\label{sec:org273fbbc}
+\label{sec:orgcf174b9}
 \begin{itemize}
 \item Repeated the above steps for the second ESXi host.
 \item Created a new VMFS datastore:
@@ -248,7 +248,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{4. Enable iSCSI Adapter:}
-\label{sec:orgd3e0632}
+\label{sec:org3e77a76}
 \begin{itemize}
 \item Navigated to \uline{Storage}.
 \item Selected the iSCSI adapter and ensured it was enabled.
@@ -260,46 +260,83 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{5. Virtual Machine Management:}
-\label{sec:orge94c2e1}
+\label{sec:orgb94b91d}
 \begin{itemize}
 \item Installed a fresh Windows Server 2019:
 \begin{itemize}
-\item Created a new VM and installed Windows Server 2019.
+\item Created a new VM:
+\begin{itemize}
+\item Navigated to \uline{Hosts and Clusters}.
+\item Right-clicked on the ESXi host and selected \textbf{New Virtual Machine}.
+\item Chose \textbf{Create a new virtual machine} and clicked \textbf{Next}.
+\item Entered a name for the VM and selected a location.
+\item Selected a compute resource and clicked \textbf{Next}.
+\item Selected the datastore and clicked \textbf{Next}.
+\item Chose the compatibility and clicked \textbf{Next}.
+\item Selected the guest OS as Windows Server 2019 and clicked \textbf{Next}.
+\item Configured the hardware settings, including CPUs, memory, and network.
+\item Clicked \textbf{Next} and then \textbf{Finish}.
+\end{itemize}
+\item Installed Windows Server 2019:
+\begin{itemize}
+\item Mounted the Windows Server 2019 ISO to the VM.
+\item Started the VM and followed the installation steps.
 \item Applied all service packs and updates.
-\item Saved the VM as a template for future use.
+\end{itemize}
+\item Saved the VM as a template for future use:
+\begin{itemize}
+\item Right-clicked the VM and selected \textbf{Template | Convert to Template}.
+\end{itemize}
 \end{itemize}
 \item Used VMware Snapshots to protect configurations during changes:
 \begin{itemize}
-\item Took snapshots before making major changes.
+\item Took snapshots before making major changes:
+\begin{itemize}
+\item Right-clicked the VM and selected \textbf{Snapshot | Take Snapshot}.
+\item Entered a name and description for the snapshot and clicked \textbf{OK}.
+\end{itemize}
 \end{itemize}
 \item Set permissions in vCenter:
 \begin{itemize}
 \item Navigated to \uline{Permissions}.
+\item Right-clicked the datacenter or VM and selected \textbf{Add Permission}.
 \item Added AD users/groups and set their access levels.
+\item Clicked \textbf{OK} to apply the permissions.
 \end{itemize}
 \end{itemize}
 
 \subsubsection{6. Migrating Virtual Machines:}
-\label{sec:orgb4c7c7f}
+\label{sec:orga1cc1d7}
 \begin{itemize}
 \item Moved running VMs using vMotion and storage vMotion:
 \begin{itemize}
-\item Used storage vMotion to move the Windows 10 VM from the local datastore to the SAN datastore.
-\item Used vMotion to migrate the Windows 10 VM between servers while retaining it on the SAN datastore.
+\item Used storage vMotion to move the Windows 10 VM from the local datastore to the SAN datastore:
+\begin{itemize}
+\item Right-clicked the VM and selected \textbf{Migrate}.
+\item Chose \textbf{Change datastore} and clicked \textbf{Next}.
+\item Selected the destination datastore (SAN datastore) and clicked \textbf{Next}.
+\item Clicked \textbf{Finish} to start the migration.
+\end{itemize}
+\item Used vMotion to migrate the Windows 10 VM between servers while retaining it on the SAN datastore:
+\begin{itemize}
+\item Right-clicked the VM and selected \textbf{Migrate}.
+\item Chose \textbf{Change host} and clicked \textbf{Next}.
+\item Selected the destination host (the other ESXi server) and clicked \textbf{Next}.
+\item Clicked \textbf{Finish} to start the migration.
 \end{itemize}
 \end{itemize}
-
+\end{itemize}
 
 \section{Problem Solving (Sam)}
-\label{sec:orgbfb056b}
+\label{sec:org34012b4}
 \section{Results (Sam)}
-\label{sec:orgf90db2a}
+\label{sec:orgdeec9c0}
 \subsection{Diagrams}
-\label{sec:org35ea594}
+\label{sec:org785155f}
 \section{Conclusions}
-\label{sec:orge8435b5}
+\label{sec:orgb4f4c02}
 \section{Recommendations}
-\label{sec:org9f96e13}
+\label{sec:org93ff01b}
 \section{Bibliography}
-\label{sec:orgba97043}
+\label{sec:org0fa76fd}
 \end{document}

@@ -160,20 +160,45 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 
 *** 5. Virtual Machine Management:
    - Installed a fresh Windows Server 2019:
-     - Created a new VM and installed Windows Server 2019.
-     - Applied all service packs and updates.
-     - Saved the VM as a template for future use.
+     - Created a new VM:
+       - Navigated to _Hosts and Clusters_.
+       - Right-clicked on the ESXi host and selected *New Virtual Machine*.
+       - Chose *Create a new virtual machine* and clicked *Next*.
+       - Entered a name for the VM and selected a location.
+       - Selected a compute resource and clicked *Next*.
+       - Selected the datastore and clicked *Next*.
+       - Chose the compatibility and clicked *Next*.
+       - Selected the guest OS as Windows Server 2019 and clicked *Next*.
+       - Configured the hardware settings, including CPUs, memory, and network.
+       - Clicked *Next* and then *Finish*.
+     - Installed Windows Server 2019:
+       - Mounted the Windows Server 2019 ISO to the VM.
+       - Started the VM and followed the installation steps.
+       - Applied all service packs and updates.
+     - Saved the VM as a template for future use:
+       - Right-clicked the VM and selected *Template | Convert to Template*.
    - Used VMware Snapshots to protect configurations during changes:
-     - Took snapshots before making major changes.
+     - Took snapshots before making major changes:
+       - Right-clicked the VM and selected *Snapshot | Take Snapshot*.
+       - Entered a name and description for the snapshot and clicked *OK*.
    - Set permissions in vCenter:
      - Navigated to _Permissions_.
+     - Right-clicked the datacenter or VM and selected *Add Permission*.
      - Added AD users/groups and set their access levels.
+     - Clicked *OK* to apply the permissions.
 
 *** 6. Migrating Virtual Machines:
    - Moved running VMs using vMotion and storage vMotion:
-     - Used storage vMotion to move the Windows 10 VM from the local datastore to the SAN datastore.
-     - Used vMotion to migrate the Windows 10 VM between servers while retaining it on the SAN datastore.
-
+     - Used storage vMotion to move the Windows 10 VM from the local datastore to the SAN datastore:
+       - Right-clicked the VM and selected *Migrate*.
+       - Chose *Change datastore* and clicked *Next*.
+       - Selected the destination datastore (SAN datastore) and clicked *Next*.
+       - Clicked *Finish* to start the migration.
+     - Used vMotion to migrate the Windows 10 VM between servers while retaining it on the SAN datastore:
+       - Right-clicked the VM and selected *Migrate*.
+       - Chose *Change host* and clicked *Next*.
+       - Selected the destination host (the other ESXi server) and clicked *Next*.
+       - Clicked *Finish* to start the migration.
 
 * Problem Solving (Sam)
 * Results (Sam)
