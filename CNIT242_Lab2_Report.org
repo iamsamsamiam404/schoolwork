@@ -89,8 +89,8 @@ In this lab, we followed a two-phase process to convert a virtual environment in
      - Clicked *Join Domain*, entered the domain details, and rebooted the node.
    - Configured forward zone for vCenter in the DNS server.
 
-*** 6. Moving Windows 10 Virtual Machine:
-   - Used VMware Converter to move the VM from Windows 10 Workstation to ESXi server:
+*** 6. Moving Windows 11 Virtual Machine:
+   - Used VMware Converter to move the VM from Windows 11 Workstation to ESXi server:
      - Opened VMware Converter.
      - Selected *Convert Machine*.
      - Chose the option for VMware Workstation or other VMware virtual machine.
@@ -108,7 +108,6 @@ In this lab, we followed a two-phase process to convert a virtual environment in
      - Powered on the new virtual server in vCenter.
      - Reconfigured IPv4 settings to the previous settings for the domain controller.
 ** Phase II: Configuring SAN Datastore and Managing Virtual Machines
-
 *** 1. Configure SAN Datastore:
    - Logged into vCenter.
    - Clicked on the ESXi host, navigated to _Configure | Storage Adapters_.
@@ -152,7 +151,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
    - Clicked *Upload Files*.
    - Accessed the network location `\\rtfm.cit.lcl`.
    - Located and selected the Windows Server 2019 ISO file.
-   - Selected an ESXi host (e.g., 44.100.10.91).
+   - Selected an ESXi host (e.g., 44.100.10.191).
    - Created a new virtual machine:
      - Named it WindowsServer2019.
      - Selected datastore and compute resource (ESXi host address).
@@ -212,7 +211,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
    - Right-clicked and selected *Migrate*.
    - Chose *Change compute resource only*.
    - Clicked *Next*.
-   - Selected the target ESXi host (e.g., `44.100.10.92`).
+   - Selected the target ESXi host (e.g., `44.100.10.192`).
    - Accepted default options.
    - Clicked *Finish*.
    - VM remained operational during migration.
@@ -225,8 +224,8 @@ In this lab, a nested virtual environment was successfully created and configure
    + Two ESXi servers were successfully installed and configured with 8 CPUs, 32 GB RAM, and 1 TB thin provisioned disks. Hardware virtualization was enabled.
 - Deployment of vCenter Server
    + vCenter Server was installed, configured, and joined to the Active Directory domain.
-- Migration of Windows 10 VM
-   + The Windows 10 VM was successfully migrated from VMware Workstation to the ESXi server and added to the inventory.
+- Migration of Windows 11 VM
+   + The Windows 11 VM was successfully migrated from VMware Workstation to the ESXi server and added to the inventory.
 - P-to-V Conversion of Domain Controller
    + Using VMware Converter, the domain controller was migrated from a physical to a virtual environment on the ESXi server.
 - Configuration of SAN Datastore
@@ -240,7 +239,7 @@ In this lab, a nested virtual environment was successfully created and configure
 \newgeometry{left=1cm,right=1cm,top=1cm,bottom=1cm}
 ** Machine Networking/Login Information Table
 \centering
-|                        | *ESXi1.2 Server* | *ESXi2.1 Server* | *vCenter*     | *Windows 10 VM* | *Windows 2019 Srv.* |
+|                        | *ESXi1.2 Server* | *ESXi2.1 Server* | *vCenter*     | *Windows 11 VM* | *Windows 2019 Srv.* |
 |------------------------+------------------+------------------+---------------+-----------------+---------------------|
 | *Pnic1 (CNIT242G10A)*  |    44.100.10.191 |    44.100.10.192 | 44.100.10.170 | 44.100.10.111   | 44.100.10.11        |
 | *Pnic2 (CNIT242iSCSI)* |    192.168.52.10 |    192.168.54.10 | N/A           | N/A             | N/A                 |
@@ -252,6 +251,27 @@ In this lab, a nested virtual environment was successfully created and configure
 | *Password*             |         Cnit242! |         Cnit242! | Cnit242!      | Cnit242!        | Cnit242!            |
 |------------------------+------------------+------------------+---------------+-----------------+---------------------|
 \restoregeometry
+** Screenshots
+#+ATTR_ORG: :width 800 :align center
+#+ATTR_LATEX: :width 12.5cm :align left :placement [H]
+#+CAPTION: Outer vCenter virtualization environment. Specifically showing information on ESXi1.2
+[[/home/sam/Screenshots/screenshot_2024-06-20_16-18-56.png]]
+#+ATTR_ORG: :width 800 :align center
+#+ATTR_LATEX: :width 12.5cm :align left :placement [H]
+#+CAPTION: Inner Vcenter virtualization environment. Specifically showing information on SCDC01.
+[[/home/sam/Screenshots/screenshot_2024-06-20_16-21-27.png]]
+#+ATTR_ORG: :width 800 :align center
+#+ATTR_LATEX: :width 12.5cm :align left :placement [H]
+#+CAPTION: Inside ESXi2.1's web interface. Showing the datastores datastore1(1) and SANdatastoreG10.
+[[/home/sam/Screenshots/screenshot_2024-06-20_16-23-08.png]]
+#+ATTR_ORG: :width 800 :align center
+#+ATTR_LATEX: :width 12.5cm :align left :placement [H]
+#+CAPTION: Inside ESXi2.1's web interface. Shows the VMkernal NIC's inside the networking tab.
+[[/home/sam/Screenshots/screenshot_2024-06-20_16-25-20.png]]
+#+ATTR_ORG: :width 800 :align center
+#+ATTR_LATEX: :width 12.5cm :align left :placement [H]
+#+CAPTION: Inner vCenter virtualization environment. Shows the permissions for the windows 11 VM.
+[[/home/sam/Screenshots/screenshot_2024-06-20_16-26-27.png]]
 ** Diagrams
 * Conclusions
 * Recommendations
