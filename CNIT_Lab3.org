@@ -121,7 +121,7 @@ DEADLINE:<2024-06-19 Wed>
   - Selected | Add VMkernal NIC | site2 | IPv4 only |
   - Entered /44.100.60.0/ for the Address and /255.255.255.0/ for the subnet mask
   - Clicked Create
-**** TODO Deploy a new instance of your Windows Server VM template and implement it as a second domain controller at the new location
+**** IN-PROGRESS Deploy a new instance of your Windows Server VM template and implement it as a second domain controller at the new location
 DEADLINE:<2024-06-20 Thu>
 - [ ] Define the new subnet/site in Active Directory
 - [ ] Change/move FSMO roles per best practices from lecture
