@@ -1,4 +1,4 @@
-#+title: Lab Report 2
+#+title: Lab Report 2(Formatting still work in progress)
 #+AUTHOR: Group 10
 #+DATE:Wed Jun 19 15:42:07 2024
 #+DESCRIPTION: Lab report 2 for CNIT 242
@@ -236,7 +236,7 @@ In this lab, a nested virtual environment was successfully created and configure
    + VMware Snapshots were used to protect configurations during changes, and virtual machine access was controlled through vCenter permissions.
 - Virtual Machine Migration
    + VMs were migrated between datastores and ESXi hosts using vMotion and storage vMotion.
-\newgeometry{left=1cm,right=1cm,top=1cm,bottom=1cm}
+\newgeometry{left=1cm,right=1cm,top=10cm,bottom=1cm}
 ** Machine Networking/Login Information Table
 \centering
 |                        | *ESXi1.2 Server* | *ESXi2.1 Server* | *vCenter*     | *Windows 11 VM* | *Windows 2019 Srv.* |

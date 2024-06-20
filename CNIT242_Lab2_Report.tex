@@ -1,4 +1,4 @@
-% Created 2024-06-20 Thu 16:29
+% Created 2024-06-20 Thu 16:39
 % Intended LaTeX compiler: pdflatex
 \documentclass[letterpaper]{article}
 \usepackage[utf8]{inputenc}
@@ -16,10 +16,10 @@
 \usepackage{float}
 \author{Group 10}
 \date{Wed Jun 19 15:42:07 2024}
-\title{Lab Report 2}
+\title{Lab Report 2(Formatting still work in progress)}
 \hypersetup{
  pdfauthor={Group 10},
- pdftitle={Lab Report 2},
+ pdftitle={Lab Report 2(Formatting still work in progress)},
  pdfkeywords={},
  pdfsubject={Lab report 2 for CNIT 242},
  pdfcreator={Emacs 29.3 (Org mode 9.6.24)}, 
@@ -32,16 +32,16 @@
 \newpage
 
 \section{Business Case}
-\label{sec:org5c9e850}
+\label{sec:org0da3970}
 \section{Procedures}
-\label{sec:orga0b486b}
+\label{sec:org4b7b6bd}
 
 In this lab, we followed a two-phase process to convert a virtual environment into a nested virtual environment using VMware vSphere. Each phase had distinct objectives and steps, which were organized based on tasks and components involved. This documentation is written in past tense to accurately describe the procedures followed. The formatting is as follows: buttons are \textbf{bold}, options are \uline{italicized}, text entered into the computer is in `code`, and menu navigation is indicated by the pipe symbol and italic words: \uline{Start | Programs | MS Office | Word}.
 
 \subsection{Phase I: Setting Up the Environment}
-\label{sec:orgf1cfefb}
+\label{sec:orga8c4485}
 \subsubsection{1. Install ESXi Servers:}
-\label{sec:orgeec855f}
+\label{sec:orgedae1bf}
 \begin{itemize}
 \item Configured hardware settings: set CPU, hard disk, memory, and port group.
 \begin{itemize}
@@ -63,7 +63,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{2. Install vCenter Server Virtual Appliance:}
-\label{sec:org9e210a4}
+\label{sec:orgee189a1}
 \begin{itemize}
 \item Accessed the RTFM fileshare and opened the installer:
 \begin{itemize}
@@ -84,7 +84,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{3. Configuration and Deployment:}
-\label{sec:org8b18f98}
+\label{sec:org75b1e3b}
 \begin{itemize}
 \item Completed Phase I and proceeded to Phase II by clicking \textbf{Next}.
 \item Added the ESXi host:
@@ -109,7 +109,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{4. vSphere Setup:}
-\label{sec:org11746a5}
+\label{sec:org2e28c4d}
 \begin{itemize}
 \item Logged into vSphere using `administrator@vsphere.local`.
 \item Created a new datacenter:
@@ -135,7 +135,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{5. Active Directory Integration:}
-\label{sec:org30a611f}
+\label{sec:org1734c31}
 \begin{itemize}
 \item Configured NTP, hostname, DNS, and gateway for vCenter:
 \begin{itemize}
@@ -153,7 +153,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{6. Moving Windows 11 Virtual Machine:}
-\label{sec:org1efd0ec}
+\label{sec:org951bb9a}
 \begin{itemize}
 \item Used VMware Converter to move the VM from Windows 11 Workstation to ESXi server:
 \begin{itemize}
@@ -167,7 +167,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{7. Physical to Virtual (P-to-V) Conversion:}
-\label{sec:org3653245}
+\label{sec:org393d5c3}
 \begin{itemize}
 \item Installed VMware Converter on the domain controller:
 \begin{itemize}
@@ -181,9 +181,9 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 \end{itemize}
 \subsection{Phase II: Configuring SAN Datastore and Managing Virtual Machines}
-\label{sec:orgcc1c786}
+\label{sec:org945b87d}
 \subsubsection{1. Configure SAN Datastore:}
-\label{sec:org90daddc}
+\label{sec:org8821db0}
 \begin{itemize}
 \item Logged into vCenter.
 \item Clicked on the ESXi host, navigated to \uline{Configure | Storage Adapters}.
@@ -196,7 +196,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{2. Network Adapter Configuration:}
-\label{sec:org09e95cf}
+\label{sec:orgdd4ef7f}
 \begin{itemize}
 \item Opened vCenter, selected the ESXi server.
 \item Under VM Hardware, added a new network adapter:
@@ -209,7 +209,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{3. Storage Configuration:}
-\label{sec:org1b2b280}
+\label{sec:org57f29f5}
 \begin{itemize}
 \item Repeated the above steps for the second ESXi host.
 \item Created a new VMFS datastore:
@@ -231,7 +231,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{4. Enable iSCSI Adapter:}
-\label{sec:org051433d}
+\label{sec:org0f8016d}
 \begin{itemize}
 \item Navigated to \uline{Storage}.
 \item Selected the iSCSI adapter and ensured it was enabled.
@@ -243,7 +243,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{5. Installed Windows Server 2019 Virtual Machine:}
-\label{sec:org746a639}
+\label{sec:org331aeb2}
 \begin{itemize}
 \item Inside vCenter, navigated to the target datastore (e.g., datastore1).
 \item Clicked \textbf{Upload Files}.
@@ -295,7 +295,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{6. Set Permissions:}
-\label{sec:org74890b5}
+\label{sec:orgc09dc6e}
 \begin{itemize}
 \item Inside vCenter, navigated to Windows 11 VM.
 \item Went to \textbf{Permissions} tab.
@@ -307,7 +307,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{7. Migrated Storage to SAN (Storage vMotion):}
-\label{sec:org4c8a4cf}
+\label{sec:org88bab00}
 \begin{itemize}
 \item Inside vCenter, found Windows 11 VM in the sidebar.
 \item Right-clicked and selected \textbf{Migrate}.
@@ -324,7 +324,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{8. Migrated Compute Resource (vMotion):}
-\label{sec:org8438732}
+\label{sec:org793bbcf}
 \begin{itemize}
 \item Inside vCenter, found Windows 11 VM in the sidebar.
 \item Right-clicked and selected \textbf{Migrate}.
@@ -337,12 +337,12 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \section{Problem Solving (Sam)}
-\label{sec:orgedb76ce}
+\label{sec:orgeadf4ba}
 \section{Results (Sam)}
-\label{sec:orgf8899e4}
+\label{sec:orgc3818bd}
 In this lab, a nested virtual environment was successfully created and configured using VMware vSphere. This involved setting up two ESXi servers, installing a vCenter server, and migrating existing virtual machines from a VMware Workstation environment into the new ESXi environment. Various VMware tools and techniques were utilized to manage and optimize the virtual environment, ensuring efficient resource allocation and network configuration. The following sections detail the physical and logical network setups, the IP schema, and computer names along with login information.
 \subsection{Summary of Accomplishments}
-\label{sec:orgec428c8}
+\label{sec:orgab99ad0}
 \begin{itemize}
 \item Installation and Configuration of ESXi Servers
 \begin{itemize}
@@ -377,9 +377,9 @@ In this lab, a nested virtual environment was successfully created and configure
 \item VMs were migrated between datastores and ESXi hosts using vMotion and storage vMotion.
 \end{itemize}
 \end{itemize}
-\newgeometry{left=1cm,right=1cm,top=1cm,bottom=1cm}
+\newgeometry{left=1cm,right=1cm,top=10cm,bottom=1cm}
 \subsection{Machine Networking/Login Information Table}
-\label{sec:orgc7a6650}
+\label{sec:orgc1800d6}
 \centering
 \begin{center}
 \begin{tabular}{lrrlll}
@@ -398,7 +398,7 @@ In this lab, a nested virtual environment was successfully created and configure
 \end{center}
 \restoregeometry
 \subsection{Screenshots}
-\label{sec:org1814d99}
+\label{sec:org7ad55ee}
 \begin{figure}[H]
 \centering
 \includegraphics[width=12.5cm]{/home/sam/Screenshots/screenshot_2024-06-20_16-18-56.png}
@@ -425,11 +425,11 @@ In this lab, a nested virtual environment was successfully created and configure
 \caption{Inner vCenter virtualization environment. Shows the permissions for the windows 11 VM.}
 \end{figure}
 \subsection{Diagrams}
-\label{sec:org0a984f4}
+\label{sec:orgac7d775}
 \section{Conclusions}
-\label{sec:org72b65b2}
+\label{sec:org5ab39d0}
 \section{Recommendations}
-\label{sec:orgae4b014}
+\label{sec:org7f3ccee}
 \section{Bibliography}
-\label{sec:org66751d4}
+\label{sec:orgb9aedfe}
 \end{document}
