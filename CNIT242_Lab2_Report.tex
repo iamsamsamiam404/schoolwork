@@ -1,4 +1,4 @@
-% Created 2024-06-20 Thu 14:05
+% Created 2024-06-20 Thu 14:07
 % Intended LaTeX compiler: pdflatex
 \documentclass[letterpaper]{article}
 \usepackage[utf8]{inputenc}
@@ -32,18 +32,18 @@
 \newpage
 
 \section{Business Case}
-\label{sec:org0e1f762}
+\label{sec:org573743e}
 \section{Procedures}
-\label{sec:orgc3ad9ae}
+\label{sec:org89f63b1}
 
 In this lab, we followed a two-phase process to convert a virtual environment into a nested virtual environment using VMware vSphere. Each phase had distinct objectives and steps, which were organized based on tasks and components involved. This documentation is written in past tense to accurately describe the procedures followed. The formatting is as follows: buttons are \textbf{bold}, options are \uline{italicized}, text entered into the computer is in `code`, and menu navigation is indicated by the pipe symbol and italic words: \uline{Start | Programs | MS Office | Word}.
 
 
 
 \subsection{Phase I: Setting Up the Environment}
-\label{sec:orgbde9e60}
-\subsubsection{ISCSi IP Information}
-\label{sec:orgff52100}
+\label{sec:orgb6216dc}
+\subsubsection{IP Information}
+\label{sec:org793fe37}
 \begin{center}
 \begin{tabular}{lrrrr}
  & \textbf{ESXi1.2 Server} & \textbf{ESXi2.1 Server} & \textbf{Windows 10 VM} & \textbf{vCenter}\\[0pt]
@@ -57,7 +57,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{tabular}
 \end{center}
 \subsubsection{1. Install ESXi Servers:}
-\label{sec:orge573bbf}
+\label{sec:org48f79ac}
 \begin{itemize}
 \item Configured hardware settings: set CPU, hard disk, memory, and port group.
 \begin{itemize}
@@ -79,7 +79,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{2. Install vCenter Server Virtual Appliance:}
-\label{sec:orgd9317cb}
+\label{sec:org1c824b3}
 \begin{itemize}
 \item Accessed the RTFM fileshare and opened the installer:
 \begin{itemize}
@@ -100,7 +100,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{3. Configuration and Deployment:}
-\label{sec:orga2c9eab}
+\label{sec:org5306093}
 \begin{itemize}
 \item Completed Phase I and proceeded to Phase II by clicking \textbf{Next}.
 \item Added the ESXi host:
@@ -125,7 +125,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{4. vSphere Setup:}
-\label{sec:orgaac2662}
+\label{sec:org7f27dce}
 \begin{itemize}
 \item Logged into vSphere using `administrator@vsphere.local`.
 \item Created a new datacenter:
@@ -151,7 +151,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{5. Active Directory Integration:}
-\label{sec:org2593d9f}
+\label{sec:orgdf03417}
 \begin{itemize}
 \item Configured NTP, hostname, DNS, and gateway for vCenter:
 \begin{itemize}
@@ -169,7 +169,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{6. Moving Windows 10 Virtual Machine:}
-\label{sec:org6e9dfeb}
+\label{sec:org2ddf4ce}
 \begin{itemize}
 \item Used VMware Converter to move the VM from Windows 10 Workstation to ESXi server:
 \begin{itemize}
@@ -183,7 +183,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{7. Physical to Virtual (P-to-V) Conversion:}
-\label{sec:orgd41dd3b}
+\label{sec:org478b2f8}
 \begin{itemize}
 \item Installed VMware Converter on the domain controller:
 \begin{itemize}
@@ -197,10 +197,10 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 \end{itemize}
 \subsection{Phase II: Configuring SAN Datastore and Managing Virtual Machines}
-\label{sec:org0219c4d}
+\label{sec:org60f3e18}
 
 \subsubsection{1. Configure SAN Datastore:}
-\label{sec:org108957a}
+\label{sec:org8c2f1c0}
 \begin{itemize}
 \item Logged into vCenter.
 \item Clicked on the ESXi host, navigated to \uline{Configure | Storage Adapters}.
@@ -213,7 +213,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{2. Network Adapter Configuration:}
-\label{sec:org2652881}
+\label{sec:org45d366d}
 \begin{itemize}
 \item Opened vCenter, selected the ESXi server.
 \item Under VM Hardware, added a new network adapter:
@@ -226,7 +226,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{3. Storage Configuration:}
-\label{sec:org009f0f3}
+\label{sec:org273fbbc}
 \begin{itemize}
 \item Repeated the above steps for the second ESXi host.
 \item Created a new VMFS datastore:
@@ -248,7 +248,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{4. Enable iSCSI Adapter:}
-\label{sec:org06e2077}
+\label{sec:orgd3e0632}
 \begin{itemize}
 \item Navigated to \uline{Storage}.
 \item Selected the iSCSI adapter and ensured it was enabled.
@@ -260,7 +260,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{5. Virtual Machine Management:}
-\label{sec:org7e99b26}
+\label{sec:orge94c2e1}
 \begin{itemize}
 \item Installed a fresh Windows Server 2019:
 \begin{itemize}
@@ -280,7 +280,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{6. Migrating Virtual Machines:}
-\label{sec:orgf9cb39f}
+\label{sec:orgb4c7c7f}
 \begin{itemize}
 \item Moved running VMs using vMotion and storage vMotion:
 \begin{itemize}
@@ -291,15 +291,15 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 
 
 \section{Problem Solving (Sam)}
-\label{sec:org22c875a}
+\label{sec:orgbfb056b}
 \section{Results (Sam)}
-\label{sec:org81f249c}
+\label{sec:orgf90db2a}
 \subsection{Diagrams}
-\label{sec:org421492f}
+\label{sec:org35ea594}
 \section{Conclusions}
-\label{sec:org3cf6dc4}
+\label{sec:orge8435b5}
 \section{Recommendations}
-\label{sec:org0bcf76f}
+\label{sec:org9f96e13}
 \section{Bibliography}
-\label{sec:orge5d71ea}
+\label{sec:orgba97043}
 \end{document}

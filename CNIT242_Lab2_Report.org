@@ -20,7 +20,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 
 
 ** Phase I: Setting Up the Environment
-*** ISCSi IP Information
+*** IP Information
 |                             | *ESXi1.2 Server* | *ESXi2.1 Server* | *Windows 10 VM* |     *vCenter* |
 |-----------------------------+------------------+------------------+-----------------+---------------|
 | *Pnic 1 (Port Group A)*     |    44.100.10.191 |    44.100.10.192 |   44.100.10.111 | 44.100.10.170 |
