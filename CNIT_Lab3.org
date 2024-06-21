@@ -104,7 +104,10 @@ DEADLINE:<2024-06-19 Wed>
   - Named it /vSwitch2/
   - Clicked | ADD |
   - Clicked | Port groups | Add port group |
-  - Named it /site2/
+  - Named it /site2 Management/
+  - Clicked | ADD |
+  - Clicked | Port groups | Add port group |
+  - Named it /site2 VM network/
   - Selected vSwitch2 from the Virtual switch drop down menu
   - Clicked | ADD |
   - Selected | Add VMkernal NIC | site2 | IPv4 only |
@@ -115,19 +118,22 @@ DEADLINE:<2024-06-19 Wed>
   - Named it /vSwitch2/
   - Clicked | ADD |
   - Clicked | Port groups | Add port group |
-  - Named it /site2/
+  - Named it /site2 Management/
+  - Clicked | ADD |
+  - Clicked | Port groups | Add port group |
+  - Named it /site2 VM network/
   - Selected vSwitch2 from the Virtual switch drop down menu
   - Clicked | ADD |
   - Selected | Add VMkernal NIC | site2 | IPv4 only |
   - Entered /44.100.60.0/ for the Address and /255.255.255.0/ for the subnet mask
   - Clicked Create
-**** IN-PROGRESS Deploy a new instance of your Windows Server VM template and implement it as a second domain controller at the new location
+**** DONE Deploy a new instance of your Windows Server VM template and implement it as a second domain controller at the new location
 DEADLINE:<2024-06-20 Thu>
-- [ ] Define the new subnet/site in Active Directory
-- [ ] Change/move FSMO roles per best practices from lecture
-**** TODO Install a Windows 10 VM at the new location
+- [X] Define the new subnet/site in Active Directory
+- [X] Change/move FSMO roles per best practices from lecture
+**** IN-PROGRESS Install a Windows 10 VM at the new location
 DEADLINE:<2024-06-20 Fri>
-**** TODO Implement Microsoft Backup
+**** IN-PROGRESS Implement Microsoft Backup
 DEADLINE:<2024-06-21 Sat>
 - [ ] Set up scheduled backups of your domain controllers using Vembu backup
 - [ ] https://www.vembu.com/free-windows-servers-backup/
