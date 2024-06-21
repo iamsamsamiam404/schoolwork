@@ -131,8 +131,70 @@ DEADLINE:<2024-06-19 Wed>
 DEADLINE:<2024-06-20 Thu>
 - [X] Define the new subnet/site in Active Directory
 - [X] Change/move FSMO roles per best practices from lecture
+  START Lab Procedure Documentation:
+*Deploy New instance of your Windows server template*
+- Went to inner virt. enviornment
+**Created the Server 2019 VM from template*
+- Inventory | Detestores | SANdatastoreG10 | VMs | VM templates |
+- right clicked "winServer 2019"
+- Selected new VM from this template
+- Entered "SCDCO2" for virtual machine name
+- | NEXT | 44.100.10.192| Thin VM Storage Policy | datastore | NEXT | NEXT | FINISH
+**Navigated to ESX: 2. I's IP address*
+- Found the new server "SCDCOZ"
+- Navigated through IVM Hardware| Edit | Network Adapter 1 |Browse | site2 VM network | ok | ok |
+*Launched SCDCO2's web console*
+- Logged in as Administrator
+**Configured IPv4 settings*
+- Change IPv4 proporties:
+  - IP: "44.100.60.10"
+  - Subnet Mask: "255.255.255.0"
+  - Default Gateway: "44.100.60.1"
+  - DNS: "44.100.10.10"
+- Verified connectivity by pinging 44.100.10.10
+**Installed Active Directory Domain Services*
+- Opened server manager
+- Navigated to | manage | Add roles and features | next | Role-based | Next |
+- Checked Active Directory Domain Services
+- | Next | Next | Next | Install |
+*Promoted the server to a domain controller*
+- Clicked the flag icon
+- Clicked | Promote this server to a domain controller |
+- Selected Add a domain controller to an existing domain
+- Entered:
+  + Domain: "group10.c242.cit.lcl"
+  + Credentials:
+    + username: "group10.242.cit.lc1\Administrator"
+    + password: "Cnit242!"
+- Clicked | Next |
+- Entered DRSM password: "Cnit 242!"
+- Clicked | next | next | next | install |
+- Restarted *SCDCO2*
+**Defining a new site and Subnet*
+- | Tools | Active directory Users and computers |
+- Right-clicked Sites
+- Selected new site
+- Named it site 2
+- Selected |Default|Psite link | OK|
+- Right-click Subnets
+- Selected New Subnet
+- Entered this for prefix: "44.100.60.0/24"
+- Navigated to | Default-First-Site-Name | Servers |
+- Right-clicked SCDCO2 | Move | site 2 | ok |
+
 **** IN-PROGRESS Install a Windows 10 VM at the new location
 DEADLINE:<2024-06-20 Fri>
+START Lab Procedure Documentation:
+
+*Install a Windows 10 VM at the new location*
+- went to the inner vCenter environment
+- Right-clicked *44.100.10.192*
+- New VM | Create a new virtual machine | Next |
+- Named it Windows 10 VM site2
+- | Next | Next | Thin storage policy | Next | Next |
+- Added 16 GB of Memory
+- Changed disk size to 35 GB, thin provision
+- Clicked | Next | finish |
 **** IN-PROGRESS Implement Microsoft Backup
 DEADLINE:<2024-06-21 Sat>
 - [ ] Set up scheduled backups of your domain controllers using Vembu backup
