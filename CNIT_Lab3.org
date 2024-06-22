@@ -212,11 +212,9 @@ START Lab Procedure Documentation:
 DEADLINE:<2024-06-22 Sat>
 - [ ] Set up scheduled backups of your domain controllers using Vembu backup
 - [ ] https://www.vembu.com/free-windows-servers-backup/
-- [ ] Create a share on a Windows 10 client in your outer virtualization layer to use as
-a backup target
+- [ ] Create a share on a Windows 10 client in your outer virtualization layer to use as a backup target
  + [ ] Add a new disk to the Windows 10 client VM to house backups
-- [ ] To conserve disk space in the lab environment, backup only user files and the
-domain controller database (DCDB)
+- [ ] To conserve disk space in the lab environment, backup only user files and the domain controller database (DCDB)
 - [ ] Follow best practices as defined in lecture for backups
 - [ ] You need only keep one week’s worth of data
 **** TODO Printing

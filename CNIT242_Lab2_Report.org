@@ -215,20 +215,39 @@ In this lab, we followed a two-phase process to convert a virtual environment in
    - Accepted default options.
    - Clicked *Finish*.
    - VM remained operational during migration.
-
-* Problem Solving (Sam)
-* Results (Sam)
+\newpage
+* Results
 In this lab, a nested virtual environment was successfully created and configured using VMware vSphere. This involved setting up two ESXi servers, installing a vCenter server, and migrating existing virtual machines from a VMware Workstation environment into the new ESXi environment. Various VMware tools and techniques were utilized to manage and optimize the virtual environment, ensuring efficient resource allocation and network configuration. The following sections detail the physical and logical network setups, the IP schema, and computer names along with login information.
 ** Summary of Accomplishments
 - Installation and Configuration of ESXi Servers
    + Two ESXi servers were successfully installed and configured with 8 CPUs, 32 GB RAM, and 1 TB thin provisioned disks. Hardware virtualization was enabled.
+#+ATTR_ORG: :width 800 :align center
+#+ATTR_LATEX: :width 12.5cm :align left :placement [H]
+#+CAPTION: Outer vCenter virtualization environment. Specifically showing information on ESXi1.2
+[[/home/sam/Screenshots/screenshot_2024-06-20_16-18-56.png]]
+#+ATTR_ORG: :width 800 :align center
+#+ATTR_LATEX: :width 12.5cm :align left :placement [H]
+#+CAPTION: Inside ESXi2.1's web interface. Shows the VMkernal NIC's inside the networking tab.
+[[/home/sam/Screenshots/screenshot_2024-06-20_16-25-20.png]]
 - Deployment of vCenter Server
    + vCenter Server was installed, configured, and joined to the Active Directory domain.
+#+ATTR_ORG: :width 800 :align center
+#+ATTR_LATEX: :width 12.5cm :align left :placement [H]
+#+CAPTION: Inner Vcenter virtualization environment. Specifically showing information on SCDC01.
+[[/home/sam/Screenshots/screenshot_2024-06-20_16-21-27.png]]
 - Migration of Windows 11 VM
    + The Windows 11 VM was successfully migrated from VMware Workstation to the ESXi server and added to the inventory.
+#+ATTR_ORG: :width 800 :align center
+#+ATTR_LATEX: :width 12.5cm :align left :placement [H]
+#+CAPTION: Inner vCenter virtualization environment. Shows the permissions for the windows 11 VM.
+[[/home/sam/Screenshots/screenshot_2024-06-20_16-26-27.png]]
 - P-to-V Conversion of Domain Controller
    + Using VMware Converter, the domain controller was migrated from a physical to a virtual environment on the ESXi server.
 - Configuration of SAN Datastore
+#+ATTR_ORG: :width 800 :align center
+#+ATTR_LATEX: :width 12.5cm :align left :placement [H]
+#+CAPTION: Inside ESXi2.1's web interface. Showing the datastores datastore1(1) and SANdatastoreG10.
+[[/home/sam/Screenshots/screenshot_2024-06-20_16-23-08.png]]
    + Both ESXi servers were configured to access an iSCSI SAN LUN and formatted as a VMFS datastore.
 - Installation and Template Creation of Windows Server 2019
    + A fresh Windows Server 2019 was installed, updated, and saved as a template for future use.
@@ -251,28 +270,79 @@ In this lab, a nested virtual environment was successfully created and configure
 | *Password*             |         Cnit242! |         Cnit242! | Cnit242!      | Cnit242!        | Cnit242!            |
 |------------------------+------------------+------------------+---------------+-----------------+---------------------|
 \restoregeometry
-** Screenshots
-#+ATTR_ORG: :width 800 :align center
-#+ATTR_LATEX: :width 12.5cm :align left :placement [H]
-#+CAPTION: Outer vCenter virtualization environment. Specifically showing information on ESXi1.2
-[[/home/sam/Screenshots/screenshot_2024-06-20_16-18-56.png]]
-#+ATTR_ORG: :width 800 :align center
-#+ATTR_LATEX: :width 12.5cm :align left :placement [H]
-#+CAPTION: Inner Vcenter virtualization environment. Specifically showing information on SCDC01.
-[[/home/sam/Screenshots/screenshot_2024-06-20_16-21-27.png]]
-#+ATTR_ORG: :width 800 :align center
-#+ATTR_LATEX: :width 12.5cm :align left :placement [H]
-#+CAPTION: Inside ESXi2.1's web interface. Showing the datastores datastore1(1) and SANdatastoreG10.
-[[/home/sam/Screenshots/screenshot_2024-06-20_16-23-08.png]]
-#+ATTR_ORG: :width 800 :align center
-#+ATTR_LATEX: :width 12.5cm :align left :placement [H]
-#+CAPTION: Inside ESXi2.1's web interface. Shows the VMkernal NIC's inside the networking tab.
-[[/home/sam/Screenshots/screenshot_2024-06-20_16-25-20.png]]
-#+ATTR_ORG: :width 800 :align center
-#+ATTR_LATEX: :width 12.5cm :align left :placement [H]
-#+CAPTION: Inner vCenter virtualization environment. Shows the permissions for the windows 11 VM.
-[[/home/sam/Screenshots/screenshot_2024-06-20_16-26-27.png]]
 ** Diagrams
 * Conclusions
 * Recommendations
+** Recommendation 1: Take Regular Snapshots
+Regularly take snapshots of your VMs, especially before making significant changes or updates. This allows you to quickly revert to a known good state if something goes wrong, saving time and effort in troubleshooting and recovery.
+
+** Recommendation 2: Ensure Proper Disk Provisioning
+When setting up the ESXi servers, double-check the disk provisioning settings to confirm that the thin provisioned disks are correctly configured to the intended size. Misconfigurations in disk size can lead to insufficient disk space issues, which can disrupt tasks such as P-to-V conversions.
+
+** Recommendation 3: Verify DNS and Network Settings Before Joining Domains
+Before attempting to join the vCenter Server to the Active Directory domain, thoroughly verify DNS and network settings. Correct DNS configuration and network connectivity are crucial for successful domain integration. Manually specifying the domain controller's IP address can also help bypass potential DNS resolution issues.
+
+** Recommendation 4: Regularly Rescan Storage Adapters When Configuring SAN
+When configuring shared storage on ESXi servers, regularly rescan storage adapters to detect new devices and LUNs. This practice helps ensure that all storage resources are properly recognized and available for use. Additionally, verify iSCSI target configurations and LUN masking settings to avoid detection issues.
+
+* APPENDIX A: PROBLEM SOLVING
+
+This section describes several issues faced throughout this project. Each problem is broken down by giving a Problem Description; listing Possible Solutions, accompanied by the reasoning for it; Solutions Attempted, which simply list which options from the Possible Solutions list that were attempted; and finally, a detailed description of the Final Solution and why it solved the problem.
+
+** Problem 1: vCenter Server Fails to Join Active Directory Domain
+*** Problem Description
+While attempting to join the vCenter Server Virtual Appliance to the Active Directory domain, the operation fails with an error indicating that the domain cannot be found. This issue occurs despite verifying that the network settings and DNS configurations appear correct. This problem prevents the vCenter Server from integrating with the AD domain, which is necessary for managing permissions and integrating with existing infrastructure.
+
+*** Possible Solutions
+- Check DNS Configuration: Ensure that the DNS server settings on the vCenter Server are correctly pointing to the domain controller's IP address. Incorrect DNS settings can prevent domain resolution.
+- Verify Network Connectivity: Test the network connectivity between the vCenter Server and the domain controller to ensure there are no network issues blocking the communication.
+- Update vCenter Server: Apply the latest updates and patches to the vCenter Server Virtual Appliance, as there may be known bugs or issues that have been fixed.
+- Manually Add Domain Controller: Manually specify the domain controller's IP address during the domain join process to bypass potential DNS resolution issues.
+- Check AD Credentials: Ensure that the credentials used for joining the domain have sufficient permissions and that there are no account restrictions.
+
+*** Solutions Attempted
+- Checked DNS Configuration.
+- Verified Network Connectivity.
+- Updated vCenter Server.
+
+*** Final Solution
+The problem was resolved by manually specifying the domain controller's IP address during the domain join process. This bypassed the DNS resolution issue, allowing the vCenter Server to successfully join the Active Directory domain. Additionally, ensuring that the AD credentials used had sufficient permissions helped complete the operation without errors.
+
+** Problem 2: P-to-V Conversion Fails Due to Insufficient Disk Space
+*** Problem Description
+While performing a physical-to-virtual (P-to-V) conversion of the existing domain controller using VMware Converter, the process fails with an error indicating insufficient disk space on the target ESXi server. This issue occurs despite the intention to provision a 1 TB thin provisioned disk on the ESXi server. Upon further inspection, it was found that the disk size was improperly set up, and the actual allocated space was significantly less than 1 TB.
+
+*** Possible Solutions
+- Check Disk Space Allocation: Verify the actual disk usage on the ESXi server and ensure that there is enough physical storage available for the conversion process.
+- Increase Thin Provisioned Disk Size: Correct the thin provisioned disk size on the ESXi server to ensure it is properly set to 1 TB.
+- Clear Unnecessary Files: Remove unnecessary files and unused VMs from the ESXi server to free up disk space.
+- Use External Storage: Use an external storage device or an additional datastore to provide more disk space for the conversion.
+- Compress Source Disk: Compress the source disk of the physical machine before performing the conversion to reduce the amount of disk space needed.
+
+*** Solutions Attempted
+- Checked Disk Space Allocation.
+- Increased Thin Provisioned Disk Size.
+
+*** Final Solution
+The problem was resolved by correcting the thin provisioned disk size on the ESXi server. It was discovered that the disk size was improperly configured, and the actual allocated space was much less than the intended 1 TB. By properly setting the thin provisioned disk to 1 TB, the ESXi server then had sufficient disk space for the P-to-V conversion process. After this adjustment, the conversion of the domain controller completed successfully. This solution was effective because it directly addressed the root cause of the disk space insufficiency without the need for additional hardware or extensive cleanup efforts.
+
+** Problem 3: iSCSI SAN LUN Not Detected by ESXi Servers
+*** Problem Description
+While attempting to configure both VMware ESXi servers to access an iSCSI SAN LUN and format it as a VMFS datastore, the LUN is not detected by the ESXi servers. This issue occurs despite confirming that the network settings for the iSCSI initiator and target are correct. The failure to detect the LUN prevents the configuration of shared storage necessary for advanced features like vMotion and high availability.
+
+*** Possible Solutions
+- Verify iSCSI Target Configuration: Ensure that the iSCSI target is correctly configured to accept connections from the ESXi servers' IP addresses.
+- Check Network Connectivity: Confirm that there is proper network connectivity between the ESXi servers and the iSCSI SAN, including verifying that firewalls are not blocking iSCSI traffic.
+- Rescan Storage Adapters: Use the vSphere Client to rescan the storage adapters on the ESXi servers to detect new devices and LUNs.
+- Update ESXi Servers: Apply the latest updates and patches to the ESXi servers to address any known issues with iSCSI connectivity.
+- Verify iSCSI Initiator Configuration: Ensure that the iSCSI initiator on each ESXi server is correctly configured with the appropriate settings, such as the target portal IP address.
+
+*** Solutions Attempted
+- Verified iSCSI Target Configuration.
+- Checked Network Connectivity.
+- Rescanned Storage Adapters.
+
+*** Final Solution
+The problem was resolved by adjusting the iSCSI target configuration on the SAN. It was discovered that the LUN masking settings on the iSCSI SAN were incorrectly configured, preventing the LUN from being visible to the ESXi servers. By correcting the LUN masking settings to explicitly allow access from the ESXi servers' initiator IQNs, the LUN was successfully detected. A rescan of the storage adapters in the vSphere Client then revealed the LUN, which was subsequently formatted as a VMFS datastore. This allowed the ESXi servers to access the shared storage as intended.
+
 * Bibliography
