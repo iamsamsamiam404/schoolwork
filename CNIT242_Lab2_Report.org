@@ -1,18 +1,39 @@
 #+title: Lab Report 2(Formatting still work in progress)
 #+AUTHOR: Group 10
-#+DATE:Wed Jun 19 15:42:07 2024
+#+DATE:<2024-06-22 Sat>:
 #+DESCRIPTION: Lab report 2 for CNIT 242
 #+COMMENT: DUE:<2024-06-22 Sat>
 
 #+TODO: TODO IN-PROGRESS WAITING | DONE CANCELED
 #+OPTIONS: p:t todo:t
 
-#+LATEX_CLASS_OPTIONS: [letterpaper]
+#+LATEX_CLASS_OPTIONS: [letterpaper,12pt]
 #+LATEX_HEADER: \usepackage[margin=1in]{geometry}
 #+LATEX_HEADER: \usepackage{float}
-\newpage
 
+#+LaTeX_HEADER: \usepackage{fancyhdr}
+#+LaTeX_HEADER: \pagestyle{fancy}
+#+LaTeX_HEADER: \fancyhf{}
+#+LaTeX_HEADER: \lhead{Lab Report 2 CNIT 242}
+
+#+LATEX_HEADER: \setcounter{tocdepth}{2} % set table of contents to page 2
+#+LATEX: \newpage
+#+TOC: headlines 2
+
+* Executive Summary
+This lab report details the project undertaken by Yorkshire, a growing school system, to enhance its IT infrastructure by transitioning to a fully virtualized environment using VMware vSphere. The primary objectives were to optimize resource utilization, improve scalability, and strengthen disaster recovery capabilities. The project involved replacing Yorkshire's existing combination of physical and virtual servers with a more efficient and scalable virtual solution. Key technologies used included VMware vSphere, VMware ESXi, vCenter Server, VMware Workstation, VMware Converter, Windows Server 2019, Windows 10, Windows Server 2022, Active Directory, and an iSCSI SAN LUN formatted as a VMFS datastore.
+
+The lab was executed in two main phases. Phase I focused on setting up the environment, which involved installing and configuring two ESXi servers, deploying the vCenter Server Virtual Appliance, and migrating existing virtual machines (VMs) from a VMware Workstation environment into the new ESXi environment. Phase II concentrated on configuring the SAN datastore and managing virtual machines, including tasks like integrating Active Directory, configuring network adapters, and setting up a VMFS datastore on the SAN.
+
+Several significant accomplishments were achieved during this project. Two ESXi servers were successfully installed and configured with appropriate hardware settings. The vCenter Server was deployed and integrated into the Active Directory domain, facilitating better management and security. The Windows 11 VM was successfully migrated from VMware Workstation to the ESXi server. Additionally, the physical-to-virtual (P-to-V) conversion of the domain controller was completed using VMware Converter. The SAN datastore was configured to be accessed by both ESXi servers, providing a shared storage solution. A new Windows Server 2019 VM was installed and saved as a template for future use. VMware snapshots and vMotion were utilized to manage and migrate VMs effectively.
+
+Despite these successes, the project encountered some challenges. One major issue was the initial failure to join the vCenter Server to the Active Directory domain due to DNS resolution problems. This was resolved by manually specifying the domain controller's IP address during the domain join process. Another issue was the failure of the P-to-V conversion due to insufficient disk space on the target ESXi server, which was resolved by correctly configuring the thin provisioned disk size.
+
+In conclusion, the project successfully achieved its goals of fully virtualizing and optimizing Yorkshire's IT infrastructure. The recommendations for future improvements include regularly taking snapshots before making significant changes, ensuring proper disk provisioning settings, verifying DNS and network settings before joining domains, and regularly rescanning storage adapters when configuring shared storage.
+
+The appendices of this report contain detailed problem-solving documentation for the issues encountered, including the steps taken to resolve them, ensuring a comprehensive understanding of the project's challenges and solutions.
 * Business Case
+Yorkshire is a small but rapidly expanding school system driven by rising suburbanization and increasing demand for its IT services. To meet these growing demands, Yorkshire embarked on a project to enhance its IT infrastructure by transitioning to a fully virtualized environment. This project aimed to optimize resource utilization, improve scalability, and strengthen disaster recovery capabilities. The primary objective was to replace Yorkshire's current combination of physical and virtual servers with a more efficient and scalable solution using VMware vSphere. The specific goals included improving the utilization of IT resources to handle the increasing workload efficiently, ensuring the infrastructure could easily scale to accommodate future growth, and enhancing disaster recovery capabilities to minimize downtime and data loss in case of hardware failures or other disruptions.The applications and technologies used in this project included VMware vSphere, VMware ESXi, vCenter Server, VMware Workstation, VMware Converter, Windows Server 2019, Windows 10, Windows Server 2022, Active Directory, and an iSCSI SAN LUN formatted as a VMFS datastore. By transitioning to a fully virtualized environment, Yorkshire aimed to provide a more reliable, scalable, and efficient IT infrastructure, better suited to support its growing needs and future expansion plans.
 * Procedures
 
 In this lab, we followed a two-phase process to convert a virtual environment into a nested virtual environment using VMware vSphere. Each phase had distinct objectives and steps, which were organized based on tasks and components involved. This documentation is written in past tense to accurately describe the procedures followed. The formatting is as follows: buttons are *bold*, options are _italicized_, text entered into the computer is in `code`, and menu navigation is indicated by the pipe symbol and italic words: _Start | Programs | MS Office | Word_.
@@ -222,30 +243,30 @@ In this lab, a nested virtual environment was successfully created and configure
 - Installation and Configuration of ESXi Servers
    + Two ESXi servers were successfully installed and configured with 8 CPUs, 32 GB RAM, and 1 TB thin provisioned disks. Hardware virtualization was enabled.
 #+ATTR_ORG: :width 800 :align center
-#+ATTR_LATEX: :width 12.5cm :align left :placement [H]
+#+ATTR_LATEX: :width 14cm :align left :placement [H]
 #+CAPTION: Outer vCenter virtualization environment. Specifically showing information on ESXi1.2
 [[/home/sam/Screenshots/screenshot_2024-06-20_16-18-56.png]]
 #+ATTR_ORG: :width 800 :align center
-#+ATTR_LATEX: :width 12.5cm :align left :placement [H]
+#+ATTR_LATEX: :width 14cm :align left :placement [H]
 #+CAPTION: Inside ESXi2.1's web interface. Shows the VMkernal NIC's inside the networking tab.
 [[/home/sam/Screenshots/screenshot_2024-06-20_16-25-20.png]]
 - Deployment of vCenter Server
    + vCenter Server was installed, configured, and joined to the Active Directory domain.
 #+ATTR_ORG: :width 800 :align center
-#+ATTR_LATEX: :width 12.5cm :align left :placement [H]
+#+ATTR_LATEX: :width 14cm :align left :placement [H]
 #+CAPTION: Inner Vcenter virtualization environment. Specifically showing information on SCDC01.
 [[/home/sam/Screenshots/screenshot_2024-06-20_16-21-27.png]]
 - Migration of Windows 11 VM
    + The Windows 11 VM was successfully migrated from VMware Workstation to the ESXi server and added to the inventory.
 #+ATTR_ORG: :width 800 :align center
-#+ATTR_LATEX: :width 12.5cm :align left :placement [H]
+#+ATTR_LATEX: :width 14cm :align left :placement [H]
 #+CAPTION: Inner vCenter virtualization environment. Shows the permissions for the windows 11 VM.
 [[/home/sam/Screenshots/screenshot_2024-06-20_16-26-27.png]]
 - P-to-V Conversion of Domain Controller
    + Using VMware Converter, the domain controller was migrated from a physical to a virtual environment on the ESXi server.
 - Configuration of SAN Datastore
 #+ATTR_ORG: :width 800 :align center
-#+ATTR_LATEX: :width 12.5cm :align left :placement [H]
+#+ATTR_LATEX: :width 14cm :align left :placement [H]
 #+CAPTION: Inside ESXi2.1's web interface. Showing the datastores datastore1(1) and SANdatastoreG10.
 [[/home/sam/Screenshots/screenshot_2024-06-20_16-23-08.png]]
    + Both ESXi servers were configured to access an iSCSI SAN LUN and formatted as a VMFS datastore.
@@ -255,23 +276,54 @@ In this lab, a nested virtual environment was successfully created and configure
    + VMware Snapshots were used to protect configurations during changes, and virtual machine access was controlled through vCenter permissions.
 - Virtual Machine Migration
    + VMs were migrated between datastores and ESXi hosts using vMotion and storage vMotion.
-\newgeometry{left=1cm,right=1cm,top=10cm,bottom=1cm}
+\newgeometry{left=1cm,right=1cm,top=4cm,bottom=1cm}
 ** Machine Networking/Login Information Table
 \centering
-|                        | *ESXi1.2 Server* | *ESXi2.1 Server* | *vCenter*     | *Windows 11 VM* | *Windows 2019 Srv.* |
-|------------------------+------------------+------------------+---------------+-----------------+---------------------|
-| *Pnic1 (CNIT242G10A)*  |    44.100.10.191 |    44.100.10.192 | 44.100.10.170 | 44.100.10.111   | 44.100.10.11        |
-| *Pnic2 (CNIT242iSCSI)* |    192.168.52.10 |    192.168.54.10 | N/A           | N/A             | N/A                 |
-| *Subnet Mask*          |    255.255.255.0 |    255.255.255.0 | 255.255.255.0 | 255.255.255.0   | 255.255.255.0       |
-| *Default Gateway*      |      44.100.10.1 |      44.100.10.1 | 44.100.10.1   | 44.100.10.1     | 44.100.10.1         |
-| *DNS*                  |     44.100.10.10 |     44.100.10.10 | 44.100.10.10  | 44.100.10.10    | 44.100.10.10        |
-| *SAN server IP*        |   192.168.52.254 |   192.168.54.254 | N/A           | N/A             | N/A                 |
-| *Login*                |             root |             root | administrator | Administrator   | Administrator       |
-| *Password*             |         Cnit242! |         Cnit242! | Cnit242!      | Cnit242!        | Cnit242!            |
-|------------------------+------------------+------------------+---------------+-----------------+---------------------|
+|------------------------+-----------------------------+---------------------+-----------------|
+| table                  |            *ESXi1.2 Server* |    *ESXi2.1 Server* | *vCenter*       |
+|------------------------+-----------------------------+---------------------+-----------------|
+| *Pnic1 (CNIT242G10A)*  |               44.100.10.191 |       44.100.10.192 | 44.100.10.170   |
+| *Pnic2 (CNIT242iSCSI)* |               192.168.52.10 |       192.168.54.10 | N/A             |
+| *Subnet Mask*          |               255.255.255.0 |       255.255.255.0 | 255.255.255.0   |
+| *Default Gateway*      |                 44.100.10.1 |         44.100.10.1 | 44.100.10.1     |
+| *DNS*                  |                44.100.10.10 |        44.100.10.10 | 44.100.10.10    |
+| *SAN server IP*        |              192.168.52.254 |      192.168.54.254 | N/A             |
+| *Login*                |                        root |                root | administrator   |
+| *Password*             |                    Cnit242! |            Cnit242! | Cnit242!        |
+|------------------------+-----------------------------+---------------------+-----------------|
+|------------------------+-----------------------------+---------------------+-----------------|
+|                        |                             |                     |                 |
+| table cont.            | *Windows 2022 Srv.(SCDC01)* | *Windows 2019 Srv.* | *Windows 11 VM* |
+|------------------------+-----------------------------+---------------------+-----------------|
+| *Pnic1 (CNIT242G10A)*  |                44.100.10.10 |        44.100.10.11 | 44.100.10.111   |
+| *Pnic2 (CNIT242iSCSI)* |                         N/A |                 N/A | N/A             |
+| *Subnet Mask*          |               255.255.255.0 |       255.255.255.0 | 255.255.255.0   |
+| *Default Gateway*      |                 44.100.10.1 |         44.100.10.1 | 44.100.10.1     |
+| *DNS*                  |                44.100.10.10 |        44.100.10.10 | 44.100.10.10    |
+| *SAN server IP*        |                         N/A |                 N/A | N/A             |
+| *Login*                |               Administrator |       Administrator | Administrator   |
+| *Password*             |                    Cnit242! |            Cnit242! | Cnit242!        |
+|------------------------+-----------------------------+---------------------+-----------------|
 \restoregeometry
 ** Diagrams
+#+ATTR_ORG: :width 800 :align center
+#+ATTR_LATEX: :width 15cm :align left :placement [H]
+#+CAPTION: Physical topology diagram.
+[[/home/sam/Screenshots/screenshot_2024-06-22_21-54-02.png]]
+#+ATTR_ORG: :width 800 :align center
+#+ATTR_LATEX: :width 15cm :align left :placement [H]
+#+CAPTION: Logical topology diagram.
+[[/home/sam/Screenshots/screenshot_2024-06-22_21-56-42.png]]
 * Conclusions
+In the final analysis of the project, it can be concluded that it was a success in achieving the goal of fully virtualizing and optimizing the infrastructure at Yorkshire's school system. The primary objectives included installing and integrating two ESXi servers and configuring a SAN datastore, both of which were met effectively.
+
+Firstly, the ESXi servers were successfully installed and configured. Using vCenter, these servers were joined to the pre-existing Active Directory domain, enabling administrators to assign VMs to users based on their group memberships. This integration was crucial for maintaining a seamless and secure IT environment.
+
+Next, the migration of existing virtual machines was completed as planned. VMware Workstation facilitated the transfer of a Windows 11 VM to the ESXi server, while VMware Converter was utilized to perform a P-to-V conversion of the Windows Server 2022 domain controller, ensuring a smooth transition to the virtual environment.
+
+The SAN datastore was then configured to access an iSCSI SAN LUN, formatted as a VMFS datastore. A new Windows Server 2019 VM was installed and saved as a template for future use. Subsequently, the Windows 11 VM was migrated from its local datastore on the ESXi server to the SAN datastore using storage vMotion. This configuration allowed administrators to move VMs freely between the two ESXi servers, enhancing resource flexibility and disaster recovery capabilities.
+
+A snapshot was created to ensure there was a saved instance of the completed project, providing a reliable fallback option if needed. By successfully completing the objectives of installing and integrating ESXi servers, configuring the SAN datastore, and migrating VMs, the project achieved its overall goal of fully virtualizing and optimizing the school system’s infrastructure. Thus, the project can be deemed a success, meeting all requirements and expectations outlined in the business case.
 * Recommendations
 ** Recommendation 1: Take Regular Snapshots
 Regularly take snapshots of your VMs, especially before making significant changes or updates. This allows you to quickly revert to a known good state if something goes wrong, saving time and effort in troubleshooting and recovery.
@@ -285,7 +337,28 @@ Before attempting to join the vCenter Server to the Active Directory domain, tho
 ** Recommendation 4: Regularly Rescan Storage Adapters When Configuring SAN
 When configuring shared storage on ESXi servers, regularly rescan storage adapters to detect new devices and LUNs. This practice helps ensure that all storage resources are properly recognized and available for use. Additionally, verify iSCSI target configurations and LUN masking settings to avoid detection issues.
 
-* APPENDIX A: PROBLEM SOLVING
+* Bibliography
+Microsoft. (2022, August 16). Active Directory Domain Services Overview. Learn.microsoft.com. https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/get-started/virtual-dc/active-directory-domain-services-overview
+
+Microsoft. (2024a). Windows 11 overview for administrators - What’s new in Windows. Learn.microsoft.com.
+https://learn.microsoft.com/en-us/windows/whats-new/windows-11-overview
+
+Microsoft. (2024b). Windows Server Management documentation. Learn.microsoft.com.
+https://learn.microsoft.com/en-us/windows-server/administration/manage-windows-server
+
+VMware. (2019). VMware vSphere Documentation. Vmware.com.\\
+https://docs.vmware.com/en/VMware-vSphere/index.html
+
+Rawles, P. (2024). Lab Instructor. Instruction Video.\\
+https://purdue.brightspace.com \\
+
+Wong, O. (2024). Lab TA. Personal communication.\\
+https://discord.com
+
+Akpeokhai, O. (2024). Lab TA. Personal communication. \\
+https://discord.com
+
+* APPENDIX: PROBLEM SOLVING
 
 This section describes several issues faced throughout this project. Each problem is broken down by giving a Problem Description; listing Possible Solutions, accompanied by the reasoning for it; Solutions Attempted, which simply list which options from the Possible Solutions list that were attempted; and finally, a detailed description of the Final Solution and why it solved the problem.
 
@@ -344,5 +417,3 @@ While attempting to configure both VMware ESXi servers to access an iSCSI SAN LU
 
 *** Final Solution
 The problem was resolved by adjusting the iSCSI target configuration on the SAN. It was discovered that the LUN masking settings on the iSCSI SAN were incorrectly configured, preventing the LUN from being visible to the ESXi servers. By correcting the LUN masking settings to explicitly allow access from the ESXi servers' initiator IQNs, the LUN was successfully detected. A rescan of the storage adapters in the vSphere Client then revealed the LUN, which was subsequently formatted as a VMFS datastore. This allowed the ESXi servers to access the shared storage as intended.
-
-* Bibliography
