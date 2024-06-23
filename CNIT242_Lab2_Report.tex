@@ -1,4 +1,4 @@
-% Created 2024-06-22 Sat 22:49
+% Created 2024-06-22 Sat 23:07
 % Intended LaTeX compiler: pdflatex
 \documentclass[letterpaper,12pt]{article}
 \usepackage[utf8]{inputenc}
@@ -17,21 +17,20 @@
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhf{}
-\lhead{Lab Report 2 CNIT 242}
-\setcounter{tocdepth}{2} % set table of contents to page 2
-\author{Group 10}
-\date{\textit{<2024-06-22 Sat>}:}
-\title{Lab Report 2(Formatting still work in progress)}
+\lhead{Interprise Virtualization}
+\rfoot{\thepage} % Right footer with page number
+\setcounter{tocdepth}{2}
+\date{\today}
+\title{}
 \hypersetup{
- pdfauthor={Group 10},
- pdftitle={Lab Report 2(Formatting still work in progress)},
+ pdfauthor={},
+ pdftitle={},
  pdfkeywords={},
  pdfsubject={Lab report 2 for CNIT 242},
  pdfcreator={Emacs 29.3 (Org mode 9.6.24)}, 
  pdflang={English}}
 \begin{document}
 
-\maketitle
 \tableofcontents
 
 \newpage
@@ -39,7 +38,7 @@
 \tableofcontents
 
 \section{Executive Summary}
-\label{sec:orga97abed}
+\label{sec:orgc89c46d}
 This lab report details the project undertaken by Yorkshire, a growing school system, to enhance its IT infrastructure by transitioning to a fully virtualized environment using VMware vSphere. The primary objectives were to optimize resource utilization, improve scalability, and strengthen disaster recovery capabilities. The project involved replacing Yorkshire's existing combination of physical and virtual servers with a more efficient and scalable virtual solution. Key technologies used included VMware vSphere, VMware ESXi, vCenter Server, VMware Workstation, VMware Converter, Windows Server 2019, Windows 10, Windows Server 2022, Active Directory, and an iSCSI SAN LUN formatted as a VMFS datastore.
 
 The lab was executed in two main phases. Phase I focused on setting up the environment, which involved installing and configuring two ESXi servers, deploying the vCenter Server Virtual Appliance, and migrating existing virtual machines (VMs) from a VMware Workstation environment into the new ESXi environment. Phase II concentrated on configuring the SAN datastore and managing virtual machines, including tasks like integrating Active Directory, configuring network adapters, and setting up a VMFS datastore on the SAN.
@@ -52,17 +51,17 @@ In conclusion, the project successfully achieved its goals of fully virtualizing
 
 The appendices of this report contain detailed problem-solving documentation for the issues encountered, including the steps taken to resolve them, ensuring a comprehensive understanding of the project's challenges and solutions.
 \section{Business Case}
-\label{sec:orgc0c4081}
+\label{sec:org42ff23a}
 Yorkshire is a small but rapidly expanding school system driven by rising suburbanization and increasing demand for its IT services. To meet these growing demands, Yorkshire embarked on a project to enhance its IT infrastructure by transitioning to a fully virtualized environment. This project aimed to optimize resource utilization, improve scalability, and strengthen disaster recovery capabilities. The primary objective was to replace Yorkshire's current combination of physical and virtual servers with a more efficient and scalable solution using VMware vSphere. The specific goals included improving the utilization of IT resources to handle the increasing workload efficiently, ensuring the infrastructure could easily scale to accommodate future growth, and enhancing disaster recovery capabilities to minimize downtime and data loss in case of hardware failures or other disruptions.The applications and technologies used in this project included VMware vSphere, VMware ESXi, vCenter Server, VMware Workstation, VMware Converter, Windows Server 2019, Windows 10, Windows Server 2022, Active Directory, and an iSCSI SAN LUN formatted as a VMFS datastore. By transitioning to a fully virtualized environment, Yorkshire aimed to provide a more reliable, scalable, and efficient IT infrastructure, better suited to support its growing needs and future expansion plans.
 \section{Procedures}
-\label{sec:orged743f1}
+\label{sec:org511b1e8}
 
 In this lab, we followed a two-phase process to convert a virtual environment into a nested virtual environment using VMware vSphere. Each phase had distinct objectives and steps, which were organized based on tasks and components involved. This documentation is written in past tense to accurately describe the procedures followed. The formatting is as follows: buttons are \textbf{bold}, options are \uline{italicized}, text entered into the computer is in `code`, and menu navigation is indicated by the pipe symbol and italic words: \uline{Start | Programs | MS Office | Word}.
 
 \subsection{Phase I: Setting Up the Environment}
-\label{sec:orga16c172}
+\label{sec:org8744173}
 \subsubsection{1. Install ESXi Servers:}
-\label{sec:org43697ff}
+\label{sec:org7399bb3}
 \begin{itemize}
 \item Configured hardware settings: set CPU, hard disk, memory, and port group.
 \begin{itemize}
@@ -84,7 +83,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{2. Install vCenter Server Virtual Appliance:}
-\label{sec:org66e6bf4}
+\label{sec:orgf87d1b9}
 \begin{itemize}
 \item Accessed the RTFM fileshare and opened the installer:
 \begin{itemize}
@@ -105,7 +104,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{3. Configuration and Deployment:}
-\label{sec:org2d08b5e}
+\label{sec:org68890c1}
 \begin{itemize}
 \item Completed Phase I and proceeded to Phase II by clicking \textbf{Next}.
 \item Added the ESXi host:
@@ -130,7 +129,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{4. vSphere Setup:}
-\label{sec:org3284d64}
+\label{sec:org85f3c56}
 \begin{itemize}
 \item Logged into vSphere using `administrator@vsphere.local`.
 \item Created a new datacenter:
@@ -156,7 +155,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{5. Active Directory Integration:}
-\label{sec:org483dad4}
+\label{sec:orgddb2d50}
 \begin{itemize}
 \item Configured NTP, hostname, DNS, and gateway for vCenter:
 \begin{itemize}
@@ -174,7 +173,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{6. Moving Windows 11 Virtual Machine:}
-\label{sec:org9a2573e}
+\label{sec:org3dae654}
 \begin{itemize}
 \item Used VMware Converter to move the VM from Windows 11 Workstation to ESXi server:
 \begin{itemize}
@@ -188,7 +187,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{7. Physical to Virtual (P-to-V) Conversion:}
-\label{sec:org01e7a31}
+\label{sec:org4b09724}
 \begin{itemize}
 \item Installed VMware Converter on the domain controller:
 \begin{itemize}
@@ -202,9 +201,9 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 \end{itemize}
 \subsection{Phase II: Configuring SAN Datastore and Managing Virtual Machines}
-\label{sec:org8c0924c}
+\label{sec:orgb361e03}
 \subsubsection{1. Configure SAN Datastore:}
-\label{sec:org6c49b8a}
+\label{sec:org40221ef}
 \begin{itemize}
 \item Logged into vCenter.
 \item Clicked on the ESXi host, navigated to \uline{Configure | Storage Adapters}.
@@ -217,7 +216,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{2. Network Adapter Configuration:}
-\label{sec:orgc269d95}
+\label{sec:org18f89cd}
 \begin{itemize}
 \item Opened vCenter, selected the ESXi server.
 \item Under VM Hardware, added a new network adapter:
@@ -230,7 +229,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{3. Storage Configuration:}
-\label{sec:orga229051}
+\label{sec:orgb122818}
 \begin{itemize}
 \item Repeated the above steps for the second ESXi host.
 \item Created a new VMFS datastore:
@@ -252,7 +251,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{4. Enable iSCSI Adapter:}
-\label{sec:org13f5da9}
+\label{sec:orgbd80a8a}
 \begin{itemize}
 \item Navigated to \uline{Storage}.
 \item Selected the iSCSI adapter and ensured it was enabled.
@@ -264,7 +263,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{5. Installed Windows Server 2019 Virtual Machine:}
-\label{sec:orgfd56094}
+\label{sec:org6daeb62}
 \begin{itemize}
 \item Inside vCenter, navigated to the target datastore (e.g., datastore1).
 \item Clicked \textbf{Upload Files}.
@@ -316,7 +315,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{6. Set Permissions:}
-\label{sec:org98b282f}
+\label{sec:orga63cf1a}
 \begin{itemize}
 \item Inside vCenter, navigated to Windows 11 VM.
 \item Went to \textbf{Permissions} tab.
@@ -328,7 +327,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{7. Migrated Storage to SAN (Storage vMotion):}
-\label{sec:orgc5fae5b}
+\label{sec:org3aa8303}
 \begin{itemize}
 \item Inside vCenter, found Windows 11 VM in the sidebar.
 \item Right-clicked and selected \textbf{Migrate}.
@@ -345,7 +344,7 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 
 \subsubsection{8. Migrated Compute Resource (vMotion):}
-\label{sec:org688c77e}
+\label{sec:org937775c}
 \begin{itemize}
 \item Inside vCenter, found Windows 11 VM in the sidebar.
 \item Right-clicked and selected \textbf{Migrate}.
@@ -358,10 +357,10 @@ In this lab, we followed a two-phase process to convert a virtual environment in
 \end{itemize}
 \newpage
 \section{Results}
-\label{sec:org6b2f672}
+\label{sec:orga8e78d3}
 In this lab, a nested virtual environment was successfully created and configured using VMware vSphere. This involved setting up two ESXi servers, installing a vCenter server, and migrating existing virtual machines from a VMware Workstation environment into the new ESXi environment. Various VMware tools and techniques were utilized to manage and optimize the virtual environment, ensuring efficient resource allocation and network configuration. The following sections detail the physical and logical network setups, the IP schema, and computer names along with login information.
 \subsection{Summary of Accomplishments}
-\label{sec:org3eb4a93}
+\label{sec:org00456ef}
 \begin{itemize}
 \item Installation and Configuration of ESXi Servers
 \begin{itemize}
@@ -431,7 +430,7 @@ In this lab, a nested virtual environment was successfully created and configure
 \end{itemize}
 \newgeometry{left=1cm,right=1cm,top=4cm,bottom=1cm}
 \subsection{Machine Networking/Login Information Table}
-\label{sec:orge1a1007}
+\label{sec:org41e649c}
 \centering
 \begin{center}
 \begin{tabular}{lrrl}
@@ -464,7 +463,7 @@ table cont. & \textbf{Windows 2022 Srv.(SCDC01)} & \textbf{Windows 2019 Srv.} & 
 \end{center}
 \restoregeometry
 \subsection{Diagrams}
-\label{sec:orgc62af68}
+\label{sec:org281fb02}
 \begin{figure}[H]
 \centering
 \includegraphics[width=15cm]{/home/sam/Screenshots/screenshot_2024-06-22_21-54-02.png}
@@ -476,7 +475,7 @@ table cont. & \textbf{Windows 2022 Srv.(SCDC01)} & \textbf{Windows 2019 Srv.} & 
 \caption{Logical topology diagram.}
 \end{figure}
 \section{Conclusions}
-\label{sec:org439bb77}
+\label{sec:org0b23e38}
 In the final analysis of the project, it can be concluded that it was a success in achieving the goal of fully virtualizing and optimizing the infrastructure at Yorkshire's school system. The primary objectives included installing and integrating two ESXi servers and configuring a SAN datastore, both of which were met effectively.
 
 Firstly, the ESXi servers were successfully installed and configured. Using vCenter, these servers were joined to the pre-existing Active Directory domain, enabling administrators to assign VMs to users based on their group memberships. This integration was crucial for maintaining a seamless and secure IT environment.
@@ -487,25 +486,25 @@ The SAN datastore was then configured to access an iSCSI SAN LUN, formatted as a
 
 A snapshot was created to ensure there was a saved instance of the completed project, providing a reliable fallback option if needed. By successfully completing the objectives of installing and integrating ESXi servers, configuring the SAN datastore, and migrating VMs, the project achieved its overall goal of fully virtualizing and optimizing the school system’s infrastructure. Thus, the project can be deemed a success, meeting all requirements and expectations outlined in the business case.
 \section{Recommendations}
-\label{sec:orgd71d632}
+\label{sec:orgd8d1751}
 \subsection{Recommendation 1: Take Regular Snapshots}
-\label{sec:org49d3368}
+\label{sec:org3228c4f}
 Regularly take snapshots of your VMs, especially before making significant changes or updates. This allows you to quickly revert to a known good state if something goes wrong, saving time and effort in troubleshooting and recovery.
 
 \subsection{Recommendation 2: Ensure Proper Disk Provisioning}
-\label{sec:orgbc9a920}
+\label{sec:org36d5075}
 When setting up the ESXi servers, double-check the disk provisioning settings to confirm that the thin provisioned disks are correctly configured to the intended size. Misconfigurations in disk size can lead to insufficient disk space issues, which can disrupt tasks such as P-to-V conversions.
 
 \subsection{Recommendation 3: Verify DNS and Network Settings Before Joining Domains}
-\label{sec:org098b47b}
+\label{sec:orgb89b6b1}
 Before attempting to join the vCenter Server to the Active Directory domain, thoroughly verify DNS and network settings. Correct DNS configuration and network connectivity are crucial for successful domain integration. Manually specifying the domain controller's IP address can also help bypass potential DNS resolution issues.
 
 \subsection{Recommendation 4: Regularly Rescan Storage Adapters When Configuring SAN}
-\label{sec:org8bc0180}
+\label{sec:orgca84894}
 When configuring shared storage on ESXi servers, regularly rescan storage adapters to detect new devices and LUNs. This practice helps ensure that all storage resources are properly recognized and available for use. Additionally, verify iSCSI target configurations and LUN masking settings to avoid detection issues.
 
 \section{Bibliography}
-\label{sec:org925a462}
+\label{sec:org6de7684}
 Microsoft. (2022, August 16). Active Directory Domain Services Overview. Learn.microsoft.com. \url{https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/get-started/virtual-dc/active-directory-domain-services-overview}
 
 Microsoft. (2024a). Windows 11 overview for administrators - What’s new in Windows. Learn.microsoft.com.
@@ -527,18 +526,18 @@ Akpeokhai, O. (2024). Lab TA. Personal communication. \\[0pt]
 \url{https://discord.com}
 
 \section{APPENDIX: PROBLEM SOLVING}
-\label{sec:orgf960345}
+\label{sec:org10e0614}
 
 This section describes several issues faced throughout this project. Each problem is broken down by giving a Problem Description; listing Possible Solutions, accompanied by the reasoning for it; Solutions Attempted, which simply list which options from the Possible Solutions list that were attempted; and finally, a detailed description of the Final Solution and why it solved the problem.
 
 \subsection{Problem 1: vCenter Server Fails to Join Active Directory Domain}
-\label{sec:org0239a2f}
+\label{sec:org010b1ab}
 \subsubsection{Problem Description}
-\label{sec:org6ff6b44}
+\label{sec:orgd95c3dc}
 While attempting to join the vCenter Server Virtual Appliance to the Active Directory domain, the operation fails with an error indicating that the domain cannot be found. This issue occurs despite verifying that the network settings and DNS configurations appear correct. This problem prevents the vCenter Server from integrating with the AD domain, which is necessary for managing permissions and integrating with existing infrastructure.
 
 \subsubsection{Possible Solutions}
-\label{sec:org21f698e}
+\label{sec:orgfe52b3b}
 \begin{itemize}
 \item Check DNS Configuration: Ensure that the DNS server settings on the vCenter Server are correctly pointing to the domain controller's IP address. Incorrect DNS settings can prevent domain resolution.
 \item Verify Network Connectivity: Test the network connectivity between the vCenter Server and the domain controller to ensure there are no network issues blocking the communication.
@@ -548,7 +547,7 @@ While attempting to join the vCenter Server Virtual Appliance to the Active Dire
 \end{itemize}
 
 \subsubsection{Solutions Attempted}
-\label{sec:orgb98dad6}
+\label{sec:org5384434}
 \begin{itemize}
 \item Checked DNS Configuration.
 \item Verified Network Connectivity.
@@ -556,17 +555,17 @@ While attempting to join the vCenter Server Virtual Appliance to the Active Dire
 \end{itemize}
 
 \subsubsection{Final Solution}
-\label{sec:org88a8e54}
+\label{sec:org950f6df}
 The problem was resolved by manually specifying the domain controller's IP address during the domain join process. This bypassed the DNS resolution issue, allowing the vCenter Server to successfully join the Active Directory domain. Additionally, ensuring that the AD credentials used had sufficient permissions helped complete the operation without errors.
 
 \subsection{Problem 2: P-to-V Conversion Fails Due to Insufficient Disk Space}
-\label{sec:org4d924f5}
+\label{sec:org1973f85}
 \subsubsection{Problem Description}
-\label{sec:org13e05b1}
+\label{sec:orgd6c11df}
 While performing a physical-to-virtual (P-to-V) conversion of the existing domain controller using VMware Converter, the process fails with an error indicating insufficient disk space on the target ESXi server. This issue occurs despite the intention to provision a 1 TB thin provisioned disk on the ESXi server. Upon further inspection, it was found that the disk size was improperly set up, and the actual allocated space was significantly less than 1 TB.
 
 \subsubsection{Possible Solutions}
-\label{sec:orgfd24762}
+\label{sec:orgd934a49}
 \begin{itemize}
 \item Check Disk Space Allocation: Verify the actual disk usage on the ESXi server and ensure that there is enough physical storage available for the conversion process.
 \item Increase Thin Provisioned Disk Size: Correct the thin provisioned disk size on the ESXi server to ensure it is properly set to 1 TB.
@@ -576,24 +575,24 @@ While performing a physical-to-virtual (P-to-V) conversion of the existing domai
 \end{itemize}
 
 \subsubsection{Solutions Attempted}
-\label{sec:orgf51e739}
+\label{sec:orgb2c6b42}
 \begin{itemize}
 \item Checked Disk Space Allocation.
 \item Increased Thin Provisioned Disk Size.
 \end{itemize}
 
 \subsubsection{Final Solution}
-\label{sec:org947df1f}
+\label{sec:orgfa6f3cd}
 The problem was resolved by correcting the thin provisioned disk size on the ESXi server. It was discovered that the disk size was improperly configured, and the actual allocated space was much less than the intended 1 TB. By properly setting the thin provisioned disk to 1 TB, the ESXi server then had sufficient disk space for the P-to-V conversion process. After this adjustment, the conversion of the domain controller completed successfully. This solution was effective because it directly addressed the root cause of the disk space insufficiency without the need for additional hardware or extensive cleanup efforts.
 
 \subsection{Problem 3: iSCSI SAN LUN Not Detected by ESXi Servers}
-\label{sec:orgad9136e}
+\label{sec:org20eab49}
 \subsubsection{Problem Description}
-\label{sec:org300a99c}
+\label{sec:orgefe9d53}
 While attempting to configure both VMware ESXi servers to access an iSCSI SAN LUN and format it as a VMFS datastore, the LUN is not detected by the ESXi servers. This issue occurs despite confirming that the network settings for the iSCSI initiator and target are correct. The failure to detect the LUN prevents the configuration of shared storage necessary for advanced features like vMotion and high availability.
 
 \subsubsection{Possible Solutions}
-\label{sec:orgbcc7771}
+\label{sec:org06c5105}
 \begin{itemize}
 \item Verify iSCSI Target Configuration: Ensure that the iSCSI target is correctly configured to accept connections from the ESXi servers' IP addresses.
 \item Check Network Connectivity: Confirm that there is proper network connectivity between the ESXi servers and the iSCSI SAN, including verifying that firewalls are not blocking iSCSI traffic.
@@ -603,7 +602,7 @@ While attempting to configure both VMware ESXi servers to access an iSCSI SAN LU
 \end{itemize}
 
 \subsubsection{Solutions Attempted}
-\label{sec:org9688105}
+\label{sec:orgc5fb7d3}
 \begin{itemize}
 \item Verified iSCSI Target Configuration.
 \item Checked Network Connectivity.
@@ -611,6 +610,6 @@ While attempting to configure both VMware ESXi servers to access an iSCSI SAN LU
 \end{itemize}
 
 \subsubsection{Final Solution}
-\label{sec:orgff91cc2}
+\label{sec:org404a509}
 The problem was resolved by adjusting the iSCSI target configuration on the SAN. It was discovered that the LUN masking settings on the iSCSI SAN were incorrectly configured, preventing the LUN from being visible to the ESXi servers. By correcting the LUN masking settings to explicitly allow access from the ESXi servers' initiator IQNs, the LUN was successfully detected. A rescan of the storage adapters in the vSphere Client then revealed the LUN, which was subsequently formatted as a VMFS datastore. This allowed the ESXi servers to access the shared storage as intended.
 \end{document}
