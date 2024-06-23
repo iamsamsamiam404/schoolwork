@@ -11,7 +11,7 @@
 #+LaTeX_HEADER: \usepackage{fancyhdr}
 #+LaTeX_HEADER: \pagestyle{fancy}
 #+LaTeX_HEADER: \fancyhf{}
-#+LaTeX_HEADER: \lhead{Interprise Virtualization}
+#+LaTeX_HEADER: \lhead{Enterprise Virtualization}
 #+LATEX_HEADER: \rfoot{\thepage} % Right footer with page number
 #+LATEX_HEADER: \setcounter{tocdepth}{2}
 \newpage
