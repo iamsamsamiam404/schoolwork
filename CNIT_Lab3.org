@@ -208,16 +208,45 @@ START Lab Procedure Documentation:
 - Installed VMware tools
 - Went to settings
 - Selected | update | install | restart |
-**** IN-PROGRESS Implement Microsoft Backup
+*Join domain*
+- Went to settings
+- Searched /domain/ in the search bar
+- Entered /group10/ in the domain box
+- Entered user: /Administrator/ password: /Cnit242!/
+**** DONE Implement Microsoft Backup
 DEADLINE:<2024-06-22 Sat>
-- [ ] Set up scheduled backups of your domain controllers using Vembu backup
-- [ ] https://www.vembu.com/free-windows-servers-backup/
-- [ ] Create a share on a Windows 10 client in your outer virtualization layer to use as a backup target
- + [ ] Add a new disk to the Windows 10 client VM to house backups
-- [ ] To conserve disk space in the lab environment, backup only user files and the domain controller database (DCDB)
-- [ ] Follow best practices as defined in lecture for backups
-- [ ] You need only keep one week’s worth of data
-**** TODO Printing
+- [X] Set up scheduled backups of your domain controllers using Vembu backup
+- [X] https://www.vembu.com/free-windows-servers-backup/
+- [X] Create a share on a Windows 10 client in your outer virtualization layer to use as a backup target
+  + [X] Add a new disk to the Windows 10 client VM to house backups
+- [X] To conserve disk space in the lab environment, backup only user files and the domain controller database (DCDB)
+- [X] Follow best practices as defined in lecture for backups
+- [X] You need only keep one week’s worth of data
+  START LAB Procedure documentation:
+  *Install Vembu Backup*
+  - Navigated to the outer vCenter virtualization environment
+  - Launched *CNIT24200.Group10.elsner.win10*
+  - Downloaded *Vembu* from www.vembu.com
+  - Opened the .exe file that was just downloaded
+  - Accepted the defaults in the installer wizar.
+  *Install Windows Server Backup*
+  - Opened *SCDC01* and *SCDC02* and performed the following steps on both
+  - Opened *Server Manager*
+  - Navigated to | Manage | Add Roles an Features | Next | Next | Next |
+  - Checked *Windows Server Backup* and *Windows Server Migration Tools*
+  - Completed the installer
+  *Configure Backup*
+  - Opened BDR Suite web interface
+  - Navigated to | Backup | Configure Backup | Windows | Files & Folders |
+  - Added Block storage repository
+  - Entered /\\MIDDLESCHOOLPC\TheBackup/ for the drive path
+  - Entered username: /Administrator/ and password: /Cnit242!/
+  - Selected | Create | Next | Confirm
+  - Checked the local host to backup
+  - Added the user files and domain controller database file locations
+  - Configured the schedule to backup once every sunday morning at 2am
+
+**** IN-PROGRESS Printing
 DEADLINE:<2024-06-23 Sun>
 - [ ] Create a new user and make them a print operator/administrator
   + [ ] Experiment with controlling the printer and other user’s print jobs
