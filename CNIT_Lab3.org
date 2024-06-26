@@ -140,9 +140,9 @@ DEADLINE:<2024-06-20 Thu>
 - Selected new VM from this template
 - Entered /SCDCO2/ for virtual machine name
 - | NEXT | 44.100.10.192 | Thin VM Storage Policy | datastore | NEXT | NEXT | FINISH
-*Navigated to ESX: 2. I's IP address*
-- Found the new server "SCDCOZ"
-- Navigated through IVM Hardware| Edit | Network Adapter 1 |Browse | site2 VM network | ok | ok |
+*Navigated to ESXi2.1's IP address*
+- Found the new server "SCDCO2"
+- Navigated through VM Hardware| Edit | Network Adapter 1 |Browse | site2 VM network | ok | ok |
 *Launched SCDCO2's web console*
 - Logged in as Administrator
 *Configured IPv4 settings*
@@ -190,7 +190,7 @@ START Lab Procedure Documentation:
 - went to the inner vCenter environment
 - Right-clicked *44.100.10.192*
 - New VM | Create a new virtual machine | Next |
-- Named it Windows 10 VM site2
+- Named it *site2win10*
 - | Next | Next | Thin storage policy | Next | Next |
 - Added 16 GB of Memory
 - Changed disk size to 35 GB, thin provision
@@ -199,7 +199,7 @@ START Lab Procedure Documentation:
 - Accepted the defaults for the windows installer wizard
 *Configured IPv4 settings for Windows 10 VM*
 - Change IPv4 proporties:
-  - IP: /44.100.60.100/
+  - IP: /44.100.60.120/
   - Subnet Mask: /255.255.255.0/
   - Default Gateway: /44.100.60.1/
   - DNS: /44.100.60.10/
@@ -252,12 +252,44 @@ DEADLINE:<2024-06-23 Sun>
   + [ ] Experiment with controlling the printer and other user’s print jobs
 - [ ] Create a second queue for the printer that prints on legal size paper
   + [ ] Make the legal size printer available to only members of the administrators group
-**** TODO Clone the Windows Server VM template and implement an IIS web server
+**** IN-PROGRESS Clone the Windows Server VM template and implement an IIS web server
 DEADLINE:<2024-06-24 Mon>
 https://purdue.brightspace.com/d2l/le/content/1013650/viewContent/16679581/View
 - [ ] Configure a public web page on the server that anyone can access
 - [ ] Configure a private web page on the server that only members of the domain can access
 - [ ] Configure a site-specific web page that only machines on the first VLAN can access
+  START Lab Procedure Documentation:
+*Deploy New instance of your Windows server template*
+- Went to inner virt. enviornment
+*Created the Server 2019 VM from template*
+- Inventory | Detestores | SANdatastoreG10 | VMs | VM templates |
+- right clicked *winServer 2019*
+- Selected new VM from this template
+- Entered /IISserver/ for virtual machine name
+- | NEXT | 44.100.10.191 | Thin VM Storage Policy | datastore | NEXT | NEXT | FINISH
+*Navigated to ESXi1.2's IP address*
+- Found the newly created server in the sidebar
+- Navigated through VM Hardware| Edit | Network Adapter 1 | Browse | site2 VM network | ok | ok |
+*Launched IISserver's web console*
+- Logged in as Administrator
+*Configured IPv4 settings*
+- Change IPv4 proporties:
+  - IP: /44.100.60.200/
+  - Subnet Mask: /255.255.255.0/
+  - Default Gateway: /44.100.60.1/
+  - DNS: /44.100.10.10/
+  - Secondary DNS: /44.100.60.10/
+*Changed server name and add to domain*
+- Launced server manager
+- | Computer Name | Change |
+- Entered /IISserver/ for computer name and /group10.c242.cit.lcl/ for domain
+- Restarted to apply changes
+*Install IIS*
+- Navigated to | Server Manager | Manage | Add roles and features | Role-based | Next | Next |
+- Checked "Web Server (IIS)"
+- Finished the installer by accepting the defaults for the remaining installer wizard
+- Navigated to | Tools | Internet Information Services (IIS) Manager
+-
 **** TODO Implement DFS across your two domain controllers
 DEADLINE:<2024-06-25 Tue>
 - [ ] Implement a DFS domain namespace
