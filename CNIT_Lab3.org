@@ -255,9 +255,9 @@ DEADLINE:<2024-06-23 Sun>
 **** IN-PROGRESS Clone the Windows Server VM template and implement an IIS web server
 DEADLINE:<2024-06-24 Mon>
 https://purdue.brightspace.com/d2l/le/content/1013650/viewContent/16679581/View
-- [ ] Configure a public web page on the server that anyone can access
-- [ ] Configure a private web page on the server that only members of the domain can access
-- [ ] Configure a site-specific web page that only machines on the first VLAN can access
+- [X] Configure a public web page on the server that anyone can access
+- [X] Configure a private web page on the server that only members of the domain can access
+- [X] Configure a site-specific web page that only machines on the first VLAN can access
   START Lab Procedure Documentation:
 *Deploy New instance of your Windows server template*
 - Went to inner virt. enviornment
@@ -289,7 +289,61 @@ https://purdue.brightspace.com/d2l/le/content/1013650/viewContent/16679581/View
 - Checked "Web Server (IIS)"
 - Finished the installer by accepting the defaults for the remaining installer wizard
 - Navigated to | Tools | Internet Information Services (IIS) Manager
--
+*Create Public Web Page*
+- Opened **Server Manager**
+- | Tools | Internet Information Services (IIS) Manager |
+- In **Connections** pane, expanded server node and clicked on **Sites**
+- Right-clicked **Sites** and selected **Add Website**
+  - **Site name**: PublicSite
+  - **Physical path**: `C:\inetpub\wwwroot\public`
+  - **Binding**:
+    - **Type**: HTTP
+    - **IP address**: All Unassigned
+    - **Port**: 80
+- Clicked **OK** to create the website
+- Created the directory `C:\inetpub\wwwroot\public` and placed public web page files in this directory
+*Create Private Web Page*
+- Opened **Server Manager**
+- | Tools | Internet Information Services (IIS) Manager |
+- In **Connections** pane, expanded server node and clicked on **Sites**
+- Right-clicked **Sites** and selected **Add Website**
+  - **Site name**: PrivateSite
+  - **Physical path**: `C:\inetpub\wwwroot\private`
+  - **Binding**:
+    - **Type**: HTTP
+    - **IP address**: /44.100.10.200/
+    - **Port**: 80
+- Clicked **OK** to create the website
+- Created the directory `C:\inetpub\wwwroot\private` and placed private web page files in this directory
+- Restricted access to the private website:
+  - Opened **IIS Manager**
+  - Selected **PrivateSite**
+  - Double-clicked **Authorization Rules**
+  - Removed default **Allow** rule
+  - Added new **Allow** rule for Administrators
+*Create Site-Specific Web Page*
+- Opened **Server Manager**
+- | Tools | Internet Information Services (IIS) Manager |
+- In **Connections** pane, expanded server node and clicked on **Sites**
+- Right-clicked **Sites** and selected **Add Website**
+  - **Site name**: site1
+  - **Physical path**: `C:\inetpub\wwwroot\site1`
+  - **Binding**:
+    - **Type**: HTTP
+    - **IP address**: /44.100.10.200/
+    - **Port**: 80
+- Clicked **OK** to create the website
+- Created the directory `C:\inetpub\wwwroot\vlan` and placed VLAN-specific web page files in this directory
+- Configured VLAN-specific access:
+  - Opened **IIS Manager**
+  - Selected **VLANSite**
+  - Double-clicked **IP Address and Domain Restrictions**
+  - Added **Allow** entry for specific VLAN IP range (`44.100.10.255/24`)
+*Verify Websites*
+- Opened a web browser on a client machine
+- Verified access to public site by navigating to /http://44.100.60.200/
+- Verified access to private site by navigating to /http://44.100.60.200/private/ (authentication required)
+- Verified access to VLAN-specific site by navigating to /http://44.100.60.200/site1/ (ensure client machine is in correct VLAN)
 **** TODO Implement DFS across your two domain controllers
 DEADLINE:<2024-06-25 Tue>
 - [ ] Implement a DFS domain namespace

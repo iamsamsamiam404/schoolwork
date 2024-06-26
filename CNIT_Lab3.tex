@@ -1,4 +1,4 @@
-% Created 2024-06-25 Tue 21:43
+% Created 2024-06-26 Wed 19:29
 % Intended LaTeX compiler: pdflatex
 \documentclass[letterpaper]{article}
 \usepackage[utf8]{inputenc}
@@ -31,13 +31,13 @@
 
 \newpage
 \section{{\bfseries\sffamily IN-PROGRESS} Lab 3}
-\label{sec:orgd1deb7c}
+\label{sec:org97a0eea}
 \noindent\textbf{DEADLINE:} \textit{<2024-06-28 Fri>}\\[0pt]
 \subsection{Intro video notes}
-\label{sec:org18e28d5}
+\label{sec:orgd5980f3}
 \url{https://purdue.brightspace.com/d2l/le/content/1013650/viewContent/16679580/View}
 \subsubsection{Network Setup (0-10:30min)}
-\label{sec:orgab108f0}
+\label{sec:orgbec5ae1}
 \begin{itemize}
 \item Add new nic to outer VCenter
 \item Power cycle the ESXi servers
@@ -47,7 +47,7 @@
 \end{itemize}
 \begin{enumerate}
 \item Network topology
-\label{sec:orgd4130e0}
+\label{sec:org2cf9a2d}
 \begin{figure}[H]
 \centering
 \includegraphics[width=12.5cm]{/home/sam/Screenshots/screenshot_2024-06-19_11-37-58.png}
@@ -55,7 +55,7 @@
 \end{figure}
 \end{enumerate}
 \subsubsection{Domain controllers (10:30-14:20min)}
-\label{sec:orgc618050}
+\label{sec:orgafab550}
 \begin{itemize}
 \item Setup new domain controller(SCDC2) using the windows 2019 template and put in on the port group that you just made(the host portion of the netmask will be different)
 \item Configure the DNS of (SCDC2) to point to (SCDC1) before you upgrade it to a domain controller
@@ -66,7 +66,7 @@
 \caption{Screenshot of video part talking about setting up domain controllers.}
 \end{figure}
 \subsubsection{DNS Configuration (14:20-18:05min)}
-\label{sec:orgd193102}
+\label{sec:org273295d}
 \begin{itemize}
 \item DNS settings will need to be changed to address the new site
 \end{itemize}
@@ -76,7 +76,7 @@
 \caption{DNS settings between sites. Our IPs will be different.}
 \end{figure}
 \subsubsection{Sites and Subnets (18:05-24:40min)}
-\label{sec:org058431f}
+\label{sec:org8201b15}
 \begin{enumerate}
 \item Using ``active directory sites and services'' for this
 \end{enumerate}
@@ -86,7 +86,7 @@
 \caption{Overview of the sites. Each one will have their respective VMs/Servers in them not shown here.}
 \end{figure}
 \subsubsection{DFS (21:40-29:36min)}
-\label{sec:org7075e38}
+\label{sec:orge8dbfea}
 \begin{itemize}
 \item Creating a share using the domain name
 \item EX: \texttt{\textbackslash{}\textbackslash{}<domainname>\textbackslash{}Share}
@@ -98,7 +98,7 @@
 \caption{I don't really understand whats going on here. Will need to do more research. Something about optimizing sharing resources.}
 \end{figure}
 \subsubsection{IIS (29:37-32:35min)}
-\label{sec:orgb0e5172}
+\label{sec:org72b4b81}
 \begin{itemize}
 \item public webpage
 \item private webpage
@@ -116,7 +116,7 @@
 \caption{Setting up webpages that interact with our system in various ways.}
 \end{figure}
 \subsubsection{WSUS (32:36-END)}
-\label{sec:org9883910}
+\label{sec:orgff6107f}
 ``Windows Software Update Service''
 \begin{itemize}
 \item Need to make another windows server for this
@@ -135,12 +135,12 @@
 \caption{Overview the the WSUS configuration.}
 \end{figure}
 \subsection{Objectives}
-\label{sec:org0cfee70}
+\label{sec:org682b9cc}
 \subsubsection{Phase I}
-\label{sec:org2cd4f05}
+\label{sec:org12fb770}
 \begin{enumerate}
 \item {\bfseries\sffamily DONE} Add a new VM port group to your ESXi servers representing a second enterprise location
-\label{sec:org123dedf}
+\label{sec:org3bced97}
 \noindent\textbf{DEADLINE:} \textit{<2024-06-19 Wed>}\\[0pt]
 \begin{itemize}
 \item[{$\boxtimes$}] Put a new physical NIC of your ESXi VM (outer virtualization layer in studentvc) into the port group specified in the IP Configuration Sheet
@@ -206,7 +206,7 @@ Start LAB DOCUMENTATION:
 \end{itemize}
 \end{itemize}
 \item {\bfseries\sffamily DONE} Deploy a new instance of your Windows Server VM template and implement it as a second domain controller at the new location
-\label{sec:org80d0301}
+\label{sec:orge3e69f5}
 \noindent\textbf{DEADLINE:} \textit{<2024-06-20 Thu>}\\[0pt]
 \begin{itemize}
 \item[{$\boxtimes$}] Define the new subnet/site in Active Directory
@@ -286,7 +286,7 @@ START Lab Procedure Documentation:
 \end{itemize}
 
 \item {\bfseries\sffamily DONE} Install a Windows 10 VM at the new location
-\label{sec:org2673ae9}
+\label{sec:orgd70c4fc}
 \noindent\textbf{DEADLINE:} \textit{<2024-06-20 Thu>}\\[0pt]
 START Lab Procedure Documentation:
 
@@ -328,7 +328,7 @@ START Lab Procedure Documentation:
 \item Entered user: \emph{Administrator} password: \emph{Cnit242!}
 \end{itemize}
 \item {\bfseries\sffamily DONE} Implement Microsoft Backup
-\label{sec:orgb2aa829}
+\label{sec:org1f590b8}
 \noindent\textbf{DEADLINE:} \textit{<2024-06-22 Sat>}\\[0pt]
 \begin{itemize}
 \item[{$\boxtimes$}] Set up scheduled backups of your domain controllers using Vembu backup
@@ -372,7 +372,7 @@ START LAB Procedure documentation:
 \end{itemize}
 
 \item {\bfseries\sffamily IN-PROGRESS} Printing
-\label{sec:org3f2da4d}
+\label{sec:orgacf7af5}
 \noindent\textbf{DEADLINE:} \textit{<2024-06-23 Sun>}\\[0pt]
 \begin{itemize}
 \item[{$\square$}] Create a new user and make them a print operator/administrator
@@ -385,13 +385,13 @@ START LAB Procedure documentation:
 \end{itemize}
 \end{itemize}
 \item {\bfseries\sffamily IN-PROGRESS} Clone the Windows Server VM template and implement an IIS web server
-\label{sec:orge8332c5}
+\label{sec:orgb0d7e06}
 \noindent\textbf{DEADLINE:} \textit{<2024-06-24 Mon>}\\[0pt]
 \url{https://purdue.brightspace.com/d2l/le/content/1013650/viewContent/16679581/View}
 \begin{itemize}
-\item[{$\square$}] Configure a public web page on the server that anyone can access
-\item[{$\square$}] Configure a private web page on the server that only members of the domain can access
-\item[{$\square$}] Configure a site-specific web page that only machines on the first VLAN can access
+\item[{$\boxtimes$}] Configure a public web page on the server that anyone can access
+\item[{$\boxtimes$}] Configure a private web page on the server that only members of the domain can access
+\item[{$\boxtimes$}] Configure a site-specific web page that only machines on the first VLAN can access
 START Lab Procedure Documentation:
 \end{itemize}
 \textbf{Deploy New instance of your Windows server template}
@@ -439,10 +439,88 @@ START Lab Procedure Documentation:
 \item Checked ``Web Server (IIS)''
 \item Finished the installer by accepting the defaults for the remaining installer wizard
 \item Navigated to | Tools | Internet Information Services (IIS) Manager
-\item 
+\end{itemize}
+\textbf{Create Public Web Page}
+\begin{itemize}
+\item Opened \textbf{\textbf{Server Manager}}
+\item | Tools | Internet Information Services (IIS) Manager |
+\item In \textbf{\textbf{Connections}} pane, expanded server node and clicked on \textbf{\textbf{Sites}}
+\item Right-clicked \textbf{\textbf{Sites}} and selected \textbf{\textbf{Add Website}}
+\begin{itemize}
+\item \textbf{\textbf{Site name}}: PublicSite
+\item \textbf{\textbf{Physical path}}: `C:\inetpub\wwwroot\public`
+\item \textbf{\textbf{Binding}}:
+\begin{itemize}
+\item \textbf{\textbf{Type}}: HTTP
+\item \textbf{\textbf{IP address}}: All Unassigned
+\item \textbf{\textbf{Port}}: 80
+\end{itemize}
+\end{itemize}
+\item Clicked \textbf{\textbf{OK}} to create the website
+\item Created the directory `C:\inetpub\wwwroot\public` and placed public web page files in this directory
+\end{itemize}
+\textbf{Create Private Web Page}
+\begin{itemize}
+\item Opened \textbf{\textbf{Server Manager}}
+\item | Tools | Internet Information Services (IIS) Manager |
+\item In \textbf{\textbf{Connections}} pane, expanded server node and clicked on \textbf{\textbf{Sites}}
+\item Right-clicked \textbf{\textbf{Sites}} and selected \textbf{\textbf{Add Website}}
+\begin{itemize}
+\item \textbf{\textbf{Site name}}: PrivateSite
+\item \textbf{\textbf{Physical path}}: `C:\inetpub\wwwroot\private`
+\item \textbf{\textbf{Binding}}:
+\begin{itemize}
+\item \textbf{\textbf{Type}}: HTTP
+\item \textbf{\textbf{IP address}}: \emph{44.100.10.200}
+\item \textbf{\textbf{Port}}: 80
+\end{itemize}
+\end{itemize}
+\item Clicked \textbf{\textbf{OK}} to create the website
+\item Created the directory `C:\inetpub\wwwroot\private` and placed private web page files in this directory
+\item Restricted access to the private website:
+\begin{itemize}
+\item Opened \textbf{\textbf{IIS Manager}}
+\item Selected \textbf{\textbf{PrivateSite}}
+\item Double-clicked \textbf{\textbf{Authorization Rules}}
+\item Removed default \textbf{\textbf{Allow}} rule
+\item Added new \textbf{\textbf{Allow}} rule for Administrators
+\end{itemize}
+\end{itemize}
+\textbf{Create Site-Specific Web Page}
+\begin{itemize}
+\item Opened \textbf{\textbf{Server Manager}}
+\item | Tools | Internet Information Services (IIS) Manager |
+\item In \textbf{\textbf{Connections}} pane, expanded server node and clicked on \textbf{\textbf{Sites}}
+\item Right-clicked \textbf{\textbf{Sites}} and selected \textbf{\textbf{Add Website}}
+\begin{itemize}
+\item \textbf{\textbf{Site name}}: site1
+\item \textbf{\textbf{Physical path}}: `C:\inetpub\wwwroot\site1`
+\item \textbf{\textbf{Binding}}:
+\begin{itemize}
+\item \textbf{\textbf{Type}}: HTTP
+\item \textbf{\textbf{IP address}}: \emph{44.100.10.200}
+\item \textbf{\textbf{Port}}: 80
+\end{itemize}
+\end{itemize}
+\item Clicked \textbf{\textbf{OK}} to create the website
+\item Created the directory `C:\inetpub\wwwroot\vlan` and placed VLAN-specific web page files in this directory
+\item Configured VLAN-specific access:
+\begin{itemize}
+\item Opened \textbf{\textbf{IIS Manager}}
+\item Selected \textbf{\textbf{VLANSite}}
+\item Double-clicked \textbf{\textbf{IP Address and Domain Restrictions}}
+\item Added \textbf{\textbf{Allow}} entry for specific VLAN IP range (`44.100.10.255/24`)
+\end{itemize}
+\end{itemize}
+\textbf{Verify Websites}
+\begin{itemize}
+\item Opened a web browser on a client machine
+\item Verified access to public site by navigating to \emph{\url{http://44.100.60.200}}
+\item Verified access to private site by navigating to \emph{\url{http://44.100.60.200/private}} (authentication required)
+\item Verified access to VLAN-specific site by navigating to \emph{\url{http://44.100.60.200/site1}} (ensure client machine is in correct VLAN)
 \end{itemize}
 \item {\bfseries\sffamily TODO} Implement DFS across your two domain controllers
-\label{sec:org22ddb25}
+\label{sec:org29339ce}
 \noindent\textbf{DEADLINE:} \textit{<2024-06-25 Tue>}\\[0pt]
 \begin{itemize}
 \item[{$\square$}] Implement a DFS domain namespace
@@ -462,10 +540,10 @@ domain controllers
 clients access the shares from the domain controller at their site.
 \end{enumerate}
 \subsubsection{Phase 2}
-\label{sec:orgd4b5abe}
+\label{sec:org3c73ec3}
 \begin{enumerate}
 \item {\bfseries\sffamily TODO} Clone the Windows Server VM template and implement a Windows Server Update Services (WSUS) instance
-\label{sec:org6d3920f}
+\label{sec:org6584ca2}
 \noindent\textbf{DEADLINE:} \textit{<2024-06-26 Wed>}\\[0pt]
 \begin{itemize}
 \item[{$\square$}] Add a second 80 GB virtual hard drive (thin provisioned) to house downloaded
@@ -475,25 +553,25 @@ updates
 \item[{$\square$}] Configure your clients to pull updates from your WSUS server via a GPO
 \end{itemize}
 \item {\bfseries\sffamily TODO} Use PowerShell Remote to list/stop/start services on a remote machine
-\label{sec:orgc427ce2}
+\label{sec:orgb225d47}
 \noindent\textbf{DEADLINE:} \textit{<2024-06-27 Thu>}\\[0pt]
 \item {\bfseries\sffamily TODO} Implement VMware Thinapp
-\label{sec:orgfea2f70}
+\label{sec:org106098e}
 \noindent\textbf{DEADLINE:} \textit{<2024-06-28 Fri>}\\[0pt]
 \begin{itemize}
 \item[{$\square$}] Package Microsoft Visio 7 and deploy to your physical machines using thinapp
 \end{itemize}
 \end{enumerate}
 \subsubsection{Notes}
-\label{sec:orgc676ae3}
+\label{sec:org48df0eb}
 \begin{enumerate}
 \item Add Additional Virtual Machines
-\label{sec:orga19d483}
+\label{sec:org987f1f8}
 \begin{itemize}
 \item New virtual machines may be added to either ESXi server and stored on any available datastore.
 \end{itemize}
 \item System Backup
-\label{sec:org55c1762}
+\label{sec:orgc53c565}
 \begin{itemize}
 \item Configure the built-in backup solution (MS Backup) to automatically back up the Domain
 \end{itemize}
@@ -501,7 +579,7 @@ Controller database and all user files on the domain controllers to a share on t
 Windows 10 client. Implement a media (backup file) rotation scheme per lecture. To schedule the
 backups to run automatically you will have to use the utility built into Windows 2012 Server.
 \item Printing
-\label{sec:org015b93a}
+\label{sec:org08402b1}
 \begin{itemize}
 \item Create two print queues for the lab printer – one that duplexes and one that doesn't. Experiment
 \end{itemize}
@@ -509,7 +587,7 @@ with controlling the printer (start/stop the queue, etc.) and other users’ pri
 limited, shared resource so minimizing actual printing during this process will help all groups.
 Pause the printer to enable multiple jobs to be queued, then re-order/delete print jobs.
 \item Distributed File System (DFS)
-\label{sec:orgf03db75}
+\label{sec:org6106d03}
 \begin{itemize}
 \item Implement a DFS domain namespace such that \texttt{\textbackslash{}\textbackslash{}yourdomain.tld\textbackslash{}dfs} shows available network
 \end{itemize}
@@ -523,7 +601,7 @@ server at their site to access the share. The physical server being accessed can
 the netstat command to show open connections.
 Additional information on DFS can be found on Microsoft Technet at \url{https://docs.microsoft.com/en-us/windows-server/storage/dfs-namespaces/dfs-overview}.
 \item Windows Server Update Services
-\label{sec:orgfc93f5c}
+\label{sec:org13542b6}
 \begin{itemize}
 \item Enable Microsoft Windows Server Update Services (WSUS) on a new Windows Server instance.
 \end{itemize}
@@ -539,12 +617,12 @@ wsus.cit.lcl.
 \end{itemize}
 WSUS server automatically using group policy.
 \item VMware Thinapp
-\label{sec:org62a2612}
+\label{sec:org65ff50b}
 Using a clean install of Windows 10, take a snapshot and install Thinapp. Run the Thinapp setup-
 capture and install Visio. Concluded setup-capture and save the package to a network location.
 Revert to the snapshot and run the package on the computer
 \item IP Tables
-\label{sec:org6aa26a7}
+\label{sec:org8c834af}
 \begin{itemize}
 \item Primary (Site1)
 \begin{itemize}
@@ -558,6 +636,6 @@ Revert to the snapshot and run the package on the computer
 \end{enumerate}
 
 \section{{\bfseries\sffamily TODO} Lab 3 Report}
-\label{sec:orgbe49f8b}
+\label{sec:org57745d0}
 \noindent\textbf{DEADLINE:} \textit{<2024-07-06 Sat>}\\[0pt]
 \end{document}
