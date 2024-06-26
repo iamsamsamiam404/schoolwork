@@ -344,7 +344,7 @@ https://purdue.brightspace.com/d2l/le/content/1013650/viewContent/16679581/View
 - Verified access to public site by navigating to /http://44.100.60.200/
 - Verified access to private site by navigating to /http://44.100.60.200/private/ (authentication required)
 - Verified access to VLAN-specific site by navigating to /http://44.100.60.200/site1/ (ensure client machine is in correct VLAN)
-**** TODO Implement DFS across your two domain controllers
+**** IN-PROGRESS Implement DFS across your two domain controllers
 DEADLINE:<2024-06-25 Tue>
 - [ ] Implement a DFS domain namespace
   + [ ] Change the references to the shares hosting home directories and desktops in
