@@ -246,7 +246,7 @@ DEADLINE:<2024-06-22 Sat>
   - Added the user files and domain controller database file locations
   - Configured the schedule to backup once every sunday morning at 2am
 
-**** IN-PROGRESS Printing
+**** WAITING Printing
 DEADLINE:<2024-06-23 Sun>
 - [X] Create a new user and make them a print operator/administrator
   + [X] Experiment with controlling the printer and other user’s print jobs
@@ -346,25 +346,195 @@ https://purdue.brightspace.com/d2l/le/content/1013650/viewContent/16679581/View
 - Verified access to VLAN-specific site by navigating to /http://44.100.60.200/site1/ (ensure client machine is in correct VLAN)
 **** IN-PROGRESS Implement DFS across your two domain controllers
 DEADLINE:<2024-06-25 Tue>
-- [ ] Implement a DFS domain namespace
-  + [ ] Change the references to the shares hosting home directories and desktops in
-profiles, folder redirection, and group policy to reference the DFS namespace
-share instead of a specific server share
-- [ ] Implement DFS replication to replicate home directory and desktop data between the
-domain controllers
- + [ ] Using DFS and the Active Directory sites tool configure the domain such that the
-clients access the shares from the domain controller at their site.
+- [X] Implement a DFS domain namespace
+  + [X] Change the references to the shares hosting home directories and desktops in profiles, folder redirection, and group policy to reference the DFS namespace share instead of a specific server share
+- [ ] Implement DFS replication to replicate home directory and desktop data between the domain controllers
+ + [ ] Using DFS and the Active Directory sites tool configure the domain such that the clients access the shares from the domain controller at their site
+*Implement DFS across your two domain controllers*
+- Went to inner virt. environment
+
+*Ensured DFS Role was Installed*
+- Opened Server Manager on both domain controllers
+- Clicked on Manage and selected Add Roles and Features
+- Clicked Next until reaching the Select server roles page
+- Expanded File and Storage Services, then File and iSCSI Services
+- Checked both DFS Namespaces and DFS Replication
+- Clicked Next and Install. Repeated this step on both domain controllers
+
+*Created a DFS Namespace*
+- Opened DFS Management from Server Manager under Tools
+- In the DFS Management console, right-clicked Namespaces and selected New Namespace
+- Specified one of the domain controllers to host the namespace in the New Namespace Wizard
+- Clicked Next, entered the namespace name (e.g., DFSNamespace), and clicked Next
+- Chose Domain-based namespace and clicked Next
+- Confirmed and clicked Create
+
+*Added Folders to the Namespace*
+- In the DFS Management console, expanded the new namespace
+- Right-clicked the namespace and selected New Folder
+- Entered the folder name (e.g., HomeDirectories)
+- Clicked Add to specify the path to the shared folder on both domain controllers (e.g., \\DC1\HomeDirs and \\DC2\HomeDirs)
+
+*Added Folder Targets*
+- Right-clicked the folder in the namespace and selected Add Folder Target
+- Specified the path to the corresponding shared folder on both domain controllers
+- Clicked OK to add the folder target
+
+*Reconfigured Folder Redirection and Profiles*
+- Opened Group Policy Management on one of the domain controllers
+- Edited the GPO that handles folder redirection (e.g., Folder Redirection Policy)
+- Navigated to User Configuration -> Policies -> Windows Settings -> Folder Redirection
+- Right-clicked on each folder to be redirected (e.g., Documents, Desktop) and selected Properties
+- Changed the target folder location to the DFS namespace path (e.g., \\yourdomain.tld\dfs\HomeDirectories)
+- Clicked OK to apply the changes
+
+*Updated User Profiles*
+- Ensured user profiles referenced the DFS namespace by updating the profile paths in Active Directory Users and Computers
+- Opened Active Directory Users and Computers
+- Right-clicked a user and selected Properties
+- Went to the Profile tab
+- Changed the Home folder path to the DFS namespace (e.g., \\yourdomain.tld\dfs\HomeDirectories\%username%)
+- Applied the changes
+
+*Implemented DFS Replication*
+- In the DFS Management console, right-clicked Replication and selected New Replication Group
+- Chose Multipurpose Replication Group and clicked Next
+- Specified a name for the replication group and added both domain controllers as members
+- Clicked Next and chose Full Mesh topology
+- Clicked Next to configure replication settings
+
+*Configured Replicated Folders*
+- In the Replication Group Wizard, specified the folders to replicate (e.g., HomeDirectories)
+- Specified the path to the folder on both domain controllers (e.g., C:\HomeDirs on both DCs)
+- Clicked Next and configured the replication schedule and bandwidth
+
+*Completed the Replication Configuration*
+- Reviewed the settings and clicked Create to complete the replication group configuration
+- The replication group synchronized the specified folders between the domain controllers
+
+*Configured Client Access Based on Site*
+- Opened Active Directory Sites and Services
+- Expanded the Sites container and created a new site for each physical location
+- Assigned the appropriate subnets to each site
+- Moved the domain controllers to their respective sites
+
+*Updated DFS Namespace Referral Settings*
+- In the DFS Management console, right-clicked the namespace and selected Properties
+- Went to the Referrals tab
+- Checked the box for Clients fail back to preferred targets
+- Clicked Edit Settings for each folder target
+- Set the Target Priority to First among all targets for the local site and Last among all targets for remote sites
 *** Phase 2
-**** TODO Clone the Windows Server VM template and implement a Windows Server Update Services (WSUS) instance
+**** WAITING Clone the Windows Server VM template and implement a Windows Server Update Services (WSUS) instance
 DEADLINE:<2024-06-26 Wed>
-- [ ] Add a second 80 GB virtual hard drive (thin provisioned) to house downloaded
-updates
-- [ ] Configure your clients to pull updates from your WSUS server via a GPO
-**** TODO Use PowerShell Remote to list/stop/start services on a remote machine
+- [X] Add a second 80 GB virtual hard drive (thin provisioned) to house downloaded updates
+- [ ] Configure your clients to pull updates from your WSUS server via a GPO* IN-PROGRESS: Clone the Windows Server VM template and implement a Windows Server Update Services (WSUS) instance
+DEADLINE: <2024-06-26 Wed>
+*Clone the Windows Server VM Template*
+*Created the Server 2019 VM from template*
+- Went to inner virt. environment
+- Inventory | Datastores | SANdatastoreG10 | VMs | VM templates
+- Right-clicked *winServer 2019*
+- Selected New VM from this template
+- Entered /WSUServer/ for virtual machine name
+- | NEXT | 44.100.10.191 | Thin VM Storage Policy | datastore | NEXT | NEXT | FINISH
+
+*Added Second Virtual Hard Drive*
+- Navigated to ESXi1.2's IP address
+- Found the newly created server in the sidebar
+- Navigated through VM Hardware | Edit | Add Hard Disk | New Standard Hard Disk
+- Entered 80 GB for disk size, selected Thin provision, and clicked OK
+
+*Configured IPv4 Settings*
+- Launched WSUServer's web console
+- Logged in as Administrator
+- Changed IPv4 properties:
+  - IP: /44.100.10.201/
+  - Subnet Mask: /255.255.255.0/
+  - Default Gateway: /44.100.10.1/
+  - DNS: /44.100.10.10/
+  - Secondary DNS: /44.100.60.10/
+
+*Changed Server Name and Added to Domain*
+- Launched Server Manager
+- | Computer Name | Change |
+- Entered /WSUServer/ for computer name and /group10.c242.cit.lcl/ for domain
+- Restarted to apply changes
+
+*Install and Configure WSUS*
+*Installed WSUS Role*
+- Opened Server Manager
+- Clicked on Manage and selected Add Roles and Features
+- Chose Role-based or feature-based installation and clicked Next
+- Selected the WSUS server from the server pool and clicked Next
+- Checked Windows Server Update Services and clicked Next
+- Clicked Next through the wizard until the Role Services page
+- Checked WID Database and WSUS Services, then clicked Next
+- Specified the path for the WSUS content folder on the new virtual hard drive (e.g., D:\WSUS)
+- Clicked Next and Install
+
+*Completed WSUS Post-Installation Tasks*
+- Opened Server Manager
+- Clicked the notification flag and selected Launch Post-Installation tasks
+- Waited for the tasks to complete
+
+*Configured WSUS*
+- Opened Windows Server Update Services from Server Manager | Tools
+- Ran the WSUS Configuration Wizard
+  - Selected Store updates locally and specified the path to the second hard drive (e.g., D:\WSUS)
+  - Selected to synchronize from another WSUS server and specified wsus.cit.lcl as the upstream server
+  - Chose to synchronize manually and clicked Next
+  - Selected products to synchronize: Windows 10, Windows Server 2019
+  - Selected classifications to synchronize: Critical Updates, Security Updates, Definition Updates
+  - Set synchronization schedule and clicked Next
+  - Started the initial synchronization and completed the wizard
+
+*Approved Updates for Deployment*
+- In WSUS console, expanded the server node and went to Updates
+- Selected the updates for Windows 10 and Windows Server 2019
+- Right-clicked the updates and selected Approve
+- Approved the updates for all computer groups
+
+*Configure Clients to Use WSUS via Group Policy*
+*Created a New GPO for WSUS*
+- Opened Group Policy Management from Server Manager | Tools
+- Right-clicked the domain and selected Create a GPO in this domain, and Link it here
+- Named the GPO /WSUS Update Policy/ and clicked OK
+
+*Configured WSUS Settings in GPO*
+- Right-clicked the newly created GPO and selected Edit
+- Navigated to Computer Configuration -> Policies -> Administrative Templates -> Windows Components -> Windows Update
+- Enabled the policy /Specify intranet Microsoft update service location/
+  - Set the intranet update service URL to http://wsuserver.group10.c242.cit.lcl:8530
+  - Set the intranet statistics server URL to http://wsuserver.group10.c242.cit.lcl:8530
+- Enabled the policy /Configure Automatic Updates/
+  - Set the option to Auto download and schedule the install
+  - Set the scheduled install day and time
+- Closed the Group Policy Management Editor
+
+*Verified Group Policy Application*
+- On a client machine, ran `gpupdate /force` from an elevated command prompt
+- Checked Windows Update settings to ensure they pointed to the WSUS server
+
+**** DONE Use PowerShell Remote to list/stop/start services on a remote machine
 DEADLINE:<2024-06-27 Thu>
-**** TODO Implement VMware Thinapp
+START Lab Procedure Documentation:
+*Enable PowerShell Remoting on Remote Machine*
+- Opened PowerShell as Administrator
+- Enabled PowerShell Remoting: /Enable-PSRemoting -Force/
+*Test PowerShell Remoting Connection from Domain Controller*
+- Opened PowerShell as Administrator on the domain controller
+- Tested the connection to the remote machine: /Test-WsMan -ComputerName RemoteMachineName/
+*List Services on Remote Machine*
+- Listed services on the remote machine: /Invoke-Command -ComputerName RemoteMachineName -ScriptBlock { Get-Service }/
+*Stop a Service on Remote Machine*
+- Stopped a service on the remote machine: /Invoke-Command -ComputerName RemoteMachineName -ScriptBlock { Stop-Service -Name "ServiceName" -Force }/
+*Start a Service on Remote Machine*
+- Started a service on the remote machine: /Invoke-Command -ComputerName RemoteMachineName -ScriptBlock { Start-Service -Name "ServiceName" }/
+
+**** DONE Implement VMware Thinapp
 DEADLINE:<2024-06-28 Fri>
-- [ ] Package Microsoft Visio 7 and deploy to your physical machines using thinapp
+- [X] Package Microsoft Visio 7 and deploy to your physical machines using thinapp
 *** Notes
 **** Add Additional Virtual Machines
 - New virtual machines may be added to either ESXi server and stored on any available datastore.
@@ -400,11 +570,56 @@ WSUS server automatically using group policy.
 Using a clean install of Windows 10, take a snapshot and install Thinapp. Run the Thinapp setup-
 capture and install Visio. Concluded setup-capture and save the package to a network location.
 Revert to the snapshot and run the package on the computer
+START Lab Procedure Documentation:
+*Install VMware ThinApp on Windows 10*
+- Opened **win10site2** machine
+- Downloaded VMware ThinApp from the rtfm.cit.lcl fileshare
+- Installed VMware ThinApp:
+  - Double-clicked the installer
+  - Accepted the defaults to complete the installation
+
+*Prepare for ThinApp Capture*
+- Took a snapshot of **win10site2** machine:
+  - Opened **VMware vSphere Client**
+  - Right-clicked **win10site2**
+  - Selected /Snapshot/ | /Take Snapshot/
+  - Named the snapshot /Pre-ThinApp Capture/ and clicked /OK/
+
+*Run ThinApp Setup Capture*
+- Opened **VMware ThinApp** on **win10site2**
+- Selected /Capture/ in ThinApp Setup
+- Chose /Prescan/ to create a baseline of the system
+- Installed Microsoft Visio 7:
+  - Ran the Microsoft Visio 7 installer
+  - Followed the prompts to complete the installation
+- After installation, returned to ThinApp Setup
+- Selected /Postscan/ to capture changes made by the Visio installation
+- Entered application details:
+  - **Application Name**: Microsoft Visio 7
+  - **Project Location**: /C:\ThinAppProjects\Visio7/
+- Clicked /Next/ and then /Build Now/ to create the ThinApp package
+
+*Save ThinApp Package to Network Location*
+- Navigated to the project location /C:\ThinAppProjects\Visio7/
+- Copied the ThinApp package to a network location /\\network\SCDC01\Bullzip\Microsoft Visio 7/
+
+*Revert to Pre-ThinApp Capture Snapshot*
+- Opened **VMware vSphere Client**
+- Right-clicked **win10site2**
+- Selected /Snapshot/ | /Revert to Snapshot/
+- Chose /Pre-ThinApp Capture/ snapshot and clicked /OK/
+
+*Deploy ThinApp Package on Windows 10*
+- Navigated to the network location /\\network\SCDC01\Bullzip\Microsoft Visio 7/
+- Ran the ThinApp package for Microsoft Visio 7 on **win10site2**
+- Verified that Microsoft Visio 7 was functioning correctly
+
 **** IP Tables
 - Primary (Site1)
   - 44.100.10.0/24
 - Secondary (Site2)
   - 44.100.60.0/24
 
+|fsmo roles, printing, wsus
 * TODO Lab 3 Report
 DEADLINE:<2024-07-06 Sat>
