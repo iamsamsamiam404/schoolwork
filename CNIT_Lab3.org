@@ -246,7 +246,7 @@ DEADLINE:<2024-06-22 Sat>
   - Added the user files and domain controller database file locations
   - Configured the schedule to backup once every sunday morning at 2am
 
-**** WAITING Printing
+**** CANCELED Printing
 DEADLINE:<2024-06-23 Sun>
 - [X] Create a new user and make them a print operator/administrator
   + [X] Experiment with controlling the printer and other user’s print jobs
@@ -344,12 +344,12 @@ https://purdue.brightspace.com/d2l/le/content/1013650/viewContent/16679581/View
 - Verified access to public site by navigating to /http://44.100.60.200/
 - Verified access to private site by navigating to /http://44.100.60.200/private/ (authentication required)
 - Verified access to VLAN-specific site by navigating to /http://44.100.60.200/site1/ (ensure client machine is in correct VLAN)
-**** IN-PROGRESS Implement DFS across your two domain controllers
+**** DONE Implement DFS across your two domain controllers
 DEADLINE:<2024-06-25 Tue>
 - [X] Implement a DFS domain namespace
   + [X] Change the references to the shares hosting home directories and desktops in profiles, folder redirection, and group policy to reference the DFS namespace share instead of a specific server share
-- [ ] Implement DFS replication to replicate home directory and desktop data between the domain controllers
- + [ ] Using DFS and the Active Directory sites tool configure the domain such that the clients access the shares from the domain controller at their site
+- [X] Implement DFS replication to replicate home directory and desktop data between the domain controllers
+  + [X] Using DFS and the Active Directory sites tool configure the domain such that the clients access the shares from the domain controller at their site
 *Implement DFS across your two domain controllers*
 - Went to inner virt. environment
 
@@ -428,8 +428,7 @@ DEADLINE:<2024-06-25 Tue>
 **** WAITING Clone the Windows Server VM template and implement a Windows Server Update Services (WSUS) instance
 DEADLINE:<2024-06-26 Wed>
 - [X] Add a second 80 GB virtual hard drive (thin provisioned) to house downloaded updates
-- [ ] Configure your clients to pull updates from your WSUS server via a GPO* IN-PROGRESS: Clone the Windows Server VM template and implement a Windows Server Update Services (WSUS) instance
-DEADLINE: <2024-06-26 Wed>
+- [X] Configure your clients to pull updates from your WSUS server via a GPO*
 *Clone the Windows Server VM Template*
 *Created the Server 2019 VM from template*
 - Went to inner virt. environment
@@ -535,42 +534,6 @@ START Lab Procedure Documentation:
 **** DONE Implement VMware Thinapp
 DEADLINE:<2024-06-28 Fri>
 - [X] Package Microsoft Visio 7 and deploy to your physical machines using thinapp
-*** Notes
-**** Add Additional Virtual Machines
-- New virtual machines may be added to either ESXi server and stored on any available datastore.
-**** System Backup
-- Configure the built-in backup solution (MS Backup) to automatically back up the Domain
-Controller database and all user files on the domain controllers to a share on the physical
-Windows 10 client. Implement a media (backup file) rotation scheme per lecture. To schedule the
-backups to run automatically you will have to use the utility built into Windows 2012 Server.
-**** Printing
-- Create two print queues for the lab printer – one that duplexes and one that doesn't. Experiment
-with controlling the printer (start/stop the queue, etc.) and other users’ print jobs. The printer is a
-limited, shared resource so minimizing actual printing during this process will help all groups.
-Pause the printer to enable multiple jobs to be queued, then re-order/delete print jobs.
-**** Distributed File System (DFS)
-- Implement a DFS domain namespace such that =\\yourdomain.tld\dfs= shows available network
-shares. Reconfigure folder redirection/profiles/etc to refer to the DFS namespace
-=(\\yourdomain.tld\dfs\share)= rather than the server =(\\server\share).=
-- Implement DFS replication so that the shares in the server namespace are replicated between the
-two domain controllers and are available on each. The client at each site should connect to the
-server at their site to access the share. The physical server being accessed can be shown by using
-the netstat command to show open connections.
-Additional information on DFS can be found on Microsoft Technet at https://docs.microsoft.com/en-us/windows-server/storage/dfs-namespaces/dfs-overview.
-**** Windows Server Update Services
-- Enable Microsoft Windows Server Update Services (WSUS) on a new Windows Server instance.
-Create, partition, and format a second virtual hard drive to house the update store.
-- Once WSUS is installed, updates will have to downloaded and authorized for your Windows 10
-and Windows Server hosts. Only download updates for these two operating systems. To save
-time, your WSUS server can be configured to get updates from the CIT/NET WSUS server at
-wsus.cit.lcl.
-- Clients that are members of the domain can easily be configured to receive updates from the
-WSUS server automatically using group policy.
-**** VMware Thinapp
-Using a clean install of Windows 10, take a snapshot and install Thinapp. Run the Thinapp setup-
-capture and install Visio. Concluded setup-capture and save the package to a network location.
-Revert to the snapshot and run the package on the computer
-START Lab Procedure Documentation:
 *Install VMware ThinApp on Windows 10*
 - Opened **win10site2** machine
 - Downloaded VMware ThinApp from the rtfm.cit.lcl fileshare
@@ -613,6 +576,42 @@ START Lab Procedure Documentation:
 - Navigated to the network location /\\network\SCDC01\Bullzip\Microsoft Visio 7/
 - Ran the ThinApp package for Microsoft Visio 7 on **win10site2**
 - Verified that Microsoft Visio 7 was functioning correctly
+*** Notes
+**** Add Additional Virtual Machines
+- New virtual machines may be added to either ESXi server and stored on any available datastore.
+**** System Backup
+- Configure the built-in backup solution (MS Backup) to automatically back up the Domain
+Controller database and all user files on the domain controllers to a share on the physical
+Windows 10 client. Implement a media (backup file) rotation scheme per lecture. To schedule the
+backups to run automatically you will have to use the utility built into Windows 2012 Server.
+**** Printing
+- Create two print queues for the lab printer – one that duplexes and one that doesn't. Experiment
+with controlling the printer (start/stop the queue, etc.) and other users’ print jobs. The printer is a
+limited, shared resource so minimizing actual printing during this process will help all groups.
+Pause the printer to enable multiple jobs to be queued, then re-order/delete print jobs.
+**** Distributed File System (DFS)
+- Implement a DFS domain namespace such that =\\yourdomain.tld\dfs= shows available network
+shares. Reconfigure folder redirection/profiles/etc to refer to the DFS namespace
+=(\\yourdomain.tld\dfs\share)= rather than the server =(\\server\share).=
+- Implement DFS replication so that the shares in the server namespace are replicated between the
+two domain controllers and are available on each. The client at each site should connect to the
+server at their site to access the share. The physical server being accessed can be shown by using
+the netstat command to show open connections.
+Additional information on DFS can be found on Microsoft Technet at https://docs.microsoft.com/en-us/windows-server/storage/dfs-namespaces/dfs-overview.
+**** Windows Server Update Services
+- Enable Microsoft Windows Server Update Services (WSUS) on a new Windows Server instance.
+Create, partition, and format a second virtual hard drive to house the update store.
+- Once WSUS is installed, updates will have to downloaded and authorized for your Windows 10
+and Windows Server hosts. Only download updates for these two operating systems. To save
+time, your WSUS server can be configured to get updates from the CIT/NET WSUS server at
+wsus.cit.lcl.
+- Clients that are members of the domain can easily be configured to receive updates from the
+WSUS server automatically using group policy.
+**** VMware Thinapp
+Using a clean install of Windows 10, take a snapshot and install Thinapp. Run the Thinapp setup-
+capture and install Visio. Concluded setup-capture and save the package to a network location.
+Revert to the snapshot and run the package on the computer
+START Lab Procedure Documentation:
 
 **** IP Tables
 - Primary (Site1)
@@ -621,5 +620,3 @@ START Lab Procedure Documentation:
   - 44.100.60.0/24
 
 |fsmo roles, printing, wsus
-* TODO Lab 3 Report
-DEADLINE:<2024-07-06 Sat>
